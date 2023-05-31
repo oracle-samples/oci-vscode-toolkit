@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"Erreur lors de l'extraction des compartiments pour l'ID racine","getResourcesErrorMsg":"Erreur lors de l'extraction des ressources pour le compartiment ","getSubscribedRegionsErrorMsg":"Erreur lors de l'extraction des abonnements à des régions ","getCompartmentByIdErrorMsg":"Erreur dans l'API getCompartment pour un OCID donné "}

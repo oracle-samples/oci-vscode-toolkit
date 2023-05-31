@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"Fejl ved hentning af rum til rod-id","getResourcesErrorMsg":"Fejl ved hentning af ressourcer til rum ","getSubscribedRegionsErrorMsg":"Fejl ved hentning af ressources abonnerede regioner ","getCompartmentByIdErrorMsg":"Fejl i getCompartment API for en given ocid "}

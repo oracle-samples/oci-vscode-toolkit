@@ -1,0 +1,1 @@
+{"createFunctionInfoMsg":"Nota: quando si è pronti per distribuire la funzione, eseguire il commit delle modifiche ed effettuarne il PUSH alla diramazione remota. La distribuzione recupera sempre il commit più recente dalla diramazione remota. Le modifiche di cui non è stato eseguito il commit e i commit locali vengono ignorati in background."}

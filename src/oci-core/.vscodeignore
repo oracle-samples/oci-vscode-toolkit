@@ -1,0 +1,13 @@
+.vscode/**
+.vscode-test/**
+i18n/**
+src/**
+target/**
+webpack/**
+**/*.map
+**/*.ts
+.gitignore
+ocibuild.conf
+tsconfig.json
+.eslintignore
+gulpfile.js

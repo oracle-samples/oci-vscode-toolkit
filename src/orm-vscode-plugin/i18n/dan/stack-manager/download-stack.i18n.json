@@ -1,0 +1,1 @@
+{"getTfFilesByZipUploadErrorMsg":"Fejl ved behandling af out .tf-filer til stakken {0} for typen ZipUpload: ","getTfFilesByObjectStoreErrorMsg":"Fejl ved behandling af out .tf-filer til stakken {0} for typen Object Store","getTfFilesByGitErrorMsg":"Fejl ved behandling af out .tf-filer til stakken {0} for typen Object Store"}

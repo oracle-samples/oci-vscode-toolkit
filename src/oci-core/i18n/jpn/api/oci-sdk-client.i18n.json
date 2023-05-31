@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"ルートIDのコンパートメントのフェッチ中にエラーが発生しました","getResourcesErrorMsg":"コンパートメントのリソースのフェッチ中にエラーが発生しました ","getSubscribedRegionsErrorMsg":"リソース・サブスクライブ・リージョンのフェッチ中にエラーが発生しました ","getCompartmentByIdErrorMsg":"指定したOCIDのgetCompartment APIでエラーが発生しました "}

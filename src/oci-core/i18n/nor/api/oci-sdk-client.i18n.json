@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"Feil ved henting av seksjoner for rot-ID","getResourcesErrorMsg":"Feil ved henting av ressurser for seksjon","getSubscribedRegionsErrorMsg":"Feil ved henting av regioner som ressurser abonnerer på ","getCompartmentByIdErrorMsg":"Feil i getCompartment-API for en gitt OCID "}

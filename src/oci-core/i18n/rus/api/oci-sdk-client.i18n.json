@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"Ошибка извлечения отделений для корневого идентификатора","getResourcesErrorMsg":"Ошибка получения ресурсов для отделения ","getSubscribedRegionsErrorMsg":"Ошибка при получении регионов с подпиской на ресурс ","getCompartmentByIdErrorMsg":"Ошибка в getCompartment API для заданного идентификатора OCID "}

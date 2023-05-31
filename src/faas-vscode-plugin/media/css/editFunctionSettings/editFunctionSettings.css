@@ -1,0 +1,37 @@
+  body {
+    color: var(--vscode-foreground);
+    font-size: var(--vscode-font-size);
+    font-weight: var(--vscode-font-weight);
+    font-family: var(--vscode-font-family);
+    background-color: var(--vscode-editor-background);
+  }
+
+  label {
+    border: none;
+    font-family: var(--vscode-font-family);
+    font-size: 15px;
+  }
+
+  button {
+    border: none;
+    text-align: center;
+    color: var(--vscode-button-foreground);
+    background: var(--vscode-button-background);
+  }
+  
+  .error {
+    padding-left: 5px;
+    color: red;
+  }
+
+  div {
+    padding: 20px;
+  }
+
+  input {
+    width: 50%
+  }
+ 
+  select{
+    width: 50%;
+  }

@@ -1,0 +1,1 @@
+{"getTfFilesByZipUploadErrorMsg":"Грешка приликом обраде .tf датотека за стек {0} за тип ZipUpload: ","getTfFilesByObjectStoreErrorMsg":"Грешка приликом обраде .tf датотека за стек {0} за тип Object Store","getTfFilesByGitErrorMsg":"Грешка приликом обраде .tf датотека за стек {0} за тип Object Store"}

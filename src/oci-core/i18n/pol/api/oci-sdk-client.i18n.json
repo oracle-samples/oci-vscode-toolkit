@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"Błąd podczas pobierania przedziałów dla ID poziomu głównego","getResourcesErrorMsg":"Błąd podczas pobierania zasobów dla przedziału ","getSubscribedRegionsErrorMsg":"Błąd podczas pobierania subskrybowanych regionów ","getCompartmentByIdErrorMsg":"Błąd getCompartment API dla danego identyfikatora OCID "}

@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"Fehler beim Abrufen von Compartments für Root-ID","getResourcesErrorMsg":"Fehler beim Abrufen von Ressourcen für Compartment ","getSubscribedRegionsErrorMsg":"Fehler beim Abrufen von abonnierten Regionen ","getCompartmentByIdErrorMsg":"Fehler bei getCompartment-API für eine angegebene OCID "}

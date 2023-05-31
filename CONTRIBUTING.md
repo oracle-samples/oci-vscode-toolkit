@@ -1,6 +1,6 @@
-*Detailed instructions on how to contribute to the project, if applicable. Must include section about Oracle Contributor Agreement with link and instructions*
+# Contributing to the Oracle Cloud Infrastructure Vscode Toolkit
 
-# Contributing to this repository
+_Copyright (c) 2020, Oracle and/or its affiliates. All rights reserved._
 
 We welcome your contributions! There are multiple ways to contribute.
 

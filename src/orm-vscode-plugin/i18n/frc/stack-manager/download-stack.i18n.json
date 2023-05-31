@@ -1,0 +1,1 @@
+{"getTfFilesByZipUploadErrorMsg":"Erreur lors du traitement des fichiers .tf de la pile {0} pour le type ZipUpload : ","getTfFilesByObjectStoreErrorMsg":"Erreur lors du traitement des fichiers .tf de la pile {0} pour le type Magasin d'objets","getTfFilesByGitErrorMsg":"Erreur lors du traitement des fichiers .tf de la pile {0} pour le type Magasin d'objets"}

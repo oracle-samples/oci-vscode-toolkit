@@ -1,0 +1,84 @@
+table, tr, td {border:1px solid black;border-color:var(--vscode-button-background);}
+#edit-button {padding-left:5px;}
+#key-input {width:98%}
+#value-input {width: 98%;}
+#key_value_input{margin-bottom:10px;}
+#key-value-table{margin-top: 40px; margin-bottom: 20px;}
+#edit-delete-button, #add-button{width: 30px;}
+
+body {
+  padding: 0 20px;
+  color: var(--vscode-foreground);
+  font-size: var(--vscode-font-size);
+  font-weight: var(--vscode-font-weight);
+  font-family: var(--vscode-font-family);
+  background-color: var(--vscode-editor-background);
+}
+
+label {
+  border: none;
+  font-family: var(--vscode-font-family);
+  font-size: 15px;
+}
+
+tbody>tr>:nth-child(1){
+  width:42%;
+  text-align:center;
+ }
+
+ tbody>tr>:nth-child(2){
+  width:42%;
+  text-align:center;
+ }
+
+ tbody>tr>:nth-child(3){
+  width:16%;
+  text-align:center;
+ }
+
+ #tbody_form>tr>:nth-child(1){
+  width:42%;
+ }
+
+ #tbody_form>tr>:nth-child(2){
+  width:42%;
+ }
+
+ #tbody_form>tr>:nth-child(3){
+  width:16%;
+ }
+
+button {
+  border: none;
+  text-align: center;
+  color: var(--vscode-button-foreground);
+  background: var(--vscode-button-background);
+}
+
+#table_form{
+  margin-top: 40px; 
+  margin-bottom: 20px;
+  border:1px; 
+  text-align: left;
+  margin-left: -3px;
+
+}
+
+#tr_form, #td_form, #add-button {
+  border:1px; 
+  text-align: left
+}
+
+.validation, .validation-message, .validation-save-row{
+  color:red;
+  margin-bottom: 5px;
+  display: none;
+}
+
+.success-message{
+  color:green;
+  margin-top:10px;
+  margin-left:20px; 
+  width: 30%;
+  display: none;
+}

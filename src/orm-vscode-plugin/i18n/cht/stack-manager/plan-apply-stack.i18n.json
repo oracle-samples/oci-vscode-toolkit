@@ -1,0 +1,1 @@
+{"planStackPopupMsg":"正在對資源管理程式的堆疊執行計畫動作…","planStackErrorMsg":"規劃堆疊 {0} 的 Terraform 組態時發生錯誤","applyStackPopupMsg":"正在對資源管理程式的堆疊執行套用動作…","applyStackErrorMsg":"套用堆疊 {0} 的 Terraform 組態時發生錯誤","displayLogsInprogressMsg":"正在進行中...","maxPollingAttemptMsg":"工作的執行時間過長, 已達輪詢嘗試次數上限. 請參考主控台的日誌..","maxPollingAttemptErrorMsg":"已超過輪詢嘗試次數上限","jobLogsAndPrintErrorMsg":"輪詢指定工作 {0} 的日誌時發生錯誤"}

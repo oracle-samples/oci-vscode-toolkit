@@ -1,0 +1,1 @@
+{"signInMsg":"サインイン中...","getJobArtifactMsg":"アーティファクトをローカル・アーティファクト・フォルダに再ダウンロードしました。","launchWorkflowErrorMsg":"ペイロードが有効ではありません。ペイロード{0}を確認してください","listResourcePromptMsg":"リソースをリストするコンパートメントIDを入力してください: ","placeHolderText":"(プレースホルダ)","expandCompartmentErrorMsg":"CompartmentId {0}が有効ではありません。CompartmentIdを確認して再試行してください"}

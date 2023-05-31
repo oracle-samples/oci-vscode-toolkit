@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"Fout bij het ophalen van compartimenten voor start-ID","getResourcesErrorMsg":"Fout bij het ophalen van resources voor compartiment ","getSubscribedRegionsErrorMsg":"Fout bij het ophalen van geabonneerde regio's","getCompartmentByIdErrorMsg":"Fout in getCompartment API voor een opgegeven OCID "}

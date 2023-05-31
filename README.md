@@ -1,28 +1,58 @@
-*This repository acts as a template for all of Oracle’s GitHub repositories. It contains information about the guidelines for those repositories. All files and sections contained in this template are mandatory, and a GitHub app ensures alignment with these guidelines. To get started with a new repository, replace the italic paragraphs with the respective text for your project.*
+# OCI Toolkit for VS Code
 
-# Project name
+OCI Toolkit for VS Code is a rich collection of OCI extensions, making it easier for you to develop, test, and deploy applications on Oracle Cloud Infrastructure (OCI) straight from VS Code.
 
-*Describe your project's features, functionality and target audience*
+<!-- region exclude-from-marketplace -->
+OCI toolkit for VS Code is available from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Oracle.oci-vscode-toolkit)
+
+<!-- endregion exclude-from-marketplace -->
+
+## OCI Services
+
+- **Resource Manager** extension allows you to edit, plan and deploy Resource Manager Configurations stored in Object Storage or a Code repository. For more information, see the [Resource Manager Walkthrough](https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/vscode.htm)
+- **Functions** extension in the VS Code lets you create a new function, edit an existing function and deploy and invoke it. For more information, see the [Functions Walkthrough](https://docs.oracle.com/iaas/Content/Functions/Tasks/functionscreatingfunctions-usingVScodeplugin.htm)
+- **Data Science** extension allows you to edit your job artifacts and run Data Science jobs natively. For more information, see the [Data Science Walkthrough](https://docs.oracle.com/en-us/iaas/data-science/using/vscode.htm)
+- **OCI CLI** allows users to perform common platform actions, such as creating and managing OCI resources using the built-in OCI CLI in the VS Code terminal
+
+    ![](./media/images/readme/oci_rms.gif)
 
 ## Installation
 
-*Provide detailed step-by-step installation instructions*
+Installing the OCI VS Code toolkit installs all of the extensions along with the [OCI Core extension](https://marketplace.visualstudio.com/items?itemName=Oracle.oci-core)
+
+You can easily uninstall individual extensions if you are not interested in using them, without affecting other extensions provided by this pack. Additionally, you can uninstall all of the extensions by uninstalling the OCI VS Code toolkit extension.
+
+## Sign-In
+
+The plugin requires basic configuration information, like user credentials and tenancy OCID.
+This information should be present in a configuration file located at `~/.oci/config`
+
+There are two ways to get the config file
+
+1. Auto-generate file using Sign In Button:
+
+    On successful login, a config file will be generated and saved in `~/.oci` folder
+    
+2. Manually generate a file and save it in the `~/.oci` folder:
+
+    Details on generating the configuration file can be found [here](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#apisigningkey_topic_How_to_Generate_an_API_Signing_Key_Console)
+
+    ![](./media/images/readme/sign_in_workflow_a.gif)
+
+## OCI CLI
+
+The OCI Toolkit for VS Code comes with the OCI CLI.  Users can effortlessly perform common platform actions, such as creating and managing OCI resources using the built-in OCI CLI in the VS Code terminal. Further, leverage the [OCI CLI's interactive mode](https://blogs.oracle.com/cloud-infrastructure/post/announcing-interactive-mode-for-oracle-cloud-infrastructure-command-line-interface) to simplify resource management tasks with command and parameter suggestions, auto-completing, and command reference information.
+
+Enable interactive mode on your terminal with the below command from the Command Palette:
+```
+Toggle Interactive CLI
+```
 
 ## Documentation
 
-*Developer-oriented documentation can be published on GitHub, but all product documentation must be published on <https://docs.oracle.com>*
-
-## Examples
-
-*Describe any included examples or provide a link to a demo/tutorial*
-
-## Help
-
-*Inform users on where to get help or how to receive official support from Oracle (if applicable)*
+Full documentation, including prerequisites, supported vscode versions and configuration instructions, is available [here](https://docs.oracle.com/iaas/Content/API/SDKDocs/vscode_plugins_intro.htm).
 
 ## Contributing
-
-*If your project has specific contribution requirements, update the CONTRIBUTING.md file to ensure those requirements are clearly explained*
 
 This project welcomes contributions from the community. Before submitting a pull request, please [review our contribution guide](./CONTRIBUTING.md)
 
@@ -32,13 +62,6 @@ Please consult the [security guide](./SECURITY.md) for our responsible security 
 
 ## License
 
-*The correct copyright notice format for both documentation and software is*
-    "Copyright (c) [year,] year Oracle and/or its affiliates."
-*You must include the year the content was first released (on any platform) and the most recent year in which it was revised*
+Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved.This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
-Copyright (c) 2023 Oracle and/or its affiliates.
-
-*Replace this statement if your project is not licensed under the UPL*
-
-Released under the Universal Permissive License v1.0 as shown at
-<https://oss.oracle.com/licenses/upl/>.
+See LICENSE for more details.

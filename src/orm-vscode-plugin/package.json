@@ -1,0 +1,324 @@
+{
+  "_comment": "Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
+  "name": "rms",
+  "description": "rms",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.54.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "publisher": "Oracle",
+  "homepage": "https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/vscode.htm",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oracle-samples/oci-vscode-toolkit",
+    "directory": "src/orm-vscode-plugin"
+  },
+  "license": "UPL",
+  "icon": "resources/oracle_rms.png",
+  "bugs": {
+    "url": "https://github.com/oracle-samples/oci-vscode-toolkit/issues"
+  },
+  "galleryBanner": {
+    "color": "#FF9900",
+    "theme": "light"
+  },
+  "keywords": [
+    "Oracle",
+    "OCI",
+    "Resource Manager",
+    "Terraform",
+    "typescript",
+    "javascript"
+  ],
+  "activationEvents": [
+    "onView:rms",
+    "onCommand:rms.refreshTree",
+    "onCommand:rms.openIssueInGithub",
+    "onCommand:rms.launch"
+  ],
+  "main": "./dist/extension",
+  "contributes": {
+    "_comment": "Please place images in resources folder & refer them in the below command's icon property as 'resources/oci-icon.png'",
+    "commands": [
+      {
+        "command": "rms.refreshTree",
+        "title": "%rms.refreshTree.title%",
+        "icon": "$(refresh)",
+        "category": "OCI Resource Manager"
+      },
+      {
+        "command": "rms.openIssueInGithub",
+        "title": "%rms.openIssueInGithub.title%",
+        "icon": "$(github)",
+        "enablement": "!cloudEditorEnv",
+        "category": "OCI Resource Manager"
+      },
+      {
+        "command": "rms.updateStack",
+        "title": "%rms.updateStack.title%",
+        "category": "OCI Resource Manager"
+      },
+      {
+        "command": "rms.planStack",
+        "title": "%rms.planStack.title%",
+        "category": "OCI Resource Manager"
+      },
+      {
+        "command": "rms.applyStack",
+        "title": "%rms.applyStack.title%",
+        "category": "OCI Resource Manager"
+      },
+      {
+        "command": "rms.updatePlanStack",
+        "title": "%rms.updatePlanStack.title%",
+        "category": "OCI Resource Manager"
+      },
+      {
+        "command": "rms.updateApplyStack",
+        "title": "%rms.updateApplyStack.title%",
+        "category": "OCI Resource Manager"
+      },
+      {
+        "command": "rms.downloadStack",
+        "title": "%rms.downloadStack.title%",
+        "category": "OCI Resource Manager"
+      },
+      {
+        "command": "rms.filterCompartment",
+        "title": "%rms.filterCompartment.title%",
+        "category": "OCI Resource Manager"
+      },
+      {
+        "command": "rms.launch",
+        "title": "%rms.launch.title%",
+        "category": "OCI Resource Manager"
+      },
+      {
+        "command": "rms.createFile",
+        "title": "%rms.createFile.title%",
+        "category": "OCI Resource Manager"
+      },
+      {
+        "command": "rms.createDirectory",
+        "title": "%rms.createDirectory.title%",
+        "category": "OCI Resource Manager"
+      },
+      {
+        "command": "rms.deletefileOrDir",
+        "title": "%rms.deletefileOrDir.title%",
+        "category": "OCI Resource Manager"
+      },
+      {
+        "command": "rms.openInTerminal",
+        "title": "%rms.openInTerminal.title%",
+        "category": "OCI Resource Manager"
+      },
+      {
+        "command": "rms.listRecentActions",
+        "title": "List recent rms action(s)",
+        "category": "OCI Resource Manager"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "rms.listRecentActions",
+        "key": "ctrl+alt+l",
+        "mac": "cmd+l"
+      }
+    ],
+    "views": {
+      "oci": [
+        {
+          "id": "rms",
+          "name": "%rms.view.title%"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "rms",
+        "when": "!cloudEditorEnv && !OCIConfigExists",
+        "contents": "Looks like you don't have an OCI account.\n[Create an OCI account](command:oci-core.newOCIAccount)\n[Sign in to an existing account](command:oci-core.createNewProfile)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "rms.refreshTree",
+          "when": "view == rms",
+          "group": "navigation"
+        },
+        {
+          "command": "rms.openIssueInGithub",
+          "when": "view == rms && !cloudEditorEnv",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "rms.updateApplyStack",
+          "when": "view == rms && viewItem =~ /^OCIStackNode.*NOT_GIT_BASED.*$/",
+          "group": "90@3"
+        },
+        {
+          "command": "rms.updatePlanStack",
+          "when": "view == rms && viewItem =~ /^OCIStackNode.*NOT_GIT_BASED.*$/",
+          "group": "90@2"
+        },
+        {
+          "command": "rms.planStack",
+          "when": "view == rms && viewItem =~ /^OCIStackNode.*GIT_CONFIG_SOURCE.*$/",
+          "group": "90@2"
+        },
+        {
+          "command": "rms.applyStack",
+          "when": "view == rms && viewItem =~ /^OCIStackNode.*GIT_CONFIG_SOURCE.*$/",
+          "group": "90@3"
+        },
+        {
+          "command": "rms.updateStack",
+          "when": "view == rms && viewItem =~ /^OCIStackNode.*/",
+          "group": "90@1"
+        },
+        {
+          "command": "rms.downloadStack",
+          "when": "view == rms && viewItem =~ /^OCIStackNode.*/",
+          "group": "99@1"
+        },
+        {
+          "command": "rms.createFile",
+          "when": "view == rms && viewItem =~ /^OCIFileExplorerNode.*isDirectory.*$/",
+          "group": "fileOperations@1"
+        },
+        {
+          "command": "rms.createDirectory",
+          "when": "view == rms && viewItem =~ /^OCIFileExplorerNode.*isDirectory.*$/",
+          "group": "fileOperations@2"
+        },
+        {
+          "command": "rms.deletefileOrDir",
+          "when": "view == rms && viewItem =~ /^OCIFileExplorerNode.*canBeDeleted.*$/",
+          "group": "fileOperations@3"
+        },
+        {
+          "command": "rms.openInTerminal",
+          "when": "view == rms && viewItem =~ /^OCIFileExplorerNode.*$/",
+          "group": "fileOperations@4"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "rms.launch",
+          "when": "false"
+        },
+        {
+          "command": "rms.refreshTree",
+          "when": "false"
+        },
+        {
+          "command": "rms.updateStack",
+          "when": "false"
+        },
+        {
+          "command": "rms.planStack",
+          "when": "false"
+        },
+        {
+          "command": "rms.applyStack",
+          "when": "false"
+        },
+        {
+          "command": "rms.updatePlanStack",
+          "when": "false"
+        },
+        {
+          "command": "rms.updateApplyStack",
+          "when": "false"
+        },
+        {
+          "command": "rms.downloadStack",
+          "when": "false"
+        },
+        {
+          "command": "rms.filterCompartment",
+          "when": "false"
+        },
+        {
+          "command": "rms.createFile",
+          "when": "false"
+        },
+        {
+          "command": "rms.createDirectory",
+          "when": "false"
+        },
+        {
+          "command": "rms.deletefileOrDir",
+          "when": "false"
+        },
+        {
+          "command": "rms.openInTerminal",
+          "when": "false"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "rm -rf out && npm run compile && npm run webpack",
+    "webpack": "rm -rf dist && gulp webpack ",
+    "webpack-dev": "rm -rf dist && gulp webpack-dev-watch",
+    "compile": "tsc -p tsconfig.json",
+    "lint": "eslint src --ext ts",
+    "lint-fix": "eslint src --ext ts --fix",
+    "package": "vsce package",
+    "build": "rm -rf dist && tsc -p tsconfig.production.json"
+  },
+  "extensionDependencies": [
+    "Oracle.oci-core"
+  ],
+  "devDependencies": {
+    "@theia/plugin": "1.27.0-next.76",
+    "@theia/vscode-coverage": "0.1.0",
+    "@types/chai": "^4.3.0",
+    "@types/glob": "^7.1.3",
+    "@types/js-yaml": "^3.12.5",
+    "@types/mocha": "^8.2.3",
+    "@types/node": "^14.10.1",
+    "@types/sinon": "^9.0.5",
+    "@types/vscode": "^1.53.0",
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/parser": "^3.10.1",
+    "chai": "^4.3.6",
+    "del": "^6.1.1",
+    "dir-compare": "^4.0.0",
+    "eslint": "^7.9.0",
+    "gulp": "^4.0.2",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "loader-utils": "^2.0.4",
+    "mocha": "^8.4.0",
+    "sinon": "^9.0.3",
+    "ts-loader": "^8.0.3",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.4.4",
+    "vsce": "^1.79.5",
+    "vscode-nls-dev": "^4.0.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "terser": "^5.14.2",
+    "webpack-stream": "^7.0.0"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.9",
+    "glob": "^7.1.6",
+    "js-yaml": "^3.14.0",
+    "oci-common": "2.50.1",
+    "oci-ide-plugin-base": "1.0.0",
+    "oci-identity": "2.50.1",
+    "oci-objectstorage": "2.50.1",
+    "oci-resourcemanager": "2.50.1",
+    "oci-resourcesearch": "2.50.1",
+    "vscode-nls": "^5.0.1"
+  }
+}

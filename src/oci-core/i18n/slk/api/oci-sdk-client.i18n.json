@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"Chyba pri vyvolávaní kompartmentov pre koreňové ID","getResourcesErrorMsg":"Chyba pri vyvolávaní prostriedkov pre kompartment ","getSubscribedRegionsErrorMsg":"Chyba pri vyvolávaní odoberaných oblastí prostriedkov ","getCompartmentByIdErrorMsg":"Chyba pri operácii getCompartment API pre dané OCID "}

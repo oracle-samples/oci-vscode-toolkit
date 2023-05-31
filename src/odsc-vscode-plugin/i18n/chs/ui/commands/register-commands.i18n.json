@@ -1,0 +1,1 @@
+{"signInMsg":"正在登录...","getJobArtifactMsg":"已将构件重新下载到本地构件文件夹。","launchWorkflowErrorMsg":"有效负载无效。请检查有效负载 {0}","listResourcePromptMsg":"输入区间 ID 以列出以下项的资源：","placeHolderText":"（占位符）","expandCompartmentErrorMsg":"CompartmentId {0} 无效。请检查 CompartmentId 并重试"}

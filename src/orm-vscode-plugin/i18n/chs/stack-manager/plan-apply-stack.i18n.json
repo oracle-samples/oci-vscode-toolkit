@@ -1,0 +1,1 @@
+{"planStackPopupMsg":"正在对资源管理器中的堆栈运行“计划”操作...","planStackErrorMsg":"为堆栈 {0} 计划 terraform 配置时出错","applyStackPopupMsg":"正在对资源管理器中的堆栈运行“应用”操作...","applyStackErrorMsg":"为堆栈 {0} 应用 terraform 配置时出错","displayLogsInprogressMsg":"正在进行...","maxPollingAttemptMsg":"完成作业用了很长时间，并且已达到最大轮询尝试次数。请通过控制台查看日志。","maxPollingAttemptErrorMsg":"已超过最大轮询尝试次数","jobLogsAndPrintErrorMsg":"轮询给定作业 {0} 的日志时出错"}

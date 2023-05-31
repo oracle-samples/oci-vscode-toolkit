@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"Chyba při načítání kompartmentu pro kořenové ID","getResourcesErrorMsg":"Chyba při načítání zdrojů pro kompartment","getSubscribedRegionsErrorMsg":"Chyba při načítání zdrojů ze subskribované oblasti","getCompartmentByIdErrorMsg":"Chyba v getCompartment API pro daný OCID "}

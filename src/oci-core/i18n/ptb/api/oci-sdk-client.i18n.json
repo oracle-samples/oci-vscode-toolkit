@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"Erro ao extrair compartimentos para o Id raiz","getResourcesErrorMsg":"Erro ao extrair recursos para o compartimento","getSubscribedRegionsErrorMsg":"Erro ao extrair recursos nas regiões inscritas","getCompartmentByIdErrorMsg":"Erro na API getCompartment API para um determinado ocid "}

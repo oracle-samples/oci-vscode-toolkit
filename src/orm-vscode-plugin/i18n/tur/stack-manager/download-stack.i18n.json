@@ -1,0 +1,1 @@
+{"getTfFilesByZipUploadErrorMsg":"ZipUpload tipi için {0} Yığınına yönelik .tf dosyaları işlenirken hata oluştu: ","getTfFilesByObjectStoreErrorMsg":"Nesne Deposu tipi için {0} Yığınına yönelik .tf dosyaları işlenirken hata oluştu","getTfFilesByGitErrorMsg":"Nesne Deposu tipi için {0} Yığınına yönelik .tf dosyaları işlenirken hata oluştu"}

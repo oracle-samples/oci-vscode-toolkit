@@ -1,0 +1,14 @@
+src/oci-core/dist
+src/oci-core/target
+src/oci-core/node_modules
+
+node_modules
+.DS_Store
+
+input_ocibuild*
+output_ocibuild*
+
+**/.vscode-test
+**/*.vsix
+**/*.new
+package.nls.*.json

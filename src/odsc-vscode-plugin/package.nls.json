@@ -1,0 +1,18 @@
+{
+  "_comment": "Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
+    "odsc.refreshTree.title": "Refresh",
+    "odsc.openIssueInGithub.title": "Open issue in github",
+    "odsc.filterCompartment.title": "Search compartment",
+    "odsc.runJob.title": "Run ...",
+    "odsc.createFile.title": "New file",
+    "odsc.createDirectory.title": "New folder",
+    "odsc.delete.title": "Delete",
+    "odsc.createJob.title": "Create new job from artifact",
+    "odsc.getJobArtifact.title": "Get job artifact and override local changes",
+    "odsc.viewJobRunInBrowser.title": "View details",
+    "odsc.cancelJobRun.title": "Cancel job run",
+    "odsc.showJobRunOutput.title": "View output",
+    "odsc.launch.title": "Launch workflow",
+    "odsc.view.title": "Data Science",
+    "odsc.openInTerminal.title": "Open in terminal"
+}

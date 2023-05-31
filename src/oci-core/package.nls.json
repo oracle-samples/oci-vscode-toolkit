@@ -1,0 +1,12 @@
+{
+  "_comment": "Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
+   "oci-core.refreshTree.title" : "Refresh",
+   "oci-core.viewInBrowser.title" : "View in browser...",
+   "oci-core.copyOCID.title" : "Copy OCID",
+   "oci-core.switchProfile.title":"Switch profile",
+   "oci-core.resourceFilter.title":"Resource filter",
+   "oci-core.signIn.title":"Sign in...",
+   "oci-core.createNewProfile.title":"Create new profile...",
+   "oci-core.resourceNodeClicked.title":"Resource node",
+   "oci-core.switchRegion.title":"Change Region"
+}

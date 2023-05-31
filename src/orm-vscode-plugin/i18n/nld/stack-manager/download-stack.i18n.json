@@ -1,0 +1,1 @@
+{"getTfFilesByZipUploadErrorMsg":"Fout bij verwerken van .tf-bestanden voor stapel {0} voor type 'ZipUpload': ","getTfFilesByObjectStoreErrorMsg":"Fout bij verwerken van .tf-bestanden voor stapel {0} voor type 'Object Store':","getTfFilesByGitErrorMsg":"Fout bij verwerken van .tf-bestanden voor stapel {0} voor type 'Object Store': "}

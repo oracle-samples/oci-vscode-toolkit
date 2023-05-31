@@ -1,0 +1,1 @@
+{"signInMsg":"사인인 중...","getJobArtifactMsg":"로컬 아티팩트 폴더로 아티팩트를 다시 다운로드했습니다.","launchWorkflowErrorMsg":"페이로드가 부적합합니다. 페이로드를 확인하십시오. {0}","listResourcePromptMsg":"리소스를 나열할 구획 ID 입력: ","placeHolderText":"(위치 표시자)","expandCompartmentErrorMsg":"CompartmentId {0}이(가) 부적합합니다. CompartmentId를 확인하고 다시 시도하십시오."}
