@@ -8,7 +8,7 @@
 	<version>1.0.0</version>
 	
 	<properties>
-		<kotlin.version>1.2.51</kotlin.version>
+		<kotlin.version>1.6.0</kotlin.version>
 		<fdk.version>1.0.108</fdk.version>
 		<junit.version>4.12</junit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
