@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src ${webview.cspSource} https:; style-src ${webview.cspSource} 'unsafe-inline';" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(window).on('load', function () {
+          $('#loading').hide();
+        }) 
+    </script>
+    <title>${title}</title>
+</head>
+<body id="webview-body">
+    <div id="loading">
+        <img id="loading-image" src="path/to/ajax-loader.gif" alt="Loading..." />
+    </div>
+    <h2 id="jobName">${heading}</h2>
+    <br />
+    <form id="form">
+        <table id="environment-variables-table">
+            <tr id="environment-variables-first-row">
+                <td>${key}: <input type="text" id="environmentVariableKey[0]" /> </td>
+                <td>${value}: <input type="text" id="environmentVariableValue[0]" /> </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td><input type="button" value="${addEnvVariable}" id="add-environment-variable" /></td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td>${commandLineArguments}:</td>
+                <td><input type="text" name="Command line arguments" id="commandLineArguments" placeholder="" /></td>
+            </tr>
+            <tr>
+                <td>${maxRuntime}:</td>
+                <td><input type="text" name="Max runtime (in minutes)" id="maxRuntime" placeholder="" /></td>
+            </tr>
+        </table>
+        <input type="submit" value="${run}" id="button-run-job" />
+    </form>
+</body>
+</html>

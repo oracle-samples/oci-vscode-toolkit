@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"擷取根 ID 的區間時發生錯誤","getResourcesErrorMsg":"擷取區間的資源時發生錯誤 ","getSubscribedRegionsErrorMsg":"擷取資源訂閱區域時發生錯誤 ","getCompartmentByIdErrorMsg":"指定 OCID 的 getCompartment API 發生錯誤 "}

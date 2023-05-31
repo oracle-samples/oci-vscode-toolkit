@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"Eroare la preluarea compartimentelor pentru ID-ul de rădăcină","getResourcesErrorMsg":"Eroare la preluarea resurselor pentru compartiment","getSubscribedRegionsErrorMsg":"Eroare la preluarea regiunilor abonate la resurse","getCompartmentByIdErrorMsg":"Eroare în API-ul getCompartment API pentru un anumit OCID dat "}

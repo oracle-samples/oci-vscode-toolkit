@@ -1,0 +1,1 @@
+{"getTfFilesByZipUploadErrorMsg":"Erro ao processar ficheiros .tf para a Pilha {0} do tipo ZipUpload: ","getTfFilesByObjectStoreErrorMsg":"Erro ao processar ficheiros .tf para a Pilha {0} do tipo Object Store","getTfFilesByGitErrorMsg":"Erro ao processar ficheiros .tf para a Pilha {0} do tipo Object Store"}

@@ -1,0 +1,22 @@
+{
+  "_comment": "Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
+    "faas.refreshTree.title": "Refresh",
+    "faas.createNewOCIApplication.title": "Create application",
+    "faas.createOCIFunction.title": "Create function...",
+    "faas.deleteOCIApplication.title": "Delete application",
+    "faas.editOCIApplication.title": "Edit application",
+    "faas.deployOCIFunction.title": "Deploy function...",
+    "faas.openIssueInGithub.title": "Open issue in github",
+    "faas.editOCIFunction.title": "Edit function...",
+    "faas.deleteOCIFunction.title": "Delete function",
+    "faas.invokeOCIFunction.title": "Invoke function...",
+    "faas.editConfiguration.title": "Edit configuration",
+    "faas.editFunctionSettings.title": "Edit function settings",
+    "faas.filterCompartment.title": "Search compartment",
+    "faas.launch.title": "Launch workflow",
+    "faas.createFile.title": "New file",
+    "faas.createDirectory.title": "New folder",
+    "faas.deletefileOrDir.title": "Delete",
+    "faas.view.title": "Functions",
+    "faas.openInTerminal.title": "Open in terminal"
+}

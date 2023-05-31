@@ -1,0 +1,1 @@
+{"profileTreeProviderErrorMsg":"Se ha producido un fallo porque faltaba un archivo durante la creación del proveedor de árbol del perfil","tokenExpiredErrorMsg":"El token ha caducado. Vuelva a conectarse.","signInAction":"Conectar","signingInMsg":"Conectando...","authProviderErrorMsg":"Error al crear un proveedor auth para las llamadas de API de OCI "}

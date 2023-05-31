@@ -1,0 +1,1 @@
+{"getTfFilesByZipUploadErrorMsg":"Hiba a(z) {0} verem .tf fájljainak feldolgozásakor a ZipUpload típusnál: ","getTfFilesByObjectStoreErrorMsg":"Hiba a(z) {0} verem .tf fájljainak feldolgozásakor az Object Store típusnál","getTfFilesByGitErrorMsg":"Hiba a(z) {0} verem .tf fájljainak feldolgozásakor az Object Store típusnál"}

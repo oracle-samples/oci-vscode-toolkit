@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"Errore durante il recupero dei compartimenti per l'ID radice","getResourcesErrorMsg":"Errore durante il recupero delle risorse per il compartimento ","getSubscribedRegionsErrorMsg":"Errore durante il recupero delle aree sottoscritte per le risorse ","getCompartmentByIdErrorMsg":"Errore nell'API getCompartment per un determinato ocid "}

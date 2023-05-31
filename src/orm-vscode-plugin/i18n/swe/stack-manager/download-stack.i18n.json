@@ -1,0 +1,1 @@
+{"getTfFilesByZipUploadErrorMsg":"Ett fel inträffade vid bearbetning av .tf-filer för stacken {0} för typen ZipUpload: ","getTfFilesByObjectStoreErrorMsg":"Ett fel inträffade vid bearbetning av .tf-filer för stacken {0} för typen Object Store","getTfFilesByGitErrorMsg":"Ett fel inträffade vid bearbetning av .tf-filer för stacken {0} för typen Object Store"}

@@ -1,0 +1,18 @@
+{
+  "_comment": "Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
+    "rms.refreshTree.title" : "Refresh",
+    "rms.openIssueInGithub.title" : "Open Issue in Github",
+    "rms.updateStack.title" :"Save changes",
+    "rms.planStack.title":"Run Plan action on stack",
+    "rms.applyStack.title" : "Run Apply action on stack",
+    "rms.updatePlanStack.title" : "Save changes and run Plan action",
+    "rms.updateApplyStack.title" : "Save changes and run Apply action",
+    "rms.downloadStack.title" : "Download configuration",
+    "rms.filterCompartment.title" : "Search compartment",
+    "rms.launch.title" : "Launch workflow",
+    "rms.createFile.title" : "New file",
+    "rms.createDirectory.title" : "New folder",
+    "rms.deletefileOrDir.title" : "Delete",
+    "rms.view.title" :"Resource Manager",
+    "rms.openInTerminal.title": "Open in terminal"
+}

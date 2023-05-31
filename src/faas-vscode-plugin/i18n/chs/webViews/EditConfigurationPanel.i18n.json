@@ -1,0 +1,1 @@
+{"editConfigurationViewTitle":"编辑配置","keyInputLabel":"键","valueInputLabel":"值","saveButtonLabel":"保存","error_click_add":"请保存编辑的键（或）值，然后单击“添加”按钮。","error_already_exists":"配置中已经包含一个名称为 {0} 的键。请输入其他名称或者删除现有键。","error_enter_value_key":"请在键字段中输入值。","error_key_char_error":"键只能包含 ASCII 字母、数字、 '-'（连字符）或 '_'（下划线）字符。","error_enter_value":"请为输入的键输入值。","success_key_added":"已成功保存键值对。"}

@@ -1,0 +1,10 @@
+node_modules
+out
+dist
+*.vsix
+.DS_Store
+input_ocibuild*
+output_ocibuild*
+**/.vscode-test
+compatibility.json
+package.nls.*.json

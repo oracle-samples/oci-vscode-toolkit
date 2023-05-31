@@ -1,0 +1,3 @@
+source 'https://rubygems.org' do
+  gem 'fdk', '>= 0.0.20'
+end

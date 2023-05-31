@@ -1,0 +1,16 @@
+.idea/**
+.vscode/**
+.vscode-test/**
+out/**
+i18n/**
+src/**
+webpack/**
+**/*.map
+**/*.ts
+.gitignore
+.yarnrc
+ocibuild.conf
+vsc-extension-quickstart.md
+tsconfig.json
+.eslintrc.json
+gulpfile.js

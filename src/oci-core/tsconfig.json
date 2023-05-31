@@ -1,0 +1,30 @@
+{
+  "_comment": "Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "es6",
+		"outDir": "target",
+		"rootDir": "src",
+		"lib": [
+			"es6",
+			"dom"
+		],
+		"typeRoots": [
+			"./typings",
+			"./node_modules/@types/"
+		],
+		"sourceMap": true,
+		"strict": true, /* enable all strict type-checking options */
+		"noImplicitAny": false,
+		"skipLibCheck": true,
+		/* Additional Checks */
+		// "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
+		// "noFallthroughCasesInSwitch": true, /* Report errors for fallthrough cases in switch statement. */
+		// "noUnusedParameters": true,  /* Report errors on unused parameters. */
+	},
+	"exclude": [
+		"node_modules",
+		".vscode-test",
+		"resources"
+	]
+}

@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"Грешка приликом добављања одељака за ID корена","getResourcesErrorMsg":"Грешка приликом добављања ресурса за одељак ","getSubscribedRegionsErrorMsg":"Грешка приликом добављања претплаћених региона ресурса ","getCompartmentByIdErrorMsg":"Грешка у getCompartment API-ју за наведени OCID "}

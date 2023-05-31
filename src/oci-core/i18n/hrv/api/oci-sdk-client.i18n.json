@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"Pogreška u dohvaćanju odjeljaka za root ID ","getResourcesErrorMsg":"Pogreška pri dohvaćanju resursa za odjeljak ","getSubscribedRegionsErrorMsg":"Pogreška pri dohvaćanju resursa iz regija s pretplatom ","getCompartmentByIdErrorMsg":"Pogreška u getCompartment API-ju za navedeni OCID "}

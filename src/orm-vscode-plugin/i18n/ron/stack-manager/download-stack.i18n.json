@@ -1,0 +1,1 @@
+{"getTfFilesByZipUploadErrorMsg":"Eroare la procesarea fişierelor .tf pentru stiva {0}, pentru tipul ZipUpload: ","getTfFilesByObjectStoreErrorMsg":"Eroare la procesarea fişierelor .tf pentru stiva {0}, pentru tipul Object Store","getTfFilesByGitErrorMsg":"Eroare la procesarea fişierelor .tf pentru stiva {0}, pentru tipul Object Store"}

@@ -1,0 +1,1 @@
+{"deleteJobRunLabel":"删除作业运行","cancelJobRunLabel":"取消","deleteJobRunConfirmationMsg":"将删除作业运行 {0}。此操作无法撤消。","deleteJobRunInfoMsg":"已删除作业运行 {0}。","cancelJobRunInfoMsg":"已对作业运行 {0} 启动取消","cancelJobRunErrorMsg":"无法取消作业运行 {0}：{1}","outputLogMsg":"<此次运行未记录任何输出。可能的修复方法：确保作业配置并启用了日志记录。>","outputChannelMsg":"DataScience 作业运行 {0}"}

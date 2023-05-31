@@ -1,0 +1,1 @@
+{"getTfFilesByZipUploadErrorMsg":"Błąd podczas przetwarzania plików .tf dla stosu {0} dla typu ZipUpload: ","getTfFilesByObjectStoreErrorMsg":"Błąd podczas przetwarzania plików .tf dla stosu {0} dla typu Object Store","getTfFilesByGitErrorMsg":"Błąd podczas przetwarzania plików .tf dla stosu {0} dla typu Object Store"}

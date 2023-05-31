@@ -1,0 +1,57 @@
+/**
+ * Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved.
+ * This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.
+ */
+
+import * as vscode                     from 'vscode';
+import { CompartmentsItem }            from '../commands/resources';
+import { RootNode }                    from './rootNode';
+import { OCICompartmentNode }          from './oci-compartment-node';
+import { getCompartments, getTenancy } from '../../api/oci/oci-sdk-client';
+import { getResourcePath }             from '../vscode_ext';
+import { ext }                         from '../../extensionVars';
+
+export class CompartmentsNode extends RootNode {
+
+    constructor() {
+        super(
+            'compartmentsNode',
+            CompartmentsItem.label,
+            vscode.TreeItemCollapsibleState.Expanded,
+            getResourcePath('light/compartment-light.svg'),
+            getResourcePath('dark/compartment-dark.svg'),
+            CompartmentsItem.commandName,
+            CompartmentsItem.context,
+            [],
+        );
+    }
+
+    // Returns the children for the given element or root if element is not provided
+    // When tree is opened, getChildren gets called without an element and you return the
+    // top-level items. After that getChildren gets called for each top-level item
+    getChildren(element: any): Thenable<RootNode[]> {
+        const childNodes: RootNode[] = [];
+        const profile = ext.api.getCurrentProfile();
+        const compartmentId = profile.getTenancy();
+        return getTenancy(compartmentId)
+            .then((c) => {
+                c.name = `${c.name}(root)`;
+                childNodes.push(new OCICompartmentNode(c, profile.getProfileName(), this, []),);
+                return getCompartments({
+                    profile: profile.getProfileName(),
+                    rootCompartmentId: compartmentId,
+                    allCompartments: false,
+                });
+            }).then((compartments) => {
+                // Create the compartment nodes
+                for (const c of compartments) {
+                    childNodes.push(
+                        new OCICompartmentNode(c, profile.getProfileName(), this, []),
+                    );
+                }
+                // Retrieve all resources under this compartment
+                return Promise.resolve(childNodes);
+            });
+    }
+
+}

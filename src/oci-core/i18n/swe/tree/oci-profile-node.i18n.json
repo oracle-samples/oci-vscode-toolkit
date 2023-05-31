@@ -1,0 +1,1 @@
+{"tenancyErrorMsg":"Molnpartitionen kan inte vara null om den körs i Visual Studio Code. Ange en giltig molnpartition i konfigurationsfilen och förnya trädet."}

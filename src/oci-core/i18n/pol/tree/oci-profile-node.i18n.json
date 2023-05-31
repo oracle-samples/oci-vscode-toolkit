@@ -1,0 +1,1 @@
+{"tenancyErrorMsg":"Dzierżawa nie może mieć wartości Null, gdy polecenie jest uruchamiane w Visual Studio Code. Proszę wprowadzić poprawną dzierżawę w pliku konfiguracyjnym, po czym odświeżyć drzewo."}

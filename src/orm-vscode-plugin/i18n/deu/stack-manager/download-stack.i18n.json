@@ -1,0 +1,1 @@
+{"getTfFilesByZipUploadErrorMsg":"Fehler beim Verarbeiten der TF-Dateien für Stack {0} für den Typ \"ZipUpload\": ","getTfFilesByObjectStoreErrorMsg":"Fehler beim Verarbeiten der TF-Dateien für Stack {0} für den Typ \"Object Store\"","getTfFilesByGitErrorMsg":"Fehler beim Verarbeiten der TF-Dateien für Stack {0} für den Typ \"Object Store\""}

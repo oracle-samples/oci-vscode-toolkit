@@ -1,0 +1,1 @@
+{"deleteJobRunLabel":"刪除工作執行","cancelJobRunLabel":"取消","deleteJobRunConfirmationMsg":"工作執行 {0} 將被刪除. 此動作無法還原.","deleteJobRunInfoMsg":"工作執行 {0} 已被刪除.","cancelJobRunInfoMsg":"已起始取消工作執行 {0}","cancelJobRunErrorMsg":"無法取消工作執行 {0}: {1}","outputLogMsg":"<此執行未記錄輸出. 可能的修正: 確定工作已設定日誌記錄並啟用.>","outputChannelMsg":"DataScience 工作執行 {0}"}

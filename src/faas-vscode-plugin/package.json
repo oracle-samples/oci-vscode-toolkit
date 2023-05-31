@@ -1,0 +1,371 @@
+{
+  "_comment": "Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
+  "name": "faas",
+  "description": "faas-vscode-plugin",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.53.2"
+  },
+  "categories": [
+    "Other"
+  ],
+  "publisher": "Oracle",
+  "homepage": "https://docs.oracle.com/iaas/Content/Functions/Tasks/functionscreatingfunctions-usingVScodeplugin.htm",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oracle-samples/oci-vscode-toolkit",
+    "directory": "src/faas-vscode-plugin"
+  },
+  "license": "UPL",
+  "icon": "resources/oracle_faas.png",
+  "bugs": {
+    "url": "https://github.com/oracle-samples/oci-vscode-toolkit/issues"
+  },
+  "galleryBanner": {
+    "color": "#FF9900",
+    "theme": "light"
+  },
+  "keywords": [
+    "Oracle",
+    "OCI",
+    "Functions",
+    "json",
+    "typescript"
+  ],
+  "activationEvents": [
+    "onView:faas",
+    "onCommand:faas.refreshTree",
+    "onCommand:faas.createOCIFunction",
+    "onCommand:faas.createNewOCIApplication",
+    "onCommand:faas.deleteOCIApplication",
+    "onCommand:faas.editOCIApplication",
+    "onCommand:faas.invokeOCIFunction",
+    "onCommand:faas.deployOCIFunction",
+    "onCommand:faas.editFunctionSettings",
+    "onCommand:faas.editConfiguration",
+    "onCommand:faas.openIssueInGithub",
+    "onCommand:faas.launch"
+  ],
+  "main": "./dist/extension",
+  "contributes": {
+    "_comment": "Please place images in resources folder & refer them in the below command's icon property as 'resources/oci-icon.png'",
+    "commands": [
+      {
+        "command": "faas.refreshTree",
+        "title": "%faas.refreshTree.title%",
+        "icon": "$(refresh)",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.createNewOCIApplication",
+        "title": "%faas.createNewOCIApplication.title%",
+        "icon": "",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.createOCIFunction",
+        "title": "%faas.createOCIFunction.title%",
+        "icon": "",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.deleteOCIApplication",
+        "title": "%faas.deleteOCIApplication.title%",
+        "icon": "",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.editOCIApplication",
+        "title": "%faas.editOCIApplication.title%",
+        "icon": "",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.deployOCIFunction",
+        "title": "%faas.deployOCIFunction.title%",
+        "icon": "",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.openIssueInGithub",
+        "title": "%faas.openIssueInGithub.title%",
+        "icon": "$(github)",
+        "enablement": "!cloudEditorEnv",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.editOCIFunction",
+        "title": "%faas.editOCIFunction.title%",
+        "icon": "",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.invokeOCIFunction",
+        "title": "%faas.invokeOCIFunction.title%",
+        "icon": "",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.editConfiguration",
+        "title": "%faas.editConfiguration.title%",
+        "icon": "",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.editFunctionSettings",
+        "title": "%faas.editFunctionSettings.title%",
+        "icon": "",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.filterCompartment",
+        "title": "%faas.filterCompartment.title%",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.launch",
+        "title": "%faas.launch.title%",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.createFile",
+        "title": "%faas.createFile.title%",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.createDirectory",
+        "title": "%faas.createDirectory.title%",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.deletefileOrDir",
+        "title": "%faas.deletefileOrDir.title%",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "faas.openInTerminal",
+        "title": "%faas.openInTerminal.title%",
+        "category": "OCI Functions"
+      },
+      {
+        "command": "oci-core.listRecentActions",
+        "title": "List recent action(s)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "oci-core.listRecentActions",
+        "key": "ctrl+alt+l",
+        "mac": "cmd+l"
+      }
+    ],
+    "views": {
+      "oci": [
+        {
+          "id": "faas",
+          "name": "%faas.view.title%"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "faas",
+        "when": "!cloudEditorEnv && !OCIConfigExists",
+        "contents": "Looks like you don't have an OCI account.\n[Create an OCI account](command:oci-core.newOCIAccount)\n[Sign in to an existing account](command:oci-core.createNewProfile)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "faas.refreshTree",
+          "when": "view == faas",
+          "group": "navigation"
+        },
+        {
+          "command": "faas.openIssueInGithub",
+          "when": "view == faas && !cloudEditorEnv",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "faas.createNewOCIApplication",
+          "when": "view == faas && viewItem == OCICompartmentNode",
+          "group": "1@1"
+        },
+        {
+          "command": "faas.editOCIApplication",
+          "when": "view == faas && viewItem == OCIApplicationNode",
+          "group": "1@1"
+        },
+        {
+          "command": "faas.deleteOCIApplication",
+          "when": "view == faas && viewItem == OCIApplicationNode",
+          "group": "1@2"
+        },
+        {
+          "command": "faas.createOCIFunction",
+          "when": "view == faas && viewItem == OCIApplicationNode",
+          "group": "2@1"
+        },
+        {
+          "command": "faas.editOCIFunction",
+          "when": "view == faas && viewItem == OCIFunctionNode",
+          "group": "1@1"
+        },
+        {
+          "command": "faas.deployOCIFunction",
+          "when": "view == faas && viewItem == OCIFunctionNode",
+          "group": "1@2"
+        },
+        {
+          "command": "faas.invokeOCIFunction",
+          "when": "view == faas && viewItem == OCIFunctionNode",
+          "group": "1@3"
+        },
+        {
+          "command": "faas.editFunctionSettings",
+          "when": "view == faas && viewItem == OCIFunctionNode",
+          "group": "1@4"
+        },
+        {
+          "command": "faas.createFile",
+          "when": "view == faas && viewItem =~ /^OCIFileExplorerNode.*isDirectory.*$/",
+          "group": "fileOperations@1"
+        },
+        {
+          "command": "faas.createDirectory",
+          "when": "view == faas && viewItem =~ /^OCIFileExplorerNode.*isDirectory.*$/",
+          "group": "fileOperations@2"
+        },
+        {
+          "command": "faas.deletefileOrDir",
+          "when": "view == faas && viewItem =~ /^OCIFileExplorerNode.*canBeDeleted.*$/",
+          "group": "fileOperations@3"
+        },
+        {
+          "command": "faas.openInTerminal",
+          "when": "view == faas && viewItem =~ /^OCIFileExplorerNode.*$/",
+          "group": "fileOperations@4"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "faas.launch",
+          "when": "false"
+        },
+        {
+          "command": "faas.createNewOCIApplication",
+          "when": "false"
+        },
+        {
+          "command": "faas.editOCIApplication",
+          "when": "false"
+        },
+        {
+          "command": "faas.deleteOCIApplication",
+          "when": "false"
+        },
+        {
+          "command": "faas.createOCIFunction",
+          "when": "false"
+        },
+        {
+          "command": "faas.editOCIFunction",
+          "when": "false"
+        },
+        {
+          "command": "faas.deployOCIFunction",
+          "when": "false"
+        },
+        {
+          "command": "faas.invokeOCIFunction",
+          "when": "false"
+        },
+        {
+          "command": "faas.editFunctionSettings",
+          "when": "false"
+        },
+        {
+          "command": "faas.createFile",
+          "when": "false"
+        },
+        {
+          "command": "faas.createDirectory",
+          "when": "false"
+        },
+        {
+          "command": "faas.deletefileOrDir",
+          "when": "false"
+        },
+        {
+          "command": "faas.openInTerminal",
+          "when": "false"
+        },
+        {
+          "command": "faas.refreshTree",
+          "when": "false"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "rm -rf out && npm run compile && npm run webpack",
+    "webpack": "gulp webpack",
+    "webpack-dev": "gulp webpack-dev-watch",
+    "compile": "tsc -p tsconfig.json",
+    "lint": "eslint src --ext ts",
+    "lint-fix": "eslint src --ext ts --fix",
+    "package": "vsce package",
+    "build": "rm -rf dist && tsc -p tsconfig.production.json"
+  },
+  "extensionDependencies": [
+    "Oracle.oci-core"
+  ],
+  "devDependencies": {
+    "@theia/plugin": "1.28.0-next.5",
+    "@theia/vscode-coverage": "0.1.0",
+    "@types/chai": "^4.3.1",
+    "@types/glob": "^7.1.3",
+    "@types/js-yaml": "^3.12.5",
+    "@types/mocha": "^8.0.3",
+    "@types/node": "^14.10.1",
+    "@types/sinon": "^9.0.5",
+    "@types/vscode": "^1.53.0",
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/parser": "^3.10.1",
+    "chai": "^4.3.6",
+    "del": "^6.1.1",
+    "dir-compare": "^4.0.0",
+    "eslint": "^7.9.0",
+    "gulp": "^4.0.2",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "loader-utils": "^2.0.4",
+    "mocha": "^8.4.0",
+    "prettier": "2.6.2",
+    "sinon": "^9.0.3",
+    "ts-loader": "^8.0.3",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.4.4",
+    "vsce": "1.92.0",
+    "vscode-extension-tester": "^4.2.0",
+    "vscode-nls-dev": "^4.0.0",
+    "vscode-test": "^1.4.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-stream": "^7.0.0"
+  },
+  "dependencies": {
+    "glob": "^7.1.6",
+    "js-yaml": "^3.14.0",
+    "oci-common": "^2.50.1",
+    "oci-core": "^2.50.1",
+    "oci-functions": "^2.50.1",
+    "oci-ide-plugin-base": "1.0.0",
+    "oci-identity": "^2.50.1",
+    "oci-objectstorage": "^2.50.1",
+    "oci-resourcesearch": "^2.50.1",
+    "terser": "^5.14.2",
+    "vscode-nls": "^5.0.1"
+  }
+}

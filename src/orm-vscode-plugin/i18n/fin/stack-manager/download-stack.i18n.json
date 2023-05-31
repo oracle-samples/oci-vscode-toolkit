@@ -1,0 +1,1 @@
+{"getTfFilesByZipUploadErrorMsg":"Virhe käsiteltäessä .tf-tiedostoja pinolle {0} tyypillä ZipUpload: ","getTfFilesByObjectStoreErrorMsg":"Virhe käsiteltäessä .tf-tiedostoja pinolle {0} tyypillä Object Store","getTfFilesByGitErrorMsg":"Virhe käsiteltäessä .tf-tiedostoja pinolle {0} tyypillä Object Store"}

@@ -1,0 +1,402 @@
+{
+  "_comment": "Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
+  "name": "oci-core",
+  "displayName": "OCI Core Extension for VSCode",
+  "description": "Oracle Cloud Infrastructure Core VS Code Extension",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.53.0"
+  },
+  "publisher": "Oracle",
+  "categories": [
+    "Other"
+  ],
+  "homepage": "https://docs.oracle.com/iaas/Content/API/SDKDocs/vscode_plugins_intro.htm",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oracle-samples/oci-vscode-toolkit",
+    "directory": "src/oci-core"
+  },
+  "license": "UPL",
+  "icon": "resources/activity-bar-icon.png",
+  "bugs": {
+    "url": "https://github.com/oracle-samples/oci-vscode-toolkit/issues"
+  },
+  "galleryBanner": {
+    "color": "#FF9900",
+    "theme": "light"
+  },
+  "keywords": [
+    "Oracle",
+    "OCI",
+    "typescript"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "contributes": {
+    "configuration": {
+      "title": "Oracle Cloud Infrastructure (OCI)",
+      "properties": {
+        "oci.configFileLocation": {
+          "type": "string",
+          "default": "~/.oci/config",
+          "description": "The location of Oracle Cloud Infrastructure (OCI) configuration file"
+        },
+        "oci.defaultArtifactFolder": {
+          "type": "string",
+          "default": "oci-ide-plugins",
+          "description": "The name of the root folder to hold default artifact(s)"
+        },
+        "oci.defaultProfileName": {
+          "type": "string",
+          "default": "DEFAULT",
+          "description": "Default profile name"
+        },
+        "oci.resourceFilter": {
+          "type": "array",
+          "description": "List of resource to show in the tree view",
+          "default": [
+            "apigateway",
+            "autonomousdatabase",
+            "bucket",
+            "dbsystem",
+            "emailsender",
+            "filesystem",
+            "functionsfunction",
+            "instance",
+            "loadbalancer",
+            "ormstack",
+            "stream",
+            "vcn"
+          ]
+        }
+      }
+    },
+    "walkthroughs": [
+      {
+        "id": "walkthrough",
+        "title": "Get started with OCI Toolkit",
+        "description": "Setup your account and get to know the Oracle Cloud extension view ",
+        "when": "!cloudEditorEnv",
+        "icon": "resources/activity-bar-icon.png",
+        "steps": [
+          {
+            "id": "signInAccount",
+            "title": "Sign into your OCI account",
+            "description": "Sign in or create an OCI account to see the resources in your OCI subscription. \n[Sign In](command:getting-started.viewExplorer)",
+            "media": {
+              "image": "resources/signIn.png",
+              "altText": ""
+            },
+            "completionEvents": [
+              "onCommand:getting-started.viewExplorer"
+            ]
+          },
+          {
+            "id": "viewResources",
+            "title": "The OCI view",
+            "description": "Use OCI plugins explorer to create and manage OCI resources. \n[Open the OCI view](command:getting-started.viewExplorer)",
+            "media": {
+              "image": "resources/view-resources.png",
+              "altText": ""
+            },
+            "completionEvents": [
+              "onCommand:getting-started.viewExplorer"
+            ]
+          },
+          {
+            "id": "activityLog",
+            "title": "OCI Activity log",
+            "description": "View logs for actions performed on OCI resources. \n[Show activity logs](command:getting-started.activityLog)",
+            "media": {
+              "image": "resources/output-channel.png",
+              "altText": ""
+            },
+            "completionEvents": [
+              "onCommand:getting-started.activityLog"
+            ]
+          },
+          {
+            "id": "exploreCommands",
+            "title": "Explore OCI commands",
+            "description": "View commands that OCI plugins support using command palette. \n[Explore Commands](command:getting-started.exploreCommands)",
+            "media": {
+              "image": "resources/command-pallete.png",
+              "altText": ""
+            },
+            "completionEvents": [
+              "onCommand:getting-started.exploreCommands"
+            ]
+          },
+          {
+            "id": "documentation",
+            "title": "OCI Toolkit documentation",
+            "description": "View OCI toolkit documentation for configuring toolkit, prerequisites, etc. \n[View Toolkit Documentation](command:getting-started.toolkitDocumentation)",
+            "media": {
+              "image": "resources/toolkit-documentation.png",
+              "altText": ""
+            },
+            "completionEvents": [
+              "onCommand:getting-started.toolkitDocumentation"
+            ]
+          }
+        ]
+      }
+    ],
+    "commands": [
+      {
+        "command": "oci-core.refreshTree",
+        "title": "%oci-core.refreshTree.title%",
+        "icon": "$(refresh)",
+        "enablement": "OCIConfigExists == true",
+        "category": "OCI"
+      },
+      {
+        "command": "oci-core.viewInBrowser",
+        "title": "%oci-core.viewInBrowser.title%",
+        "category": "OCI"
+      },
+      {
+        "command": "oci-core.copyOCID",
+        "title": "%oci-core.copyOCID.title%",
+        "category": "OCI"
+      },
+      {
+        "command": "oci-core.switchProfile",
+        "title": "%oci-core.switchProfile.title%",
+        "icon": "$(filter)",
+        "enablement": "!cloudEditorEnv"
+      },
+      {
+        "command": "oci-core.resourceFilter",
+        "title": "%oci-core.resourceFilter.title%",
+        "icon": "$(filter)",
+        "enablement": "OCIConfigExists == true"
+      },
+      {
+        "command": "oci-core.signIn",
+        "title": "%oci-core.signIn.title%",
+        "category": "OCI"
+      },
+      {
+        "command": "oci-core.createNewProfile",
+        "title": "%oci-core.createNewProfile.title%",
+        "category": "OCI"
+      },
+      {
+        "command": "oci-core.resourceNodeClicked",
+        "title": "%oci-core.resourceNodeClicked.title%",
+        "category": "OCI"
+      },
+      {
+        "command": "oci-core.view-sample-webview",
+        "title": "Sample WebView",
+        "category": "OCI"
+      },
+      {
+        "command": "oci-core.switchRegion",
+        "title": "%oci-core.switchRegion.title%",
+        "icon": "$(filter)",
+        "enablement": "!cloudEditorEnv",
+        "category": "OCI"
+      },
+      {
+        "command": "oci-core.toggleInteractiveCLI",
+        "title": "Toggle Interactive CLI",
+        "enablement": "!cloudEditorEnv",
+        "category": "OCI"
+      },
+      {
+        "command": "getting-started.viewExplorer",
+        "title": "View OCI Plugins Explorer",
+        "enablement": "!cloudEditorEnv",
+        "category": "OCI"
+      },
+      {
+        "command": "getting-started.activityLog",
+        "title": "Show OCI Activity log channel",
+        "enablement": "!cloudEditorEnv",
+        "category": "OCI"
+      },
+      {
+        "command": "getting-started.exploreCommands",
+        "title": "Explore OCI plugins commands",
+        "enablement": "!cloudEditorEnv",
+        "category": "OCI"
+      },
+      {
+        "command": "getting-started.toolkitDocumentation",
+        "title": "Toolkit documentation",
+        "enablement": "!cloudEditorEnv",
+        "category": "OCI"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "oci",
+          "title": "OCI Plugins",
+          "icon": "resources/activity-bar-icon.png"
+        }
+      ]
+    },
+    "views": {
+      "oci": [
+        {
+          "id": "oci-core",
+          "name": "Core",
+          "visibility": "hidden",
+          "when": "false"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "oci-core",
+        "when": "!cloudEditorEnv",
+        "contents": "Looks like you don't have an OCI account.\n[Create an OCI account](command:oci-core.newOCIAccount)\n[Sign in to an existing account](command:oci-core.createNewProfile)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "oci-core.resourceFilter",
+          "when": "view == oci-core",
+          "group": "navigation"
+        },
+        {
+          "command": "oci-core.refreshTree",
+          "when": "view == oci-core",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "oci-core.copyOCID",
+          "when": "view == oci-core && viewItem == OCIResourceNode || viewItem == OCICompartmentNode",
+          "group": "99@1"
+        },
+        {
+          "command": "oci-core.viewInBrowser",
+          "when": "view == oci-core && viewItem == OCIResourceNode || viewItem == OCICompartmentNode",
+          "group": "99@1"
+        },
+        {
+          "command": "oci-core.switchProfile",
+          "when": "!cloudEditorEnv && viewItem == OCIProfileNode || viewItem == OCIProfileNodeSessionAuth",
+          "group": "inline"
+        },
+        {
+          "command": "oci-core.switchRegion",
+          "when": "!cloudEditorEnv && viewItem == OCIProfileNode || viewItem == OCIProfileNodeSessionAuth",
+          "group": "inline"
+        },
+        {
+          "command": "oci-core.signIn",
+          "when": "!cloudEditorEnv && viewItem == OCIProfileNode || viewItem == OCIProfileNodeSessionAuth",
+          "group": "99@1"
+        },
+        {
+          "command": "oci-core.createNewProfile",
+          "when": "!cloudEditorEnv && viewItem == OCIProfileNode || viewItem == OCIProfileNodeSessionAuth",
+          "group": "99@2"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "oci-core.resourceNodeClicked",
+          "when": "never"
+        },
+        {
+          "command": "oci-core.switchProfile",
+          "when": "!cloudEditorEnv"
+        },
+        {
+          "command": "oci-core.switchRegion",
+          "when": "!cloudEditorEnv"
+        },
+        {
+          "command": "oci-core.copyOCID",
+          "when": "false"
+        },
+        {
+          "command": "oci-core.viewInBrowser",
+          "when": "false"
+        },
+        {
+          "command": "oci-core.refreshTree",
+          "when": "false"
+        },
+        {
+          "command": "oci-core.signIn",
+          "when": "false"
+        }
+      ]
+    }
+  },
+  "main": "./dist/extension",
+  "scripts": {
+    "vscode:prepublish": "rm -rf out && npm run compile && npm run webpack",
+    "webpack": "rm -rf dist && gulp webpack",
+    "webpack-dev": "rm -rf dist && gulp webpack-dev-watch",
+    "compile": "tsc -p tsconfig.json",
+    "lint": "eslint . --ext .js,.ts",
+    "lint-fix": "eslint . --ext .js,.ts --fix",
+    "package": "vsce package",
+    "build": "rm -rf dist && tsc -p tsconfig.production.json"
+  },
+  "devDependencies": {
+    "@theia/plugin": "1.21.0-next.17",
+    "@theia/vscode-coverage": "0.1.0",
+    "@types/chai": "^4.3.0",
+    "@types/glob": "^7.1.3",
+    "@types/ini": "^1.3.30",
+    "@types/js-base64": "^2.3.2",
+    "@types/jwt-decode": "^2.2.1",
+    "@types/mocha": "^8.2.3",
+    "@types/node": "^16.18.24",
+    "@types/sinon": "^9.0.5",
+    "@types/uuid": "^8.3.0",
+    "@types/vscode": "^1.53.0",
+    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/parser": "^5.3.1",
+    "chai": "^4.3.6",
+    "del": "^6.1.1",
+    "dir-compare": "^4.0.0",
+    "eslint": "7.30.0",
+    "glob": "^7.1.6",
+    "gulp": "^4.0.2",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "loader-utils": "^2.0.4",
+    "mocha": "^8.2.3",
+    "rewire": "^6.0.0",
+    "sinon": "^9.0.3",
+    "terser": "^5.14.2",
+    "ts-loader": "^8.0.3",
+    "ts-node": "^10.7.0",
+    "typescript": "4.1.3",
+    "vsce": "^1.79.5",
+    "vscode-nls-dev": "^4.0.0",
+    "vscode-test": "^1.4.0",
+    "webpack": "5.66.0",
+    "webpack-cli": "4.9.1",
+    "webpack-stream": "^7.0.0"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.9",
+    "async-constructor": "^0.4.17",
+    "ini": "^1.3.6",
+    "js-base64": "^3.5.2",
+    "jwt-decode": "^2.2.0",
+    "moment": "^2.29.4",
+    "oci-common": "2.50.1",
+    "oci-ide-plugin-base": "1.0.0",
+    "oci-identity": "2.50.1",
+    "oci-resourcesearch": "2.50.1",
+    "semver": "^7.3.7",
+    "uuid": "^8.3.0",
+    "vscode-icons-js": "^11.6.1",
+    "vscode-nls": "^5.0.1"
+  }
+}

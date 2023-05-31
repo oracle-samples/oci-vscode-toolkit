@@ -1,0 +1,1 @@
+{"profileTreeProviderErrorMsg":"프로파일 트리 제공자를 생성하는 중 누락된 파일 때문에 실패했습니다.","tokenExpiredErrorMsg":"토큰이 만료되었습니다. 다시 사인인하십시오.","signInAction":"사인인","signingInMsg":"사인인 중...","authProviderErrorMsg":"OCI API 호출용 인증 제공자를 생성하는 중 오류 발생 "}

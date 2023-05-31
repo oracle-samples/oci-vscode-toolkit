@@ -1,0 +1,1 @@
+{"getCompartmentsErrorMsg":"เกิดข้อผิดพลาดในการดึงข้อมูลคอมพาร์ทเมนต์สำหรับ ID รูท","getResourcesErrorMsg":"เกิดข้อผิดพลาดในการดึงข้อมูลทรัพยากรสำหรับคอมพาร์ทเมนต์ ","getSubscribedRegionsErrorMsg":"เกิดข้อผิดพลาดในการดึงข้อมูลภูมิภาคที่สมัครใช้งานทรัพยากร","getCompartmentByIdErrorMsg":"เกิดข้อผิดพลาดใน getCompartment API สำหรับ OCID ที่ระบุ "}
