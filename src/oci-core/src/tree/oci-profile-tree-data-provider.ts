@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved.
+ * Copyright © 2022, 2023, Oracle and/or its affiliates.
  * This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.
  */
 
@@ -13,8 +13,8 @@ import {IOCIProfileTreeDataProvider} from '../userinterface/profile-tree-data-pr
 import {IOCIProfile} from '../profilemanager/profile';
 import { getLogger } from '../logger/logging';
 import { getTenancyName } from "../api/oci-sdk-client";
-import { AsyncConstructor } from 'async-constructor';
 import * as nls from 'vscode-nls';
+import { ext } from '../extension-vars';
 
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
 
@@ -22,7 +22,7 @@ const logger = getLogger("oci-vscode-toolkit");
 let profileLabel: string = "";
 
 // This is the tree view with Profile node as root
-export class OCIProfileTreeDataProvider extends AsyncConstructor
+export class OCIProfileTreeDataProvider 
     implements vscode.TreeDataProvider<IRootNode>, IOCIProfileTreeDataProvider {
     private readonly _onDidChangeTreeData: vscode.EventEmitter<
         BaseNode | undefined
@@ -41,8 +41,7 @@ export class OCIProfileTreeDataProvider extends AsyncConstructor
         rootNodeCreatorFunc?: NodeCreatorFunc,
         profileChildrenCreatorFunc?: NodeCreatorFunc,
     ) {
-        super(async () => {
-            profileLabel = await getProfileLabel(profile);
+            profileLabel = ext.tenancyName;
             if (ociConfigExists) {
                 this._rootNode = new OCIProfileNode(
                     profile,
@@ -64,7 +63,6 @@ export class OCIProfileTreeDataProvider extends AsyncConstructor
                     vscode.TreeItemCollapsibleState.None,
                 );
             }
-          });
           this._rootNodeCreator = rootNodeCreatorFunc;
           this._childNodeCreator = profileChildrenCreatorFunc;
     }
@@ -121,6 +119,7 @@ export class OCIProfileTreeDataProvider extends AsyncConstructor
     // Trigger the profile change
     async switchProfile(profile: IOCIProfile): Promise<void> {
         profileLabel = await getProfileLabel(profile);
+        ext.tenancyName = profileLabel;
         this._rootNode = new OCIProfileNode(
             profile,
             profile.getProfileName(),

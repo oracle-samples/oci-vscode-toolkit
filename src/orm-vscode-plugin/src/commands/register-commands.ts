@@ -37,6 +37,7 @@ const localize: nls.LocalizeFunc = nls.loadMessageBundle();
          vscode.env.openExternal(vscode.Uri.parse("https://github.com/oracle-samples/oci-vscode-toolkit/issues"));
      }),
  );
+ vscode.commands.executeCommand('setContext', 'enableRMSViewTitleMenus', true);
 }
 
  export function registerItemContextCommands(context: vscode.ExtensionContext) {

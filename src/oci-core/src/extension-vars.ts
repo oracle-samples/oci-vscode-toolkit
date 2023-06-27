@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved.
+ * Copyright © 2022, 2023, Oracle and/or its affiliates.
  * This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.
  */
 
@@ -14,6 +14,7 @@ export namespace ext {
     export let treeDataProvider: IOCIProfileTreeDataProvider;
     export let treeView: TreeView<IRootNode>;
     export let hasAccount: boolean;
+    export let tenancyName: string;
 
     export let api: IOCIApi;
     export let onProfileChangedEventEmitter: EventEmitter<IOCIProfile>;

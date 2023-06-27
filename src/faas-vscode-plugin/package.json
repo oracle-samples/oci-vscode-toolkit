@@ -1,8 +1,9 @@
 {
   "_comment": "Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
   "name": "faas",
-  "description": "faas-vscode-plugin",
-  "version": "1.0.0",
+  "displayName": "OCI Functions",
+  "description": "Create, edit, deploy and invoke OCI functions within VS Code.",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.53.2"
   },
@@ -22,7 +23,7 @@
     "url": "https://github.com/oracle-samples/oci-vscode-toolkit/issues"
   },
   "galleryBanner": {
-    "color": "#FF9900",
+    "color": "#FFFFFF",
     "theme": "light"
   },
   "keywords": [
@@ -178,12 +179,12 @@
       "view/title": [
         {
           "command": "faas.refreshTree",
-          "when": "view == faas",
+          "when": "view == faas && enableFunctionsViewTitleMenus",
           "group": "navigation"
         },
         {
           "command": "faas.openIssueInGithub",
-          "when": "view == faas && !cloudEditorEnv",
+          "when": "view == faas && (!cloudEditorEnv) && enableFunctionsViewTitleMenus",
           "group": "navigation"
         }
       ],
@@ -349,7 +350,7 @@
     "typescript": "^4.4.4",
     "vsce": "1.92.0",
     "vscode-extension-tester": "^4.2.0",
-    "vscode-nls-dev": "^4.0.0",
+    "vscode-nls-dev": "^4.0.4",
     "vscode-test": "^1.4.0",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
@@ -361,7 +362,7 @@
     "oci-common": "^2.50.1",
     "oci-core": "^2.50.1",
     "oci-functions": "^2.50.1",
-    "oci-ide-plugin-base": "1.0.0",
+    "oci-ide-plugin-base": "1.0.1",
     "oci-identity": "^2.50.1",
     "oci-objectstorage": "^2.50.1",
     "oci-resourcesearch": "^2.50.1",

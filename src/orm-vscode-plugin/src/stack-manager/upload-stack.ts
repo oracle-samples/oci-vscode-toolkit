@@ -10,13 +10,14 @@ import { updateTfConfig } from "../api/objectstore-client";
 import { getStack, updateStack } from "../api/orm-client";
 import { ext } from "../extensionVars";
 import { logger } from "../utils/get-logger";
-import { ProgressLocation, window } from 'vscode';
+import { ProgressLocation, window, } from 'vscode';
 import { UpdateStackResponse } from "oci-resourcemanager/lib/response/update-stack-response";
 import { getResourceManagerArtifactHook, getResourceManagerFolder } from "../common/fileSystem/local-terraform-config";
 import { getTfConfigFiles, readFileAndEncodeContentBase64 } from "../common/fileSystem/file-system";
 import { zip } from "../common/fileSystem/zip";
 import path = require("path");
 import * as nls from "vscode-nls";
+import * as vscode from 'vscode';
 import { METRIC_INVOCATION, METRIC_SUCCESS, METRIC_FAILURE } from "oci-ide-plugin-base/dist/monitoring/monitoring";
 import { Service } from "oci-ide-plugin-base/dist/monitoring/service";
 import { MONITOR } from "../common/monitor";
@@ -82,7 +83,7 @@ export async function deployStack(stack: Stack) {
                     cancellable: false,
                 },
             async (progress) => {
-                    progress.report({ message: localize('deployStackZipUploadMsg', 'Uploading the Terraform configuration to the stack in Resource Manager…') });
+                    progress.report({ message: localize('deployStackZipUploadMsg', 'Saving changes and uploading the Terraform configuration to the stack in Resource Manager…') });
                     return await updateStack(stack, configSource);
                 },
             );

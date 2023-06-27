@@ -7,3 +7,13 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [1.0.0]
 
 - Initial release
+
+## 1.0.1 - 2023-06-22
+
+### Changed
+
+- Changed display name and description of the plugin
+
+### Fixed
+
+- Enable view title menus only when tree view is loaded

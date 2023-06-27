@@ -33,6 +33,7 @@ export async function activate(context: vscode.ExtensionContext) {
         const compartmentsExtension = vscode.extensions.getExtension(
             'Oracle.oci-core',
         );
+        vscode.commands.executeCommand('setContext', 'enableDataScienceViewTitleMenus', false);
         if (!compartmentsExtension) {
             const ociCoreNotLoadedErrorMsg = localize('ociCoreNotLoadedErrorMsg','Failed to load the Compartments extension.');
             throw new Error(ociCoreNotLoadedErrorMsg);
@@ -46,11 +47,11 @@ export async function activate(context: vscode.ExtensionContext) {
         });
     
         if (ext.api.accountExists()) {
+            await setupTreeView();
             await registerItemContextCommands(ext.context);
             await registerNavigationCommands(ext.context);
             await registerMenuActionLinks(ext.context);
             await registerGenericCommands(ext.context);
-            await setupTreeView();
         }
         
         MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_SUCCESS, 'odsc-activate', undefined));    
