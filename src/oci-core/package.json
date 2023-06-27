@@ -369,7 +369,7 @@
     "gulp": "^4.0.2",
     "gulp-typescript": "^6.0.0-alpha.1",
     "loader-utils": "^2.0.4",
-    "mocha": "^8.2.3",
+    "mocha": "^10.2.0",
     "rewire": "^6.0.0",
     "sinon": "^9.0.3",
     "terser": "^5.14.2",
