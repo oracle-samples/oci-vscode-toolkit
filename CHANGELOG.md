@@ -25,7 +25,3 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Fixed
 - Enable view title menus in plugins only when tree view is loaded.
-
-
-
-
