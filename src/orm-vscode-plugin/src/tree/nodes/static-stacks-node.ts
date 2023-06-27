@@ -44,7 +44,7 @@ export class StacksNode extends StaticNode {
       let jobStateResponse = await Promise.all(fetchLatestJobPromises);
       for ( let i = 0; i < responses.length; i++) {
         stacks[i].context = `${OCIStackNodeItem.context}_${responses[i].stack.configSource?.configSourceType === GitConfigSource.configSourceType ? GitConfigSource.configSourceType : "NOT_GIT_BASED"}`;
-        stacks[i].tooltip = `${JobRunLifecycleStateProperties.getTooltip(jobStateResponse[i]?.operation!, jobStateResponse[i]?.lifecycleState!)}`;
+        stacks[i].tooltip = `${JobRunLifecycleStateProperties.getTooltip(jobStateResponse[i]?.operation!, jobStateResponse[i]?.lifecycleState!)}. To save later updates, right-click the stack and choose 'Save changes'.`;
         stacks[i].darkIcon = JobRunLifecycleStateProperties.getIconPath(jobStateResponse[i]?.lifecycleState!, 'dark');
         stacks[i].lightIcon = JobRunLifecycleStateProperties.getIconPath(jobStateResponse[i]?.lifecycleState!, 'light');
       }

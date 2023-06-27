@@ -74,7 +74,7 @@ export async function registerItemContextCommands(context: vscode.ExtensionConte
             vscode.env.openExternal(vscode.Uri.parse("https://github.com/oracle-samples/oci-vscode-toolkit/issues"));
         }),
     );
-
+    vscode.commands.executeCommand('setContext', 'enableDataScienceViewTitleMenus', true);
     context.subscriptions.push(...OCIJobRunNode.contextItemCommands);
     context.subscriptions.push(...OCIJobNode.contextItemCommands);
 }

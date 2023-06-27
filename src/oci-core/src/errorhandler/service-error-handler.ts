@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved.
+ * Copyright © 2022, 2023, Oracle and/or its affiliates.
  * This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.
  */
 import { OciError } from "oci-common/lib/error";
@@ -13,7 +13,7 @@ export async function handleServiceError(errorMessage: string, exception: OciErr
     throw new OciExtensionError(message);
 }
 
-export const check_policy_message = localize("checkPolicyMessage", "Please check if resource exists and have proper policy setup under tenancy");
+export const check_policy_message = localize("checkPolicyMessage", "Please check if resource exists and has proper policy setup under tenancy");
 
 export async function constructMessage(errorMessage: string, exception: OciError): Promise<string> {
     let message: string = `${errorMessage} ${exception.message}`;

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved.
+ * Copyright © 2022, 2023, Oracle and/or its affiliates.
  * This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.
  */
 import { getCompartmentIdsWithAncestorsExcludingRoot } from "oci-ide-plugin-base/dist/common/compartment/compartment-operations";
@@ -29,8 +29,8 @@ export async function getCompartmentsWithResourceTypes({
             rootCompartmentId: parentCompartmentId,
             allCompartments: false
         });
-        if (!childCompartments) return [];
-        if (!resourceTypes) return childCompartments
+        if (!childCompartments) {return [];}
+        if (!resourceTypes) {return childCompartments;}
 
         // Get compartments/subcompartments with resources under tenancy
         const resourceCompartmentsUnderTenancy: string[] = await getResourceCompartmentsUnderTenancy(profileName);
@@ -91,7 +91,7 @@ async function getResourcesUnderTenancy(resourceTypes: string[], compartmentId?:
 }
 
 export async function isResourceFoundInCompartment(resourceTypes: string[], compartmentId: string) {
-    if (resourceTypes.length === 0) return false;
+    if (resourceTypes.length === 0) {return false;}
     const items: ResourceSummary[] = await getResourcesUnderTenancy(resourceTypes, compartmentId);
     return items.length > 0;
 }

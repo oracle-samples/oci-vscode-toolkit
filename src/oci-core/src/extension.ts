@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved.
+ * Copyright © 2022, 2023, Oracle and/or its affiliates.
  * This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.
  */
 
@@ -16,9 +16,11 @@ import { installOCICLI } from './commands/install-oci-cli';
 import { setupStatusBar, updateRegionStatusBar, updateProfileStatusBar } from './ui/status-bar';
 import { setupTreeView } from './ui/tree-view';
 import { registerCommands, registerNavigationCommands } from './ui/commands/register-commands';
+import { getTenancyName } from './api/oci-sdk-client';
 
 export async function activate(context: ExtensionContext) {
     commands.executeCommand('setContext', 'OCIConfigExists', true);
+    commands.executeCommand('setContext', 'enableOCICoreViewTitleMenus', false);
     ext.hasAccount = true;
 
     // Create event emitters
@@ -54,8 +56,11 @@ export async function activate(context: ExtensionContext) {
     // Register all commands (except the navigation ones)
     registerCommands(context,regionStatusBarItem,profileStatusBarItem);
     if (ociAccountExists) {
-        await registerNavigationCommands(ext.context);
+
+        const defaultprofile = ext.api.getCurrentProfile();
+        ext.tenancyName = await getTenancyName(defaultprofile.getTenancy()).then((response)=>{return response;});
         await setupTreeView();
+        await registerNavigationCommands(ext.context);
 
         if (!getCloudShellConfigIfExists()) {
             updateRegionStatusBar(regionStatusBarItem, ext.api.getCurrentProfile().getRegionName());

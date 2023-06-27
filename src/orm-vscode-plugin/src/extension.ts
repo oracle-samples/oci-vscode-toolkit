@@ -23,6 +23,7 @@ const localize: nls.LocalizeFunc = nls.loadMessageBundle();
         const compartmentsExtension = vscode.extensions.getExtension(
             'Oracle.oci-core',
         );
+        vscode.commands.executeCommand('setContext', 'enableRMSViewTitleMenus', false);
         if (!compartmentsExtension) {
             throw new Error(localize('ociCoreNotLoadedErrorMsg', 'Failed to load the Compartments extension.'));
         }
@@ -36,13 +37,14 @@ const localize: nls.LocalizeFunc = nls.loadMessageBundle();
         });
     
         if (ext.api.accountExists()) {
+            await setupTreeView();
             registerItemContextCommands(ext.context);
             registerNavigationCommands(ext.context);
             registerGenericCommands(ext.context);
-            await setupTreeView();
         }
         await initializeRMSClient(ext.api.getCurrentProfile());
-        MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_SUCCESS, 'rms-activate', undefined));    
+        MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_SUCCESS, 'rms-activate', undefined));
+        vscode.window.showInformationMessage("Welcome to Resource Manager. To save updates to a stack, right-click the stack and choose 'Save changes'.");    
     } catch (error) {
         MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_FAILURE, 'rms-activate', undefined, undefined, JSON.stringify(error)));        
         throw error;    
