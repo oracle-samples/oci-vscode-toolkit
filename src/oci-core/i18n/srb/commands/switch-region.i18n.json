@@ -1,1 +1,1 @@
-{"regionPlaceHolderText":"Изаберите OCI регион","invalidRegionErrorMsg":"Регион изабран у упиту није важећи. Изаберите важећи упит {0}","switchRegionErrorMsg":"Грешка приликом пребацивања региона из упита "}
+{"regionPlaceHolderText":"Изаберите OCI регион","invalidRegionErrorMsg":"Регион {0}, који је изабран у упиту, није важећи. Изаберите важећи регион.","switchRegionErrorMsg":"Грешка приликом пребацивања региона из упита "}

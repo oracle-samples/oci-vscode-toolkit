@@ -1,1 +1,1 @@
-{"regionPlaceHolderText":"Selectaţi o regiune OCI","invalidRegionErrorMsg":"Regiunea selectată din prompt nu este validă. Selectaţi un prompt valid: {0}","switchRegionErrorMsg":"Eroare la comutarea regiunii din prompt"}
+{"regionPlaceHolderText":"Selectaţi o regiune OCI","invalidRegionErrorMsg":"Regiunea {0} selectată din prompt nu este validă. Selectaţi o regiune validă.","switchRegionErrorMsg":"Eroare la comutarea regiunii din prompt"}

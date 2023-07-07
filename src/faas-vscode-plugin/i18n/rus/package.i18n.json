@@ -1,1 +1,22 @@
-{"faas.refreshTree.title":"Обновить","faas.createNewOCIApplication.title":"Создание приложения","faas.createOCIFunction.title":"Создать функцию...","faas.deleteOCIApplication.title":"Удалить приложение","faas.editOCIApplication.title":"Изменить приложение","faas.deployOCIFunction.title":"Развернуть функцию...","faas.openIssueInGithub.title":"Создание сообщения о проблеме в Github","faas.editOCIFunction.title":"Редактировать функцию...","faas.deleteOCIFunction.title":"Удаление функции","faas.invokeOCIFunction.title":"Вызвать функцию...","faas.editConfiguration.title":"Изменить настройку","faas.editFunctionSettings.title":"Изменение настроек функции","faas.filterCompartment.title":"Поиск отделения","faas.launch.title":"Запуск потока операций","faas.createFile.title":"Новый файл","faas.createDirectory.title":"Создать папку","faas.deletefileOrDir.title":"Удалить","faas.view.title":"Функции"}
+{
+    "_comment": "Copyright (c) 2022, 2023, Корпорация Oracle и аффилированные с ней лица. Данное программное обеспечение лицензировано в рамках Universal Permissive License (UPL) 1.0, см. https://oss.oracle.com/licenses/upl.",
+    "faas.refreshTree.title": "Обновить",
+    "faas.createNewOCIApplication.title": "Создание приложения",
+    "faas.createOCIFunction.title": "Создать функцию...",
+    "faas.deleteOCIApplication.title": "Удалить приложение",
+    "faas.editOCIApplication.title": "Изменить приложение",
+    "faas.deployOCIFunction.title": "Развернуть функцию...",
+    "faas.openIssueInGithub.title": "Создание сообщения о проблеме в Github",
+    "faas.editOCIFunction.title": "Редактировать функцию...",
+    "faas.deleteOCIFunction.title": "Удаление функции",
+    "faas.invokeOCIFunction.title": "Вызвать функцию...",
+    "faas.editConfiguration.title": "Изменить настройку",
+    "faas.editFunctionSettings.title": "Изменение настроек функции",
+    "faas.filterCompartment.title": "Поиск отделения",
+    "faas.launch.title": "Запуск потока операций",
+    "faas.createFile.title": "Новый файл",
+    "faas.createDirectory.title": "Создать папку",
+    "faas.deletefileOrDir.title": "Удалить",
+    "faas.view.title": "Функции",
+    "faas.openInTerminal.title": "Открыть в терминале"
+}

@@ -39,6 +39,11 @@ There are two ways to get the config file
 
     ![](./media/images/readme/sign_in_workflow_a.gif)
 
+## Switch-Region
+
+The user can switch to different subscribed OCI regions from this wizard.
+  <img src="./media/images/readme/switch-region.gif"  width="600" height="300">  
+
 ## OCI CLI
 
 The OCI Toolkit for VS Code comes with the OCI CLI.  Users can effortlessly perform common platform actions, such as creating and managing OCI resources using the built-in OCI CLI in the VS Code terminal. Further, leverage the [OCI CLI's interactive mode](https://blogs.oracle.com/cloud-infrastructure/post/announcing-interactive-mode-for-oracle-cloud-infrastructure-command-line-interface) to simplify resource management tasks with command and parameter suggestions, auto-completing, and command reference information.

@@ -1,9 +1,9 @@
 {
-  "_comment": "Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
+  "_comment": "Copyright © 2022, 2023, Oracle and/or its affiliates. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
   "name": "odsc",
   "displayName": "OCI Data Science",
   "description": "Edit OCI job artifacts, create new job artifacts from existing job artifacts and run Data Science jobs natively.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "engines": {
     "vscode": "^1.64.2"
   },
@@ -147,6 +147,11 @@
         "view": "odsc",
         "when": "!cloudEditorEnv && !OCIConfigExists",
         "contents": "Looks like you don't have an OCI account.\n[Create an OCI account](command:oci-core.newOCIAccount)\n[Sign in to an existing account](command:oci-core.createNewProfile)"
+      },
+      {
+        "view": "odsc",
+        "when": "(cloudEditorEnv || OCIConfigExists) && UnAuthorizedAccess",
+        "contents": "\nAuthorization failed or requested resource not found.\nPlease check if resource exists and has proper policy setup under tenancy"
       }
     ],
     "menus": {
@@ -330,7 +335,7 @@
     "oci-common": "^2.50.1",
     "oci-core": "^2.50.1",
     "oci-datascience": "^2.50.1",
-    "oci-ide-plugin-base": "1.0.1",
+    "oci-ide-plugin-base": "1.0.2",
     "oci-identity": "^2.50.1",
     "oci-loggingsearch": "^2.50.1",
     "oci-resourcesearch": "^2.50.1",

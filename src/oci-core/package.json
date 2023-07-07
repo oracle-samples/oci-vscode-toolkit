@@ -3,7 +3,7 @@
   "name": "oci-core",
   "displayName": "OCI Core Extension",
   "description": "Base plugin of the OCI Toolkit extension pack. It provides common functionality shared among the OCI service extensions, including Functions, Resource Manager and Data Science such as integrated Sign-in, Profile Management, Region selection, Logging, Error notifications and more.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "engines": {
     "vscode": "^1.53.0"
   },
@@ -254,8 +254,13 @@
     "viewsWelcome": [
       {
         "view": "oci-core",
-        "when": "!cloudEditorEnv",
+        "when": "!cloudEditorEnv && !OCIConfigExists",
         "contents": "Looks like you don't have an OCI account.\n[Create an OCI account](command:oci-core.newOCIAccount)\n[Sign in to an existing account](command:oci-core.createNewProfile)"
+      },
+      {
+        "view": "oci-core",
+        "when": "(cloudEditorEnv || OCIConfigExists) && UnAuthorizedAccess",
+        "contents": "\nAuthorization failed or requested resource not found.\nPlease check if resource exists and has proper policy setup under tenancy"
       }
     ],
     "menus": {
@@ -389,10 +394,10 @@
     "js-base64": "^3.5.2",
     "jwt-decode": "^2.2.0",
     "moment": "^2.29.4",
-    "oci-common": "2.50.1",
-    "oci-ide-plugin-base": "1.0.1",
-    "oci-identity": "2.50.1",
-    "oci-resourcesearch": "2.50.1",
+    "oci-common": "2.63.0",
+    "oci-ide-plugin-base": "1.0.2",
+    "oci-identity": "2.63.0",
+    "oci-resourcesearch": "2.63.0",
     "semver": "^7.3.7",
     "uuid": "^8.3.0",
     "vscode-icons-js": "^11.6.1",

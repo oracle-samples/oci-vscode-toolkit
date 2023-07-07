@@ -1,1 +1,1 @@
-{"regionPlaceHolderText":"选择 OCI 区域","invalidRegionErrorMsg":"根据提示选择的区域无效。请选择有效提示 {0}","switchRegionErrorMsg":"根据提示切换区域时出错"}
+{"regionPlaceHolderText":"选择 OCI 区域","invalidRegionErrorMsg":"根据提示选择的区域 {0} 无效。请选择有效区域。","switchRegionErrorMsg":"根据提示切换区域时出错"}

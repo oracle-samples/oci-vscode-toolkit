@@ -24,3 +24,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Enable view title menus only when tree view is loaded.
 
+## 1.0.2 - 2023-07-06
+
+### Added
+
+- Display error notification dialogue when user doesn't have enough permissions while loading the Resource Manager plugin.
+
+### Fixed
+
+- Translations for strings in the Resource Manager plugin.

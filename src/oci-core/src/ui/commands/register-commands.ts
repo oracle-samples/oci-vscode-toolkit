@@ -72,13 +72,8 @@ export async function registerCommands(context: ExtensionContext, regionStatusBa
         commands.registerCommand(
             createFullCommandName('viewInBrowser'),
             async (node: IOCIResourceNode) => {
-                const compartmentId = node.getResourceId();
-                const consoleUrl = node.getConsoleUrl(
-                    ext.api.getCurrentProfile().getRegionName(),
-                );
-                assert(compartmentId);
+                const consoleUrl = node.getConsoleUrl(ext.api.getCurrentProfile().getRegionName());
                 assert(consoleUrl);
-
                 await env.openExternal(Uri.parse(await consoleUrl));
             },
         ),
@@ -128,25 +123,21 @@ export async function registerCommands(context: ExtensionContext, regionStatusBa
             createFullCommandName('switchRegion'),
             async (regionToChange?: string) => {
                 try {
-                    const currentProfile = ext.api.getCurrentProfile();
-
                     if (typeof regionToChange === 'string' && regionToChange && getCloudShellConfigIfExists()) {
                         // Command called from code editor with arg
                         ext.api.region = regionToChange;
-                        currentProfile.setRegionName(regionToChange);
                     }
                     else {
                         // Command called from from vscode
-                        let newRegion = await switchRegion(currentProfile);
+                        let newRegion = await switchRegion(ext.api.getCurrentProfile());
                         // Return if user canceled out of the UI
                         if (!newRegion) {
                             return;
                         }
                         ext.api.region = newRegion.regionName;
-                        currentProfile.setRegionName(newRegion.regionName);
                         updateRegionStatusBar(regionStatusBarItem, newRegion.regionName);
                     }
-                    ext.onProfileChangedEventEmitter.fire(currentProfile);
+                    ext.onProfileChangedEventEmitter.fire(ext.api.getCurrentProfile());
                 } catch (error) {
                     const switchRegionErrorMsg = localize("switchRegionErrorMsg", "Error occured in changing region ");
                     logger.error(switchRegionErrorMsg, error);
@@ -250,7 +241,7 @@ export async function registerCommands(context: ExtensionContext, regionStatusBa
                     await commands.executeCommand('vscode.openFolder');
                 }
                 // Change the profile setting
-                const cfg = workspace.getConfiguration('Oracle');
+                const cfg = workspace.getConfiguration('oci');
 
                 await cfg.update(
                     'defaultProfileName',

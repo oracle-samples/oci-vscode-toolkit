@@ -1,1 +1,1 @@
-{"getTfFilesByZipUploadErrorMsg":"ZipUpload 유형의 {0} 스택에 대한 .tf 파일을 처리하는 중 오류 발생: ","getTfFilesByObjectStoreErrorMsg":"객체 저장소 유형의 {0} 스택에 대한 .tf 파일을 처리하는 중 오류 발생","getTfFilesByGitErrorMsg":"객체 저장소 유형의 {0} 스택에 대한 .tf 파일을 처리하는 중 오류 발생"}
+{"getTfFilesByZipUploadErrorMsg":"ZipUpload 유형의 {0} 스택에 대한 .tf 파일을 처리하는 중 오류 발생: ","getTfFilesByObjectStoreErrorMsg":"객체 저장소 유형의 {0} 스택에 대한 .tf 파일을 처리하는 중 오류 발생","gitCloneFailedMsg":"Git 복제 실패","getTfFilesByGitErrorMsg":"Git 제공자 유형의 {0} 스택에 대한 .tf 파일을 처리하는 중 오류 발생"}

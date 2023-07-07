@@ -54,6 +54,11 @@ export const userFriendlyRegionsMap = new Map<string, string>([
   ["ca-toronto-1", "Canada Southeast (Toronto)"], // OC1
   ["eu-zurich-1", "Switzerland North (Zurich)"], // OC1
   ["eu-stockholm-1", "Sweden Central (Stockholm)"], // OC1
+  ["af-johannesburg-1", "South Africa Central (Johannesburg)"], // OC1
+  ["eu-paris-1", "France Central (Paris)"], // OC1
+  ["mx-queretaro-1", "Mexico Central (Queretaro)"], // OC1
+  ["eu-madrid-1", "Spain Central (Madrid)"], // OC1
+  ["us-chicago-1", "US Midwest (Chicago)"], // OC1
 
   ["us-langley-1", "US Gov East (Ashburn)"], // OC2
   ["us-luke-1", "US Gov West (Phoenix)"], // OC2
@@ -66,7 +71,24 @@ export const userFriendlyRegionsMap = new Map<string, string>([
   ["uk-gov-london-1", "UK Gov South (London)"], // OC4
 
   ["ap-chiyoda-1", "NRI Dedicated Region"], // OC8
-  ["ap-ibaraki-1", "NRI Dedicated Region (Osaka)"]// OC8
+  ["ap-ibaraki-1", "NRI Dedicated Region (Osaka)"], // OC8
+
+  ["me-dcc-muscat-1", "Oman Dedicated Region"], // OC9
+
+  ["ap-dcc-canberra-1", "Australia Dedicated Region (Canberra)"], // OC10
+
+  ["eu-dcc-milan-1", "Vodafone Dedicated Region (Milan 1))"],  // OC14
+  ["eu-dcc-milan-2", "Vodafone Dedicated Region (Milan 2)"],  // OC14
+  ["eu-dcc-dublin-2", "Vodafone Dedicated Region (Dublin 2)"], // OC14
+  ["eu-dcc-rating-2", "Vodafone Dedicated Region (Ratingen 2)"], // OC14
+  ["eu-dcc-rating-1", "Vodafone Dedicated Region (Ratingen 1)"], // OC14
+  ["eu-dcc-dublin-1", "Vodafone Dedicated Region (Dublin 1)	"], // OC14
+
+  ["eu-jovanovac-1", "Serbia Central (Jovanovac)"], // OC20
+
+  ["eu-madrid-2", "EU Sovereign South (Madrid)"], // OC19
+  ["eu-frankfurt-2", "EU Sovereign Central (Frankfurt)"], // OC19
+
 ]);
 
 regionsList.forEach((element) => {

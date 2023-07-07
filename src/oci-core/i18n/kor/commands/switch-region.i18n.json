@@ -1,1 +1,1 @@
-{"regionPlaceHolderText":"OCI 영역 선택","invalidRegionErrorMsg":"프롬프트에서 선택된 영역이 부적합합니다. 적합한 프롬프트를 선택하십시오. {0}","switchRegionErrorMsg":"프롬프트에서 영역을 전환하는 중 오류 발생 "}
+{"regionPlaceHolderText":"OCI 영역 선택","invalidRegionErrorMsg":"프롬프트에서 선택된 {0} 영역이 부적합합니다. 적합한 영역을 선택하십시오.","switchRegionErrorMsg":"프롬프트에서 영역을 전환하는 중 오류 발생 "}

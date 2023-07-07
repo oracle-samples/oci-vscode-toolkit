@@ -1,1 +1,1 @@
-{"regionPlaceHolderText":"Sélectionner une région OCI","invalidRegionErrorMsg":"La région sélectionnée à partir de l'invite n'est pas valide. Sélectionnez une invite valide {0}","switchRegionErrorMsg":"Erreur lors du changement de région à partir de l'invite "}
+{"regionPlaceHolderText":"Sélectionner une région OCI","invalidRegionErrorMsg":"La région {0} sélectionnée à partir de l'invite n'est pas valide. Sélectionnez une région valide.","switchRegionErrorMsg":"Erreur lors du changement de région à partir de l'invite "}

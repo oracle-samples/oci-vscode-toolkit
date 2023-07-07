@@ -5,7 +5,7 @@
 
 import {
     ExtensionContext,
-    EventEmitter, commands
+    EventEmitter, commands, window
 } from 'vscode';
 import { IOCIProfile } from './profilemanager/profile';
 import { IRootNode } from './userinterface/root-node';
@@ -17,6 +17,7 @@ import { setupStatusBar, updateRegionStatusBar, updateProfileStatusBar } from '.
 import { setupTreeView } from './ui/tree-view';
 import { registerCommands, registerNavigationCommands } from './ui/commands/register-commands';
 import { getTenancyName } from './api/oci-sdk-client';
+import { OciExtensionError } from './errorhandler/oci-plugin-error';
 
 export async function activate(context: ExtensionContext) {
     commands.executeCommand('setContext', 'OCIConfigExists', true);
@@ -54,25 +55,34 @@ export async function activate(context: ExtensionContext) {
     }
 
     // Register all commands (except the navigation ones)
-    registerCommands(context,regionStatusBarItem,profileStatusBarItem);
+    registerCommands(context, regionStatusBarItem, profileStatusBarItem);
     if (ociAccountExists) {
+        try {
+            const defaultprofile = ext.api.getCurrentProfile();
+            ext.tenancyName = await getTenancyName(defaultprofile.getTenancy()).then((response) => { return response; });
+            await setupTreeView();
+            await registerNavigationCommands(ext.context);
 
-        const defaultprofile = ext.api.getCurrentProfile();
-        ext.tenancyName = await getTenancyName(defaultprofile.getTenancy()).then((response)=>{return response;});
-        await setupTreeView();
-        await registerNavigationCommands(ext.context);
-
-        if (!getCloudShellConfigIfExists()) {
-            updateRegionStatusBar(regionStatusBarItem, ext.api.getCurrentProfile().getRegionName());
-            updateProfileStatusBar(profileStatusBarItem, ext.api.getCurrentProfile().getProfileName());
+            if (!getCloudShellConfigIfExists()) {
+                updateRegionStatusBar(regionStatusBarItem, ext.api.getCurrentProfile().getRegionName());
+                updateProfileStatusBar(profileStatusBarItem, ext.api.getCurrentProfile().getProfileName());
+            }
+            ext.api.onSignInCompleted((profile: string) =>
+                ext.treeDataProvider.refresh(undefined),
+            );
+            return Promise.resolve(ociAccount.api);
+        }
+        catch (error) {
+            if (error instanceof OciExtensionError) {
+                const ociExtensionError = error;
+                if ((ociExtensionError.statusCode === 404) && ociExtensionError.serviceError && (ociExtensionError.serviceError.serviceCode === 'NotAuthorizedOrNotFound')) {
+                    commands.executeCommand('setContext', 'UnAuthorizedAccess', true);
+                    window.showErrorMessage(`Activating extension 'Oracle.oci-core' failed: ${ociExtensionError.message}`, { modal: true });
+                }
+            }
+            throw error;
         }
     }
-
-    ext.api.onSignInCompleted((profile: string) =>
-        ext.treeDataProvider.refresh(undefined),
-    );
-    return Promise.resolve(ociAccount.api);
-
 }
 
 export function deactivate() { }

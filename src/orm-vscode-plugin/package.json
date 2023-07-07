@@ -1,11 +1,11 @@
 {
-  "_comment": "Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
+  "_comment": "Copyright © 2022, 2023, Oracle and/or its affiliates. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
   "name": "rms",
   "displayName": "OCI Resource Manager",
   "description": "Edit, plan and deploy OCI Resource Manager Configurations stored in Object Storage or a Code repository.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "engines": {
-    "vscode": "^1.64.2"
+    "vscode": "^1.54.0"
   },
   "categories": [
     "Other"
@@ -143,6 +143,11 @@
         "view": "rms",
         "when": "!cloudEditorEnv && !OCIConfigExists",
         "contents": "Looks like you don't have an OCI account.\n[Create an OCI account](command:oci-core.newOCIAccount)\n[Sign in to an existing account](command:oci-core.createNewProfile)"
+      },
+      {
+        "view": "rms",
+        "when": "(cloudEditorEnv || OCIConfigExists) && UnAuthorizedAccess",
+        "contents": "\nAuthorization failed or requested resource not found.\nPlease check if resource exists and has proper policy setup under tenancy"
       }
     ],
     "menus": {
@@ -315,7 +320,7 @@
     "glob": "^7.1.6",
     "js-yaml": "^3.14.0",
     "oci-common": "2.50.1",
-    "oci-ide-plugin-base": "1.0.1",
+    "oci-ide-plugin-base": "1.0.2",
     "oci-identity": "2.50.1",
     "oci-objectstorage": "2.50.1",
     "oci-resourcemanager": "2.50.1",

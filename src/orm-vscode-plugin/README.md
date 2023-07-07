@@ -119,7 +119,7 @@ Provides ability to clone a repository
 This project welcomes contributions from the community. Before submitting a pull request, please review our contribution guide.
 
 ## License
-Copyright (c) 2022 Oracle and/or its affiliates.
+Copyright © 2022 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

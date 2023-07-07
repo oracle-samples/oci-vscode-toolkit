@@ -12,7 +12,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Added
 
-
 - Added new notification banner when Resource Manager plugin is loaded.
 
 ### Changed
@@ -25,3 +24,23 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Fixed
 - Enable view title menus in plugins only when tree view is loaded.
+
+## 1.0.2 - 2023-07-06
+
+### Added
+
+- Added cannonical names for newly supported OCI regions.
+
+- Display error notification dialogue when user doesn't have enough permissions while loading the OCI Core extension, Data Science, Functions and Resource Manager plugins.
+
+### Removed
+
+- Async constructor library.
+
+### Fixed
+
+- Switch profile action in the tree view for switching between multiple OCI profiles.
+
+- Translations for strings for OCI Core extension, Data Science, Functions and Resource Manager plugins.
+
+- Change region action within the plugin to display current user selected region.

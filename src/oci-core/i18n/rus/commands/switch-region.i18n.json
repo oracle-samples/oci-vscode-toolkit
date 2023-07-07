@@ -1,1 +1,1 @@
-{"regionPlaceHolderText":"Выберите регион OCI","invalidRegionErrorMsg":"Недопустимый регион, выбранный в запросе. Выберите допустимый запрос {0}","switchRegionErrorMsg":"Ошибка переключения региона из запроса "}
+{"regionPlaceHolderText":"Выберите регион OCI","invalidRegionErrorMsg":"Недопустимый регион {0}, выбранный в запросе. Выберите допустимый регион.","switchRegionErrorMsg":"Ошибка переключения региона из запроса "}

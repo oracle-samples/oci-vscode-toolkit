@@ -1,1 +1,1 @@
-{"regionPlaceHolderText":"Selecionar uma região do OCI","invalidRegionErrorMsg":"A região selecionada pelo prompt não é válida. Selecione uma região válida {0}","switchRegionErrorMsg":"Erro ao mudar de região a partir do prompt "}
+{"regionPlaceHolderText":"Selecionar uma região do OCI","invalidRegionErrorMsg":"A região {0} selecionada para este prompt não é válida. Selecione uma região válida.","switchRegionErrorMsg":"Erro ao mudar de região a partir do prompt "}
