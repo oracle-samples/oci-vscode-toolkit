@@ -1,1 +1,1 @@
-{"regionPlaceHolderText":"Vælg en OCI-region","invalidRegionErrorMsg":"Region, der er valgt fra prompt, er ikke gyldig. Vælg en gyldig prompt {0}","switchRegionErrorMsg":"Fejl ved skift af region fra prompt "}
+{"regionPlaceHolderText":"Vælg en OCI-region","invalidRegionErrorMsg":"Regionen {0}, der er valgt fra prompt, er ikke gyldig. Vælg en gyldig region.","switchRegionErrorMsg":"Fejl i skift af region fra prompt "}

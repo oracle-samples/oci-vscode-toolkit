@@ -1,1 +1,1 @@
-{"regionPlaceHolderText":"เลือกภูมิภาค OCI","invalidRegionErrorMsg":"ภูมิภาคที่เลือกจากพรอมต์ไม่ถูกค้อง โปรดเลือกพรอมต์ที่ถูกต้อง {0}","switchRegionErrorMsg":"เกิดข้อผิดพลาดในการสลับภูมิภาคจากพรอมต์ "}
+{"regionPlaceHolderText":"เลือกภูมิภาค OCI","invalidRegionErrorMsg":"พื้นที่ {0} ที่เลือกจากพรอมต์ไม่ถูกต้อง โปรดเลือกพื้นที่ที่ถูกต้อง","switchRegionErrorMsg":"เกิดข้อผิดพลาดในการสลับภูมิภาคจากพรอมต์ "}

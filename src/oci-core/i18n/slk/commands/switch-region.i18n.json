@@ -1,1 +1,1 @@
-{"regionPlaceHolderText":"Vyberte oblasť OCI","invalidRegionErrorMsg":"Oblasť vybraná z výzvy je neplatná. Vyberte platnú výzvu {0}.","switchRegionErrorMsg":"Chyba pri prepínaní oblasti z výzvy "}
+{"regionPlaceHolderText":"Vyberte oblasť OCI","invalidRegionErrorMsg":"Oblasť {0} vybraná z výzvy je neplatná. Vyberte platnú oblasť.","switchRegionErrorMsg":"Chyba pri prepínaní oblasti z výzvy "}

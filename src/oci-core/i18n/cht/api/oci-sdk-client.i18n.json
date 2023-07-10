@@ -1,1 +1,1 @@
-{"getCompartmentsErrorMsg":"擷取根 ID 的區間時發生錯誤","getResourcesErrorMsg":"擷取區間的資源時發生錯誤 ","getSubscribedRegionsErrorMsg":"擷取資源訂閱區域時發生錯誤 ","getCompartmentByIdErrorMsg":"指定 OCID 的 getCompartment API 發生錯誤 "}
+{"getCompartmentsErrorMsg":"擷取根 ID {0} 的區間時發生錯誤.","getResourcesErrorMsg":"擷取 {0} 區間的資源時發生錯誤.","getSubscribedRegionsErrorMsg":"擷取訂閱的區域時發生錯誤 ","getCompartmentByIdErrorMsg":"所指定區間 OCID {0} 的 getCompartmet API 發生錯誤.","getCompartmentByNameErrorMsg":"所指定區間名稱 {0} 的 getCompartment API 發生錯誤.","getCompartmentByIdOrNameErrorMsg":"所指定區間名稱 {0} 的 getCompartment API 發生錯誤."}

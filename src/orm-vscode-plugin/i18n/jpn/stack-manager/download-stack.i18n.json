@@ -1,1 +1,1 @@
-{"getTfFilesByZipUploadErrorMsg":"ZipUploadタイプのスタック{0}の.tfファイルの出力処理中にエラーが発生しました: ","getTfFilesByObjectStoreErrorMsg":"オブジェクト・ストア・タイプのスタック{0}の.tfファイルの出力処理中にエラーが発生しました","getTfFilesByGitErrorMsg":"オブジェクト・ストア・タイプのスタック{0}の.tfファイルの出力処理中にエラーが発生しました"}
+{"getTfFilesByZipUploadErrorMsg":"ZipUploadタイプのスタック{0}の.tfファイルの出力処理中にエラーが発生しました: ","getTfFilesByObjectStoreErrorMsg":"オブジェクト・ストア・タイプのスタック{0}の.tfファイルの出力処理中にエラーが発生しました","gitCloneFailedMsg":"Gitクローンに失敗しました","getTfFilesByGitErrorMsg":"Gitプロバイダ・タイプのスタック{0}の.tfファイルの出力処理中にエラーが発生しました"}

@@ -10,7 +10,7 @@ const localize: nls.LocalizeFunc = nls.loadMessageBundle();
 
 export async function handleServiceError(errorMessage: string, exception: OciError) {
     const message: string = await constructMessage(errorMessage, exception);
-    throw new OciExtensionError(message);
+    throw new OciExtensionError(message, exception.statusCode, exception);
 }
 
 export const check_policy_message = localize("checkPolicyMessage", "Please check if resource exists and has proper policy setup under tenancy");

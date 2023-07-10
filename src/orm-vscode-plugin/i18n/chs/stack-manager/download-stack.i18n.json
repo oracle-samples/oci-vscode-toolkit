@@ -1,1 +1,1 @@
-{"getTfFilesByZipUploadErrorMsg":"处理类型为 ZipUpload 的堆栈 {0} 的输出 .tf 文件时出错：","getTfFilesByObjectStoreErrorMsg":"处理类型为对象存储的堆栈 {0} 的输出 .tf 文件时出错","getTfFilesByGitErrorMsg":"处理类型为对象存储的堆栈 {0} 的输出 .tf 文件时出错"}
+{"getTfFilesByZipUploadErrorMsg":"处理类型为 ZipUpload 的堆栈 {0} 的输出 .tf 文件时出错：","getTfFilesByObjectStoreErrorMsg":"处理类型为对象存储的堆栈 {0} 的输出 .tf 文件时出错","gitCloneFailedMsg":"Git 克隆失败","getTfFilesByGitErrorMsg":"处理类型为 Git 提供程序的堆栈 {0} 的输出 .tf 文件时出错"}

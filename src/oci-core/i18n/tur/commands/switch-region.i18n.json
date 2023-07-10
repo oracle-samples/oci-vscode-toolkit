@@ -1,1 +1,1 @@
-{"regionPlaceHolderText":"Oracle Bulut Altyapısı bölgesi seçin","invalidRegionErrorMsg":"Bilgi isteminden seçilen bölge geçerli değil. Lütfen geçerli {0} bilgi istemini seçin","switchRegionErrorMsg":"Bilgi isteminden bölge değiştirilirken hata oluştu"}
+{"regionPlaceHolderText":"Oracle Bulut Altyapısı bölgesi seçin","invalidRegionErrorMsg":"Bilgi isteminden seçilen {0} bölgesi geçerli değil. Lütfen geçerli bir bölge seçin.","switchRegionErrorMsg":"Bilgi isteminden bölge değiştirilirken hata oluştu"}

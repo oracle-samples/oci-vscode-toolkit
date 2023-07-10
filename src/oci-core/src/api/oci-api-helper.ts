@@ -135,7 +135,13 @@ export class OCIApiHelper {
                 .getConfiguration()
                 .update('oci.defaultProfileName', profileName);
         }
-        return this.getProfile(profileName);
+
+        let profile = this.getProfile(profileName);
+        if (this.api.getRegion()) {
+            profile.setRegionName(this.api.getRegion()!);
+        }
+
+        return profile;
     }
 
     private async getConsoleUrl(regionName: string): Promise<string> {

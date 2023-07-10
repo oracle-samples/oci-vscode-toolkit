@@ -1,1 +1,1 @@
-{"regionPlaceHolderText":"Velg en OCI-region","invalidRegionErrorMsg":"Regionen som er valgt fra ledeteksten, er ikke gyldig. Velg gyldig {0} for ledetekst.","switchRegionErrorMsg":"Feil ved bytte av region fra ledetekst "}
+{"regionPlaceHolderText":"Velg en OCI-region","invalidRegionErrorMsg":"Regionen {0} som er valgt fra ledeteksten, er ikke gyldig. Velg en gyldig region.","switchRegionErrorMsg":"Feil ved bytte av region fra ledetekst "}

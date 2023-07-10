@@ -1,1 +1,1 @@
-{"regionPlaceHolderText":"Izberite področje OCI","invalidRegionErrorMsg":"Področje, izbrano iz poziva, ni veljavno. Izberite veljavno področje {0}","switchRegionErrorMsg":"Napaka pri preklapljanju področja iz poziva"}
+{"regionPlaceHolderText":"Izberite področje OCI","invalidRegionErrorMsg":"Področje {0}, izbrano v pozivu, ni veljavno. Izberite veljavno področje.","switchRegionErrorMsg":"Napaka pri preklapljanju področja iz poziva"}

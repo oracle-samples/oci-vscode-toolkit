@@ -1,1 +1,1 @@
-{"regionPlaceHolderText":"Valitse OCI-alue","invalidRegionErrorMsg":"Kehotteesta valittu alue ei ole sallittu. Valitse sallittu kehote {0}","switchRegionErrorMsg":"Virhe vaihdettaessa aluetta kehotteesta "}
+{"regionPlaceHolderText":"Valitse OCI-alue","invalidRegionErrorMsg":"Kehotteesta valittu alue {0} ei ole sallittu. Valitse sallittu alue.","switchRegionErrorMsg":"Virhe vaihdettaessa aluetta kehotteesta "}

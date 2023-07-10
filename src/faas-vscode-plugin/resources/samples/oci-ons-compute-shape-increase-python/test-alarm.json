@@ -1,5 +1,4 @@
 {
-  "_comment": "Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
   "dedupeKey": "501f01d7-20cd-5958-a5ca-61ba0ddebd8d",
   "title": "TEST-high-memory",
   "body": "High memory usage",

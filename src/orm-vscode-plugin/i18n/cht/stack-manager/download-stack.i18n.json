@@ -1,1 +1,1 @@
-{"getTfFilesByZipUploadErrorMsg":"處理 ZipUpload 類型的堆疊 {0} 輸出 .tf 檔案時發生錯誤: ","getTfFilesByObjectStoreErrorMsg":"處理物件存放區類型的堆疊 {0} 輸出 .tf 檔案時發生錯誤","getTfFilesByGitErrorMsg":"處理物件存放區類型的堆疊 {0} 輸出 .tf 檔案時發生錯誤"}
+{"getTfFilesByZipUploadErrorMsg":"處理 ZipUpload 類型的堆疊 {0} 輸出 .tf 檔案時發生錯誤: ","getTfFilesByObjectStoreErrorMsg":"處理物件存放區類型的堆疊 {0} 輸出 .tf 檔案時發生錯誤","gitCloneFailedMsg":"Git 複製失敗","getTfFilesByGitErrorMsg":"處理 Git 提供者類型的堆疊 {0} 輸出 .tf 檔案時發生錯誤"}

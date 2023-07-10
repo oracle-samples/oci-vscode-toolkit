@@ -1,1 +1,1 @@
-{"getCompartmentsErrorMsg":"提取根 ID 对应的区间时出错","getResourcesErrorMsg":"提取区间对应的资源时出错","getSubscribedRegionsErrorMsg":"提取资源订阅的区域时出错","getCompartmentByIdErrorMsg":"给定 OCID 的 getCompartment API 错误"}
+{"getCompartmentsErrorMsg":"提取根 ID {0} 对应的区间时出错。","getResourcesErrorMsg":"提取区间 {0} 对应的资源时出错。","getSubscribedRegionsErrorMsg":"提取订阅的区域时出错","getCompartmentByIdErrorMsg":"给定区间 ocid {0} 的 getCompartmet API 错误。","getCompartmentByNameErrorMsg":"给定区间名称 {0} 的 getCompartmet API 错误。","getCompartmentByIdOrNameErrorMsg":"给定区间名称 {0} 的 getCompartmet API 错误。"}

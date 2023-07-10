@@ -1,1 +1,1 @@
-{"regionPlaceHolderText":"Selezionare un'area OCI","invalidRegionErrorMsg":"L'area selezionata dal prompt non è valida. Selezionare il prompt valido {0}","switchRegionErrorMsg":"Errore durante il cambio di area dal prompt "}
+{"regionPlaceHolderText":"Selezionare un'area OCI","invalidRegionErrorMsg":"L'area {0} selezionata dal prompt non è valida. Selezionare un'area valida.","switchRegionErrorMsg":"Errore durante il cambio di area dal prompt "}
