@@ -13,7 +13,7 @@ export async function handleServiceError(errorMessage: string, exception: OciErr
     throw new OciExtensionError(message, exception.statusCode, exception);
 }
 
-export const check_policy_message = localize("checkPolicyMessage", "Please check if resource exists and has proper policy setup under tenancy");
+export const check_policy_message = localize("checkPolicyMessage", "Please check if this account has [required IAM policy](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/code_editor_intro.htm)");
 
 export async function constructMessage(errorMessage: string, exception: OciError): Promise<string> {
     let message: string = `${errorMessage} ${exception.message}`;

@@ -77,7 +77,7 @@ export async function activate(context: ExtensionContext) {
                 const ociExtensionError = error;
                 if ((ociExtensionError.statusCode === 404) && ociExtensionError.serviceError && (ociExtensionError.serviceError.serviceCode === 'NotAuthorizedOrNotFound')) {
                     commands.executeCommand('setContext', 'UnAuthorizedAccess', true);
-                    window.showErrorMessage(`Activating extension 'Oracle.oci-core' failed: ${ociExtensionError.message}`, { modal: true });
+                    window.showErrorMessage(`Activating extension 'Oracle.oci-core' failed: ${ociExtensionError.message}`, { modal: false });
                 }
             }
             throw error;

@@ -22,6 +22,9 @@ Installing the OCI VS Code toolkit installs all of the extensions along with the
 
 You can easily uninstall individual extensions if you are not interested in using them, without affecting other extensions provided by this pack. Additionally, you can uninstall all of the extensions by uninstalling the OCI VS Code toolkit extension.
 
+## Minimum policies required
+Allow group <groupname> to inspect compartments in tenancy
+
 ## Sign-In
 
 The plugin requires basic configuration information, like user credentials and tenancy OCID.
@@ -42,7 +45,7 @@ There are two ways to get the config file
 ## Switch-Region
 
 The user can switch to different subscribed OCI regions from this wizard.
-  <img src="./media/images/readme/switch-region.gif"  width="600" height="300">  
+  ![](./media/images/readme/switch-region.gif)
 
 ## OCI CLI
 

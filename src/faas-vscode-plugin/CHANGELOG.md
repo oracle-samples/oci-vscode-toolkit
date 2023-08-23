@@ -27,3 +27,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Fixed
 
 - Translations for strings in the Functions plugin.
+
+## 1.0.3 - 2023-08-23
+
+### Fixed
+
+- Incorporated updated modal dialogue for simplified FN-CLI installation process.

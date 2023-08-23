@@ -18,15 +18,15 @@ There are two ways to get the config file
 2. Auto generate file using Sign In Button:
 
     On successful login, a config file will be generated and saved in `~/.oci` folder
-    
-    <img src="./media/images/readme/sign_in_workflow.gif">
 
+     ![](./media/images/readme/sign_in_workflow.gif)
+    
 
 ## Inital View
 
 The RMS plugin when loaded has a tree view in the side panel, the data is loaded based on the configuration information, like user credentials, region, tenancy OCID, etc in the configuration file
 
-   <img src="./media/images/readme/terraform-edit.png"  width="600" height="300">
+   ![](./media/images/readme/terraform-edit.png)
 
 Hierarchy of tree view: the tree view has tenancy at the top level followed by compartements, each compartment has stacks associated with the compartment. Each stack lists the terraform config files. 
 
@@ -37,13 +37,14 @@ The Plugin provides operations for git-based and non-git based stacks
 ### Save stack
 
 1. Right click on a stack, click on `Save changes` from the menu
+
+
+  ![](./media/images/readme/git_based_stack_menu.png)
   
-  <img src="./media/images/readme/git_based_stack_menu.png"  width="600" height="300">
 
 2. A modal prompt informing user to use command line and push code to GitHub repo is shown. Please use the command line to push the code to GitHub:
 
-  <img src="./media/images/readme/git_based_save_stack.png"  width="600" height="300">
-
+  ![](./media/images/readme/git_based_save_stack.png)
 
 ### Run Plan job
 
@@ -52,12 +53,12 @@ Runs plan job & provisions resources as per edited terraform config and updates 
 Below are the steps:
 
 1. Right click on a stack, click on `Run Plan action on stack` from the menu:
-  
-  <img src="./media/images/readme/git_based_stack_menu.png"  width="600" height="300">
 
+  ![](./media/images/readme/git_based_stack_menu.png)
+  
 2. The status is shown in notification on bottom right corner:
 
-  <img src="./media/images/readme/plan_job.png"  width="600" height="300">
+  ![](./media/images/readme/plan_job.png)
 
 ### Run Apply job
 
@@ -67,37 +68,36 @@ Below are the steps:
 
 1. Right click on a stack, click on `Run Apply action on stack` from the menu:
 
-  <img src="./media/images/readme/git_based_stack_menu.png"  width="600" height="300">
+  ![](./media/images/readme/git_based_stack_menu.png)
 
 2. The status is shown in notification on bottom right corner:
-  
-  <img src="./media/images/readme/apply_job.png"  width="600" height="300">
 
+ ![](./media/images/readme/apply_job.png)
+  
 ### Download configuration
 
 Downloads terraform configuration depending on the source from which it was created ie: git, object storage or RMS
 
 1. Right click on a stack, click on `Download configuration` from the menu:
 
-  <img src="./media/images/readme/git_based_stack_menu.png"  width="600" height="300">
+  ![](./media/images/readme/git_based_stack_menu.png)
   
 2. A dialog for git URL will appear, enter the git url
 
-  <img src="./media/images/readme/git_based_stack_clone.png"  width="600" height="300">
+  ![](./media/images/readme/git_based_stack_clone.png)
 
 2. A dialog for password will appear, enter the git user password
 
-  <img src="./media/images/readme/git_based_password_screen.png"  width="600" height="300">
+  ![](./media/images/readme/git_based_password_screen.png)
 
 The repository will be cloned
-
 
 ## Non-Git based stack
 
 The non git based stack has all the same options, the only difference is it cascades any changes to the service before running plan/apply action.
 The menu options for non git based stack are as shown below:
 
-  <img src="./media/images/readme/non_git_stack_menu.png"  width="600" height="300">
+  ![](./media/images/readme/non_git_stack_menu.png)
 
 ### Download configuration
 
@@ -105,11 +105,11 @@ Provides ability to clone a repository
 
 1. Right click on a stack, click on `Download configuration` from the menu:
 
-  <img src="./media/images/readme/non_git_stack_menu.png"  width="600" height="300">
+  ![](./media/images/readme/non_git_stack_menu.png)
 
 2. Opens up prompt asking if user wishes to override the existing content & downloads depending on the source (RMS or Object storage)
 
-  <img src="./media/images/readme/non_git_download_conf.png"  width="600" height="300">
+  ![](./media/images/readme/non_git_download_conf.png)
 
 ## References
 * [Resource Manager Documentation](https://docs.oracle.com/en-us/iaas/Content/ResourceManager/Concepts/resourcemanager.htm)

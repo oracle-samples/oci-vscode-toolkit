@@ -37,3 +37,22 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - Translations for strings for OCI Core extension plugin.
 
 - Change region action within the plugin to display current user selected region.
+
+## 1.0.3 - 2023-08-23
+
+### Added
+- Included essential policy requirements in the ReadMe file.
+
+- Appended policy link for accessing error message in cases with insufficient plugin access permissions.
+
+### Removed
+- Simplified core plugin by removing explicit TypeScript SDK dependency.
+
+- Refined activation events by excluding the use of *.
+
+### Fixed
+- Incorporated updated modal dialogue for simplified OCI-CLI installation process.
+
+- Enhanced ReadMe to ensure proper rendering of images.
+
+- Implemented auto expansion up to the profile node level.

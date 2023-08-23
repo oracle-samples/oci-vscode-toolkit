@@ -3,7 +3,7 @@
   "name": "faas",
   "displayName": "OCI Functions",
   "description": "Create, edit, deploy and invoke OCI functions within VS Code.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "engines": {
     "vscode": "^1.53.2"
   },
@@ -317,11 +317,11 @@
   },
   "scripts": {
     "vscode:prepublish": "rm -rf out && npm run compile && npm run webpack",
-    "webpack": "gulp webpack",
-    "webpack-dev": "gulp webpack-dev-watch",
+    "webpack": "rm -rf dist && gulp webpack",
+    "webpack-dev": "rm -rf dist && gulp webpack-dev-watch",
     "compile": "tsc -p tsconfig.json",
-    "lint": "eslint src --ext ts",
-    "lint-fix": "eslint src --ext ts --fix",
+    "lint": "eslint . --ext .js,.ts",
+    "lint-fix": "eslint . --ext .js,.ts --fix",
     "package": "vsce package",
     "build": "rm -rf dist && tsc -p tsconfig.production.json"
   },

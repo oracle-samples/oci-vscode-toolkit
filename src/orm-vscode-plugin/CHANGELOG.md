@@ -33,3 +33,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Fixed
 
 - Translations for strings in the Resource Manager plugin.
+
+## 1.0.3 - 2023-08-23
+
+### Fixed
+
+- Enhanced ReadMe to ensure proper rendering of images.
+
+- Fixed resources not being displayed using switched region.

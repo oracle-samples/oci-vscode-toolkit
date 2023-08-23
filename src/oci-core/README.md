@@ -6,7 +6,9 @@ OCI Core extension is the backbone of the OCI Toolkit extension pack. It provide
 - **Sign-in**: Seamlessly connect to OCI by signing into an existing OCI account or creating a new account.
 - **Profile Wizard**: Profile Wizard where user can select any profile from the configuration file. It will reset client connections as per the new profile.
 - **Region selection Wizard**: The user can switch to different subscribed OCI regions from this wizard.
-  <img src="./media/images/readme/switch-region.gif"  width="600" height="300">  
+
+  ![](./media/images/readme/switch-region.gif) 
+
 - **Logging & Metrics**: Shows info & error logs about the actions performed by users via service plugins.
 
 ## Note
