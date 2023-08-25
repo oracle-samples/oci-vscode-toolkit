@@ -8,7 +8,7 @@ import * as resourcemanager from "oci-resourcemanager";
 import { MONITOR } from "../common/monitor";
 import { IOCIProfile } from '../oci-api';
 import { clientConfiguration, getAuthProvider } from './client-configurations';
-
+import { ext } from '../extensionVars';
 let client: resourcemanager.ResourceManagerClient;
 const PHX_DEV_ENDPOINT_OVERRIDE = "https://resourcemanager-dev.us-phoenix-1.oci.oracleiaas.com";
 const PHX_UNSTABLE_DEV_ENDPOINT_OVERRIDE ="https://resourcemanager-unstable-dev.us-phoenix-1.oci.oraclecloud.com";
@@ -30,10 +30,15 @@ function setEndpointForRMSClient(tenancyId: string) {
     
 }
 
+function setClientRegion() {
+    if (ext.api.getRegion() !== undefined) {
+        client.regionId = ext.api.getRegion();
+    }
+}
+
 export async function listStacks({
     compartmentId,
 }: { 
-    profile: string;
     compartmentId: string;
 }): Promise<resourcemanager.models.StackSummary[]>{
    
@@ -42,16 +47,14 @@ export async function listStacks({
 
    try {
     MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, 'listStacks', compartmentId));
-    
-    
     const listStacksRequest: resourcemanager.requests.ListStacksRequest = {
         compartmentId: compartmentId,
         sortBy: resourcemanager.requests.ListStacksRequest.SortBy.Displayname,
         sortOrder: resourcemanager.requests.ListStacksRequest.SortOrder.Asc
     };
-    
+    setClientRegion();
     do {
-        listStacksResponse = await client.listStacks(listStacksRequest);
+    listStacksResponse = await client.listStacks(listStacksRequest);
         if (!listStacksResponse.items) {
             continue;
         }
@@ -71,10 +74,11 @@ export async function listStacks({
    }
 }
 
-export async function getStack( stackId: string): Promise<resourcemanager.responses.GetStackResponse>{
+
+export async function getStack(stackId: string): Promise<resourcemanager.responses.GetStackResponse>{
     try {
         MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, 'getStack', undefined, stackId));
-       
+        setClientRegion();
         const getStackRequest: resourcemanager.requests.GetStackRequest = {
             stackId: stackId
           };
@@ -87,10 +91,10 @@ export async function getStack( stackId: string): Promise<resourcemanager.respon
     }    
 } 
 
-export async function getStackTfConfig( stackId: string): Promise<resourcemanager.responses.GetStackTfConfigResponse>{
+export async function getStackTfConfig(stackId: string): Promise<resourcemanager.responses.GetStackTfConfigResponse>{
     try {
         MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, 'getStackTfConfig', undefined, stackId));
-        
+        setClientRegion();
         
         const getStackTfConfigRequest: resourcemanager.requests.GetStackTfConfigRequest = {
             stackId: stackId
@@ -108,7 +112,8 @@ export async function getStackTfConfig( stackId: string): Promise<resourcemanage
 export async function updateStack(stack: resourcemanager.models.Stack, configType: resourcemanager.models.UpdateConfigSourceDetails) : Promise<resourcemanager.responses.UpdateStackResponse>{
     try {
         MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, 'updateStack', undefined, stack.id));
-         const updateStackDetails = {
+        setClientRegion();
+        const updateStackDetails = {
             displayName: stack.displayName,
             description: stack.description,
             configSource: configType,
@@ -133,7 +138,7 @@ export async function updateStack(stack: resourcemanager.models.Stack, configTyp
 export async function createJob(jobDetails: resourcemanager.models.CreateJobDetails) : Promise<resourcemanager.responses.CreateJobResponse>{
     try {
         MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, 'createJob', undefined, jobDetails.stackId));
-         
+        setClientRegion(); 
          const createJobRequest: resourcemanager.requests.CreateJobRequest = {
             createJobDetails: jobDetails
          };
@@ -151,7 +156,7 @@ export async function listJobs(compartmentId: string, stackId: string) : Promise
     const results: resourcemanager.models.JobSummary[] = [];
     try {
         MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, 'listJobs', compartmentId, stackId));
-         
+        setClientRegion(); 
          const listJobsRequest: resourcemanager.requests.ListJobsRequest = {
             compartmentId: compartmentId,
             stackId: stackId,
@@ -179,7 +184,7 @@ export async function listJobs(compartmentId: string, stackId: string) : Promise
 export async function getJobDetails(jobId: string) : Promise<resourcemanager.responses.GetJobResponse>{
     try {
         MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, 'getJobDetails', undefined, jobId));
-          
+        setClientRegion();  
          const getJobRequest: resourcemanager.requests.GetJobRequest = {
                 jobId: jobId
          };         
@@ -197,7 +202,7 @@ export async function fetchJobLogs(jobId: string, startTime: Date, endTime: Date
     const results: resourcemanager.models.LogEntry[] = [];
     try {
         MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, 'fetchJobLogs', undefined, jobId));
-    
+        setClientRegion();
         const getJobLogsRequest: resourcemanager.requests.GetJobLogsRequest = {
             jobId: jobId,
             type: [resourcemanager.models.LogEntry.Type.TerraformConsole],

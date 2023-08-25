@@ -27,3 +27,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Fixed
 
 - Translations for strings in the Data Science plugin.
+
+## 1.0.3 - 2023-08-23
+
+### Fixed
+
+- Enhanced ReadMe to ensure proper rendering of images.

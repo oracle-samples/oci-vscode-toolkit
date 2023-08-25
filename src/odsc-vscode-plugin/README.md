@@ -34,7 +34,7 @@ There are two ways to get the config file
 
 The Data Science plugin when loaded has a tree view in the side panel, the data is loaded based on the configuration information, like user credentials, region, tenancy OCID, etc in the configuration file
 
-   <img src="./media/images/readme/jobs.png"  width="600" height="300">
+   ![](./media/images/readme/jobs.png)
 
 
 Hierarchy of tree view: the tree view has tenancy at the top level followed by compartments, each compartment has Projects associated with the compartment. Each Project lists the Jobs, each job lists the artifacts and all the job runs associated with it.
@@ -44,7 +44,7 @@ Hierarchy of tree view: the tree view has tenancy at the top level followed by c
 The user can create a new job from an existing artifact
 - Right click on the artifact node you wish to create a job from and click on `Create new job from artifact`
 
-  <img src="./media/images/readme/artifact_node_actions.png"  width="600" height="300">
+  ![](./media/images/readme/artifact_node_actions.png)
 
 - The new job id will be displayed in a popup, on the bottom right corner
 - The newly created job will appear on top in the tree view
@@ -54,7 +54,7 @@ The user can create a new job from an existing artifact
 This option lets user revert any local changes by overriding with latest available on remote
 - Right click on the artifact node and click on `Get job artifact and override local changes`
 
-  <img src="./media/images/readme/artifact_node_actions.png"  width="600" height="300">
+  ![](./media/images/readme/artifact_node_actions.png)
 
 - The local changes (if any) would be overridden.
 
@@ -63,7 +63,7 @@ This option lets user revert any local changes by overriding with latest availab
 View the job details
 - Right click on a job run and click `View Details`
 
-  <img src="./media/images/readme/job_run_actions.png"  width="600" height="300">
+  ![](./media/images/readme/job_run_actions.png)
 
 - There will be a redirection to the details page on the OCI console.
 
@@ -72,7 +72,7 @@ View the job details
 View the output of a job run
 - Right click on a job run and click `View Details`
 
-  <img src="./media/images/readme/job_run_actions.png"  width="600" height="300">
+  ![](./media/images/readme/job_run_actions.png)
 
 - The output would be printed in the `Output` window in bottom panel
 
@@ -81,11 +81,11 @@ View the output of a job run
 Cancels an existing job run which is running
 - Right click on a job run and click `Cancel job run`
 
-   <img src="./media/images/readme/cancel_option.png"  width="600" height="300">
+   ![](./media/images/readme/cancel_option.png)
 
 - The cancel notification will be displayed on bottom right
 
-   <img src="./media/images/readme/cancel_job_run.png"  width="600" height="300">
+   ![](./media/images/readme/cancel_job_run.png)
 
 
 ## Delete Job Run
@@ -93,10 +93,10 @@ Cancels an existing job run which is running
 Deletes an existing job run. 
 - Right click on a job run and click `Delete`
 
-  <img src="./media/images/readme/job_run_actions.png"  width="600" height="300">
+  ![](./media/images/readme/job_run_actions.png)
 - A dialog to confirm the deletion will be shown on bottom right corner. Confirm to delete or cancel.
 
-  <img src="./media/images/readme/delete_job_run_confirmation_message.png"  width="600" height="300">
+  ![](./media/images/readme/delete_job_run_confirmation_message.png)
 
 - Clicking on Delete will delete the job run associated with the Job
 
@@ -105,11 +105,11 @@ Deletes an existing job run.
 
 - To execute the job from Code Editor, click on `Run` from job context menu as below. Fill in run form details as required. For this sample script nothing is required. Click on `Run`.
 
-  <img src="./media/images/readme/run_job.png"  width="600" height="300">
+  ![](./media/images/readme/run_job.png)
 
 - This would trigger the job. You can now view the job logs from either OCI console or Code Editor with below options.
 
-  <img src="./media/images/readme/job_run_notification_message.png"  width="600" height="300">
+  ![](./media/images/readme/job_run_notification_message.png)
 
 
 ## Contributing

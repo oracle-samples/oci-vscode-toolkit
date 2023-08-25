@@ -30,7 +30,7 @@ export class StacksNode extends StaticNode {
   
   getChildren(_element: any): Thenable<OCIStackNode[]> {
     return nodeBuilder.makeSubnodes(
-      () => resourcemanager.listStacks({profile: ext.api.getCurrentProfile().getProfileName(), compartmentId: this.compartmentId}),
+      () => resourcemanager.listStacks({compartmentId: this.compartmentId}),
       OCIStackNode
     ).then(async stacks => {
       let getStackPromises = [];

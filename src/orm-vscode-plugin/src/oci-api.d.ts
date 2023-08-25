@@ -52,6 +52,8 @@
  
      // Gets all comparments from the current profile
      getAllCompartments: () => Promise<IOCICompartment[]>;
+
+     getRegion: () => string;
  
      // Gets all regions
      getRegions: () => IRegion[];

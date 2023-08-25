@@ -3,7 +3,6 @@
  * This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.
  */
 
-import * as nls from 'vscode-nls';
 import {
     window, workspace, TreeViewSelectionChangeEvent
 } from 'vscode';
@@ -15,9 +14,6 @@ import {
     createCompartmentNodes
 } from '../userinterface/oci-compartment-node';
 import { BaseNode } from '../userinterface/base-node';
-nls.config({ messageFormat: nls.MessageFormat.bundle, bundleFormat: nls.BundleFormat.standalone })();
-
-const localize: nls.LocalizeFunc = nls.loadMessageBundle();
 
 export async function setupTreeView() {
     const treeDataProvider = await registerTreeView();
@@ -28,7 +24,7 @@ export async function setupTreeView() {
 
     ext.treeView.onDidExpandElement((element) => {
         if (element.element instanceof BaseNode) {
-            ext.treeView.reveal(element.element, { focus: true, select: true, expand: 3 });
+            ext.treeView.reveal(element.element, { focus: true, select: true, expand: 1 });
         }
     });
     ext.treeDataProvider.refresh(undefined);
