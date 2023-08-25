@@ -1,4 +1,4 @@
-# OCI Toolkit for VS Code
+# OCI Toolkit for VS Code.
 
 OCI Toolkit for VS Code is a rich collection of OCI extensions, making it easier for you to develop, test, and deploy applications on Oracle Cloud Infrastructure (OCI) straight from VS Code.
 
