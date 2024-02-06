@@ -45,10 +45,6 @@
      );
  }
 
-export async function getTenancyName(id: string):Promise<string>{
-    return (await ext.api.getCompartmentById(id)).compartment.name;
-}
-
 // gets all compartments under the provided rootCompartmentId.
 // If rootCompartmentId is not provided, it uses the tenancy ID (root)
  export async function getCompartments({

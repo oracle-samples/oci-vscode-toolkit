@@ -5,13 +5,16 @@
 import * as vscode from 'vscode';
 import { validateApplicationName, validateFunctionName } from "../utils/validators";
 import { IOCIResource, IOCISubnet } from "../api/types";
+import * as nls from 'vscode-nls';
+
+const localize: nls.LocalizeFunc = nls.loadMessageBundle();
 
 export async function promptForAppName(
     defaultAppName = 'MyOCIApplication',
 ): Promise<string | undefined> {
     // Get the app name
     const appNameOpts: vscode.InputBoxOptions = {
-        prompt: 'Enter application name:',
+        prompt: localize('appliationNamePrompt', 'Enter application name:'),
         value: defaultAppName,
         ignoreFocusOut: true,
         validateInput: validateApplicationName,
@@ -28,7 +31,7 @@ export async function promptForVCN(
     allVcns: IOCIResource[],
 ): Promise<string | undefined> {
     const opts: vscode.QuickPickOptions = {
-        placeHolder: 'Select a VCN',
+        placeHolder: localize('vcnPrompt', 'Select a VCN'),
         ignoreFocusOut: true,
         canPickMany: false,
     };
@@ -53,7 +56,7 @@ export async function promptForSubnets(
     allSubnets: IOCISubnet[],
 ): Promise<string[]> {
     const opts: vscode.QuickPickOptions = {
-        placeHolder: 'Select up to 3 subnets',
+        placeHolder: localize('subnetPrompt', 'Select up to 3 subnets'),
         ignoreFocusOut: true,
     };
 

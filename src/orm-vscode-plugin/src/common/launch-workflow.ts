@@ -7,7 +7,6 @@ import { getStack } from "../api/orm-client";
 import { ext } from "../extensionVars";
 import { IRootNode } from "../oci-api";
 import { OCICompartmentNode } from "../tree/nodes/oci-compartment-node";
-import { CompartmentsNode } from "../tree/nodes/oci-compartments-node";
 import { OCIStackNode } from "../tree/nodes/oci-stack-node";
 import { StacksNode } from "../tree/nodes/static-stacks-node";
 import { logger } from "../utils/get-logger";
@@ -25,8 +24,6 @@ const localize: nls.LocalizeFunc = nls.loadMessageBundle();
         await revealTreeNode(profileNode);
         
         const compartment = await ext.api.getCompartmentById(payload.compartment_ocid!);
-        const staticCompartmentsNode = new CompartmentsNode();
-        await revealTreeNode(staticCompartmentsNode);
 
         const compartmentNode = new OCICompartmentNode(compartment?.compartment, ext.api.getCurrentProfile().getProfileName(), undefined, []);
         await revealTreeNode(compartmentNode);

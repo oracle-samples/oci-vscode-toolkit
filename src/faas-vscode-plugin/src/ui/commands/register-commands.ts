@@ -7,21 +7,21 @@ import { window } from 'vscode';
 import { CreateNewOCIApplication, CreateOCIFunction, DeleteOCIFunction, DeleteOCIApplication, DeployOCIFunction, EditConfiguration, EditOCIApplication, EditFunctionSettings, EditOCIFunction, ExpandCompartment, InvokeOCIFunction, ListResource, OCIConfigurationFunctionRootNodeItem, ShowDocumentation, SignInItem, launchWorkFlowCommand, FocusFunctionsPlugin, SwitchRegion, OpenIssueInGithub, createFullCommandName } from './resources';
 import { ext } from '../../extensionVars';
 import { IOCIProfileTreeDataProvider, IRootNode, OCIFileExplorerNode } from '../../oci-api';
-import { IActionResult } from '../../utils/actionResult';
+import { IActionResult, isCanceled, hasFailed } from '../../utils/actionResult';
 import { OCICompartmentNode } from "../tree/nodes/oci-compartment-node";
-import { getWebviewContent } from "../../webViews/EditConfigurationPanel";
-import { getFunction, invokeFunction, updateFunctionConfig, updateFunctionSettings } from "../../api/function";
+import { EditConfigurationGetWebviewContent } from "../../webViews/EditConfigurationPanel";
+import { deleteOCIApplication, deleteOCIFunction, getApplication, getFunction, getFunctions, invokeFunction, updateApplicationConfig, updateFunctionConfig, updateFunctionSettings } from "../../api/function";
 import { logger } from "../../utils/get-logger";
 import { EditFunctionSettingsGetWebview } from '../../webViews/EditFunctionSettingsPanel';
 import { OCIFunctionNode } from '../tree/nodes/oci-function-node';
-import { getCreateApplicationUrl, getDeleteApplicationUrl, getEditApplicationUrl, OCIApplicationNode } from '../tree/nodes/oci-application-node';
+import { OCIApplicationNode } from '../tree/nodes/oci-application-node';
 import { createFunctionFromTemplate } from './createFunction/create-fn-template';
 import { createFunctionFromCodeRepository } from './createFunction/create-fn-repo';
 import { createFunctionFromSample } from './createFunction/create-fn-sample';
 import { OCINewFunctionNode, OCINewFunctionType } from '../tree/nodes/oci-new-function-node';
 import { deployFunction, reportResult } from './deployFunction/deploy-fn';
 import { DeployFunctionGetWebview } from '../../webViews/DeployFunction';
-import { getTenancy, getUserInfo } from '../../api/identity';
+import { getUserInfo } from '../../api/identity';
 import { editFunction } from './edit-fn';
 import parseYaml from '../../utils/parsers';
 import path = require('path');
@@ -30,7 +30,6 @@ import { isPayloadValid } from '../../common/validations/launchPayload';
 import { handleResult } from './createFunction/show-message';
 import { isGitRepo } from './deployFunction/check-git-repo';
 import { getDeployFunction } from './deployFunction/get-deploy-repo';
-import { CompartmentsNode } from '../tree/nodes/oci-compartments-node';
 import * as nls from 'vscode-nls';
 import { getDirectoryName } from 'oci-ide-plugin-base/dist/common/fileSystem/filesystem';
 import { METRIC_INVOCATION, METRIC_SUCCESS, METRIC_FAILURE } from 'oci-ide-plugin-base/dist/monitoring/monitoring';
@@ -41,13 +40,92 @@ import { streamToString } from '../../utils/streamUtils';
 import { listRecentCommands } from 'oci-ide-plugin-base/dist/extension/ui/features/command-manager';
 import { executeUserCommand, _appendCommandInfo } from './ui/list-recent-commands';
 import { getNamespaceForTenancy, getNamespaceForUser } from '../../api/objectStorage';
+import { RootNode } from '../tree/nodes/rootNode';
+import { createNewOCIApplication } from "./createApplication/create-new-oci-application";
 
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
+
+// Runs an action with status bar and progress image.
+// It can also execute specified function on success or on cancelation.
+function runWithStatusBarMessage(
+    func: Promise<IActionResult>,
+    message: string,
+    onSucceeded?: (result: IActionResult) => void,
+    onCanceled?: () => void,
+    onFailed?: (result: IActionResult) => void,
+) {
+    const progressOptions = {
+        location: vscode.ProgressLocation.Notification,
+        title: message,
+        cancellable: false,
+    };
+
+    return vscode.window.withProgress<IActionResult>(
+        progressOptions,
+        async (p: any) => {
+            const disposable = vscode.window.setStatusBarMessage(message);
+            const funcResult = await func;
+
+            if (isCanceled(funcResult)) {
+                if (onCanceled) {
+                    onCanceled();
+                }
+                disposable.dispose();
+                return funcResult;
+            }
+
+            if (hasFailed(funcResult)) {
+                if (onFailed) {
+                    onFailed(funcResult);
+                }
+                disposable.dispose();
+                return funcResult;
+            }
+
+            if (onSucceeded) {
+                onSucceeded(funcResult);
+            }
+
+            disposable.dispose();
+            return funcResult;
+        },
+    );
+}
+
+async function registerEditConfigurationCommand(
+    context: vscode.ExtensionContext,
+    commandName: string,
+    profileName: string,
+    node: OCIFunctionNode | OCIApplicationNode,
+    config: { [key: string]: string } | undefined,
+    updater: (profileName: string, id: string, config: { [key: string]: string }) => Promise<any>
+) {
+    _appendCommandInfo(commandName, node);
+    MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, commandName, undefined));
+    const webviewTitle = localize("editConfigurationTitle", "Edit configuration");
+    let panel = vscode.window.createWebviewPanel("editConfiguration", webviewTitle, vscode.ViewColumn.One, {
+        enableScripts: true,
+    });
+    panel.webview.html = EditConfigurationGetWebviewContent(panel.webview, context.extensionUri, config !== undefined ? config : {});
+    panel.webview.onDidReceiveMessage(
+        (message: { command: any; value: any; }) => {
+            switch (message.command) {
+                case 'updateKeyValuePairs':
+                    const updatedConfig = message.value;
+                    updater(profileName, node.id, updatedConfig);
+                    return;
+            }
+        },
+        undefined,
+        context.subscriptions
+    );
+}
 
 export function registerCommands(
     context: vscode.ExtensionContext,
     dataProvider: IOCIProfileTreeDataProvider,
 ): void {
+    const refreshNode = (node: RootNode | undefined): void => dataProvider.refresh(node);
     ext.api.onSignInCompleted(() => dataProvider.refresh(undefined));
 
     context.subscriptions.push(
@@ -79,10 +157,11 @@ export function registerCommands(
                 _appendCommandInfo(CreateNewOCIApplication.commandName, node);
                 const compartmentId = node.getResourceId();
                 MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, CreateNewOCIApplication.commandName, compartmentId));
-                const consoleUrl = ext.api.getConsoleUrl(ext.api.getCurrentProfile().getRegionName());
-
-                const createApplicationUrl = getCreateApplicationUrl(await consoleUrl);
-                await vscode.env.openExternal(vscode.Uri.parse(createApplicationUrl));
+                return runWithStatusBarMessage(
+                    createNewOCIApplication(node.compartment.id!),
+                    localize('createNewApplicationMessage', 'Creating new application...'),
+                    () => refreshNode(node)
+                )
             }
         ));
 
@@ -92,10 +171,23 @@ export function registerCommands(
             async (node: OCIApplicationNode) => {
                 _appendCommandInfo(DeleteOCIApplication.commandName, node);
                 MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, DeleteOCIApplication.commandName, node.resource.compartmentId!, node.resource.id));
-                const consoleUrl = ext.api.getConsoleUrl(ext.api.getCurrentProfile().getRegionName());
 
-                const deleteApplicationUrl = getDeleteApplicationUrl(await consoleUrl, node.appSummary.id!);
-                await vscode.env.openExternal(vscode.Uri.parse(deleteApplicationUrl));
+                const profile = ext.api.getCurrentProfile().getProfileName();
+                const functions = await getFunctions(profile, node.appSummary.id!);
+                if (functions.length != 0) {
+                    const prompt = localize('deleteAppConfirmation', 'The selected application contains {0} functions, delete anyway?', functions.length)
+                    const yes = localize('yes', 'Yes');
+                    const no = localize('no', 'No');
+                    const answer = await vscode.window.showInformationMessage(prompt, yes, no);
+                    if (answer === yes) {
+                        for (const f of functions) {
+                            await deleteOCIFunction(f.id!, profile);
+                        }
+                        await deleteOCIApplication(node.appSummary.id!, profile);
+                    }
+                } else {
+                    await deleteOCIApplication(node.appSummary.id!, profile);
+                }
             }
         ));
 
@@ -103,12 +195,9 @@ export function registerCommands(
         vscode.commands.registerCommand(
             EditOCIApplication.commandName,
             async (node: OCIApplicationNode) => {
-                _appendCommandInfo(EditOCIApplication.commandName, node);
-                MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, EditOCIApplication.commandName, node.resource.compartmentId!, node.resource.id));
-                const consoleUrl = ext.api.getConsoleUrl(ext.api.getCurrentProfile().getRegionName());
-
-                const editApplicationUrl = getEditApplicationUrl(await consoleUrl, node.appSummary.id!);
-                await vscode.env.openExternal(vscode.Uri.parse(editApplicationUrl));
+                const profileName = ext.api.getCurrentProfile().getProfileName();
+                const config = (await getApplication(profileName, node.id)).config;
+                await registerEditConfigurationCommand(context, OCIConfigurationFunctionRootNodeItem.commandName, profileName, node, config, updateApplicationConfig);
             }
         ));
 }
@@ -360,6 +449,7 @@ export async function registerGenericCommands(context: vscode.ExtensionContext) 
             _appendCommandInfo(launchWorkFlowCommand.commandName, payload);
             await vscode.commands.executeCommand(FocusFunctionsPlugin.commandName);
             if (isPayloadValid(payload)) {
+                await vscode.commands.executeCommand(FocusFunctionsPlugin.commandName); // short term solution for bug fix in theia 1.38
                 await vscode.commands.executeCommand(SwitchRegion.commandName, payload.region_name);
                 await launchWorkFlow(payload);
             }
@@ -432,33 +522,11 @@ export async function registerGenericCommands(context: vscode.ExtensionContext) 
             })
     );
 
-    context.subscriptions.push(
-        vscode.commands.registerCommand(OCIConfigurationFunctionRootNodeItem.commandName, async (node: any) => {
-            _appendCommandInfo(OCIConfigurationFunctionRootNodeItem.commandName, node);
-            MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, OCIConfigurationFunctionRootNodeItem.commandName, undefined));
-            const webviewTitle = localize("editConfigurationTitle", "Edit configuration");
-            let panel = vscode.window.createWebviewPanel("editConfiguration", webviewTitle, vscode.ViewColumn.One, {
-                enableScripts: true,
-            });
-            const profileName = ext.api.getCurrentProfile().getProfileName();
-            let fn = getFunction(profileName, node.id);
-            let config = (await fn).config;
-            let updatedConfig;
-            panel.webview.html = getWebviewContent(panel.webview, context.extensionUri, config !== undefined ? config : {});
-            panel.webview.onDidReceiveMessage(
-                (message: { command: any; value: any; }) => {
-                    switch (message.command) {
-                        case 'updateKeyValuePairs':
-                            updatedConfig = message.value;
-                            updateFunctionConfig(profileName, node.id, updatedConfig);
-                            return;
-                    }
-                },
-                undefined,
-                context.subscriptions
-            );
-        })
-    );
+    context.subscriptions.push(vscode.commands.registerCommand(OCIConfigurationFunctionRootNodeItem.commandName, async (node: OCIFunctionNode) => {
+        const profileName = ext.api.getCurrentProfile().getProfileName();
+        const config = (await getFunction(profileName, node.id)).config;
+        await registerEditConfigurationCommand(context, OCIConfigurationFunctionRootNodeItem.commandName, profileName, node, config, updateFunctionConfig);
+    }));
 
     context.subscriptions.push(
         vscode.commands.registerCommand(ListResource.commandName, async () => {
@@ -480,9 +548,6 @@ export async function expandCompartment(compartmentId: string | undefined) {
         const compartment = await ext.api.getCompartmentById(compartmentId);
         let profileNode: IRootNode = await ext.treeDataProvider.findTreeItem(ext.api.getCurrentProfile().getProfileName()).then(function (data) { return data!; });
         await revealTreeNode(profileNode);
-
-        const staticCompartmentsNode = new CompartmentsNode();
-        await revealTreeNode(staticCompartmentsNode);
 
         const compartmentNode = new OCICompartmentNode(compartment?.compartment, ext.api.getCurrentProfile().getProfileName(), undefined, []);
         await revealTreeNode(compartmentNode);

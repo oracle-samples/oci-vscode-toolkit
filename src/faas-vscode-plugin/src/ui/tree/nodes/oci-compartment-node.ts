@@ -4,7 +4,7 @@
  */
 
 import * as vscode from 'vscode';
-import { getCompartments, getTenancy } from '../../../api/identity';
+import { getCompartments } from '../../../api/identity';
 import { getResourcePath } from '../../../utils/path-utils';
 import { BaseNode } from './base-node';
 import { IRootNode, IOCIBasicResource } from '../../../oci-api';
@@ -19,10 +19,6 @@ export async function createCompartmentNodes(): Promise<IRootNode[]> {
     const parentCompartmentId = profile.getTenancy();
     const profileName = profile.getProfileName();
     const nodes: IRootNode[] = [];
-
-    // Insert  root tenancy as first compartment
-    const tenancy = await getTenancy(parentCompartmentId);
-    nodes.push(new OCICompartmentNode(tenancy, profileName, undefined, []));
 
     const compartments = await getCompartments({
         profile: profileName,
@@ -74,8 +70,7 @@ export class OCICompartmentNode extends BaseNode
 
     async getConsoleUrl(region: string): Promise<string> {
         var tenancy_id = ext.api.getCurrentProfile().getTenancy();
-        var tenancy_name = await getTenancy(tenancy_id);
-        var url = `https://cloud.oracle.com/functions?region=${region}&tenant=${tenancy_name.description}`;
+        var url = `https://cloud.oracle.com/functions?region=${region}&tenant=${tenancy_id}`;
         return url;
     }
 

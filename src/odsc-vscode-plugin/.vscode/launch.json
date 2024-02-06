@@ -101,7 +101,7 @@
 				"--timeout",
 				"999999",
 				"--colors",
-				"src/**/ui-tests/*.ts"
+				"src/code-editor-ui-tests/*.ts"
 			],
 			"internalConsoleOptions": "openOnSessionStart",
 			"name": "UI Test (Chrome)",
@@ -122,14 +122,12 @@
 				"run-tests",
 				"'${workspaceFolder}/out/vscode-ui-tests/*.js'",
 				"-s",
-				"~/",
+				"~/usr/bin",
 				"-o",
-				"settings.json",
-				"--offline"
+				"settings.json"
 			],
 			"console": "integratedTerminal",
-			// "internalConsoleOptions": "neverOpen",
-
+			"runtimeExecutable": "/usr/local/bin/node"
 		}
 	]
 }

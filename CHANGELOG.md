@@ -63,3 +63,17 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - Enhanced ReadMe to ensure proper rendering of images.
 
 - Implemented auto expansion up to the profile node level.
+
+## 1.0.4 - 2024-02-05
+
+### Added
+- Incorporated new regions to the core plugin as supported by OCI Cloud
+- Added support to CREATE, EDIT and DELETE applications within Functions plugin instead of redirecting to console.
+
+### Removed
+ - Mandatory plugins inspect tenancy policy requirement fro non-admin users
+
+ - Removed Tenancy parent node from service plugins
+
+ ### Fixed
+ - Fixed Logging issues for Plan & Apply stack jobs in RMS plugin

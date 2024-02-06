@@ -4,7 +4,7 @@
  */
 
  import * as vscode from 'vscode';
- import { getCompartments, getTenancy } from '../../api/identity-client';
+ import { getCompartments } from '../../api/identity-client';
  import { getResourcePath } from '../../utils/path-utils';
  import { BaseNode } from './base-node';
  import {IRootNode, IOCIBasicResource} from '../../oci-api';
@@ -21,11 +21,6 @@
     const profileName = profile.getProfileName();
     const nodes: IRootNode[] = [];
 
-    // Insert  root tenancy as first compartment
-    const tenancy = await getTenancy(parentCompartmentId);
-    const parentNode = new OCICompartmentNode(tenancy, profileName, undefined, []);
-    nodes.push(parentNode);
-
     const compartments = await getCompartments({
         profile: profileName,
         rootCompartmentId: parentCompartmentId,
@@ -34,7 +29,7 @@
     
     // Create the compartment nodes
     for (const c of compartments) {
-        nodes.push(new OCICompartmentNode(c, profileName, parentNode, []));
+        nodes.push(new OCICompartmentNode(c, profileName, undefined, []));
     }
     return Promise.resolve(nodes);
 }
@@ -80,8 +75,7 @@
 
      async getConsoleUrl(region: string): Promise<string> {
         var tenancy_id = ext.api.getCurrentProfile().getTenancy();
-        var tenancy_name = await getTenancy(tenancy_id);
-        return `https://cloud.oracle.com/resourcemanager/stacks?region=${region}&tenant=${tenancy_name.description}`;
+        return `https://cloud.oracle.com/resourcemanager/stacks?region=${region}&tenant=${tenancy_id}`;
     }
  
      // Returns the children for the given element or root if element is not provided

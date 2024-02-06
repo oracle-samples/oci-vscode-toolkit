@@ -14,7 +14,6 @@ import { getTFfileNodesByConfigType } from '../stack-manager/download-stack';
 import { getStack } from '../api/orm-client';
 import { OCICompartmentNode } from '../tree/nodes/oci-compartment-node';
 import { applyStack, displayLogsAndUpdateStatus, planStack } from '../stack-manager/plan-apply-stack';
-import { CompartmentsNode } from '../tree/nodes/oci-compartments-node';
 import { isPayloadValid } from '../validations/payload-validator';
 import { launchWorkFlow, revealTreeNode } from '../common/launch-workflow';
 import { OCIStackNode } from '../tree/nodes/oci-stack-node';
@@ -52,7 +51,7 @@ const localize: nls.LocalizeFunc = nls.loadMessageBundle();
     vscode.commands.registerCommand(createFullCommandName('planStack'), async (node: OCIStackNode) => {
         _appendCommandInfo(createFullCommandName('planStack'), node);
         const jobResponse = await planStack(node);
-        await displayLogsAndUpdateStatus(node, jobResponse);
+        await displayLogsAndUpdateStatus(node, jobResponse, 100);
     }),
 );
 
@@ -60,7 +59,7 @@ context.subscriptions.push(
     vscode.commands.registerCommand(createFullCommandName('applyStack'), async (node: OCIStackNode) => {
         _appendCommandInfo(createFullCommandName('applyStack'), node);
         const jobResponse = await applyStack(node);
-        await displayLogsAndUpdateStatus(node, jobResponse);
+        await displayLogsAndUpdateStatus(node, jobResponse, 100);
     }),
 );
 
@@ -124,7 +123,7 @@ context.subscriptions.push(
             _appendCommandInfo(createFullCommandName('applyStack'), node);
             await updateStackDetails(node.resource);
             const jobResponse = await planStack(node);
-            await displayLogsAndUpdateStatus(node, jobResponse);            
+            await displayLogsAndUpdateStatus(node, jobResponse, 100);            
        } catch (error) {
             let errorMsg = localize('updatePlanStackErrorMsg','Error in updating and planning stack: ');
             MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_FAILURE, 'updatePlanStack', undefined, node.id, errorMsg+ ': ' +JSON.stringify(error)));
@@ -140,7 +139,7 @@ context.subscriptions.push(
             _appendCommandInfo(createFullCommandName('updateApplyStack'), node);
             await updateStackDetails(node);
             const jobResponse = await applyStack(node);
-            await displayLogsAndUpdateStatus(node, jobResponse);
+            await displayLogsAndUpdateStatus(node, jobResponse, 100);
        } catch (error) {
             let errorMsg = localize('updateApplyStackErrorMsg','Error in updating and applying stack: ');
             logger().error(errorMsg, node.id, error);
@@ -157,6 +156,7 @@ context.subscriptions.push(
             _appendCommandInfo(FocusRMSPlugin.commandName, undefined);
             await vscode.commands.executeCommand(FocusRMSPlugin.commandName);
             if(isPayloadValid(payload)){
+                await vscode.commands.executeCommand(FocusRMSPlugin.commandName); //short term fix for bug in theia 1.38
                 await vscode.commands.executeCommand(SwitchRegion.commandName, payload.region_name);
                 _appendCommandInfo(SwitchRegion.commandName, payload.region_name);
                 await launchWorkFlow(payload);
@@ -190,9 +190,6 @@ context.subscriptions.push(
            
            let profileNode : IRootNode = await ext.treeDataProvider.findTreeItem(ext.api.getCurrentProfile().getProfileName()).then(function(data) {return data!;});
            await revealTreeNode(profileNode);
-          
-           const staticCompartmentsNode = new CompartmentsNode();
-           await revealTreeNode(staticCompartmentsNode);
   
            const compartmentNode = new OCICompartmentNode(compartment?.compartment, ext.api.getCurrentProfile().getProfileName(), undefined, []);
            await revealTreeNode(compartmentNode);

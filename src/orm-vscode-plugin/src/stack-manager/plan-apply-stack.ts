@@ -83,7 +83,7 @@ export async function applyStack(node: OCIStackNode) : Promise<CreateJobResponse
   }
 } 
 
-export async function displayLogsAndUpdateStatus(node: OCIStackNode, response: CreateJobResponse){
+export async function displayLogsAndUpdateStatus(node: OCIStackNode, response: CreateJobResponse, limit: number){
   try {
     MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, 'displayLogsAndUpdateStatus', undefined, node.id));
     logger().info(response.job.operation!, localize('displayLogsInprogressMsg', 'is in progress...'));
@@ -103,7 +103,7 @@ export async function displayLogsAndUpdateStatus(node: OCIStackNode, response: C
           logger().info(localize('maxPollingAttemptMsg', 'Job took long time to complete & maximum polling attempts are met. Please refer to Console for logs..'));
             return reject(new Error(localize('maxPollingAttemptErrorMsg', 'Exceeded maximum polling attempts')));
         } else {
-            await getJobLogsAndPrint(response, startTime, endTime);
+            await getJobLogsAndPrint(response, limit);
             startTime = endTime;
             endTime = new Date().toISOString() as unknown as Date;
             setTimeout(executePoll, interval, resolve, reject);
@@ -116,7 +116,7 @@ export async function displayLogsAndUpdateStatus(node: OCIStackNode, response: C
       await poll(jobDetails, JobRunLifecycleStateProperties.jobIsDone, pollingOptions.pollInterval, pollingOptions.maxPollAttempts)
       .then(async result => { 
         const response = result as any;
-        await getJobLogsAndPrint(response, startTime, endTime);
+        await getJobLogsAndPrint(response, limit);
         logger().info(`${response.job.operation} ${response.job.lifecycleState}`);
         await updateNodeStatus(node, response);
       });      
@@ -128,10 +128,10 @@ export async function displayLogsAndUpdateStatus(node: OCIStackNode, response: C
   }
 }
 
-async function getJobLogsAndPrint(response: any, startTime: Date, endTime: Date){
+async function getJobLogsAndPrint(response: any, limit: any){
   const jobLogsResponse = await fetchJobLogs( 
-  response.job.id!, startTime, endTime);
-  jobLogsResponse.forEach(log => { logger().info(log.type!, log.timestamp, log.message);});
+  response.job.id!, limit);
+  jobLogsResponse.forEach(log => { logger().info(log.message!);});
 }
 
 async function updateNodeStatus(node: OCIStackNode, response: any){

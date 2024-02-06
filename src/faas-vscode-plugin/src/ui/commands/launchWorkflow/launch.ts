@@ -5,7 +5,6 @@
 import { ext } from "../../../extensionVars";
 import { OCIApplicationNode } from "../../tree/nodes/oci-application-node";
 import { OCICompartmentNode } from "../../tree/nodes/oci-compartment-node";
-import { CompartmentsNode } from "../../tree/nodes/oci-compartments-node";
 import { logger } from "../../../utils/get-logger";
 import { ApplicationsNode } from '../../tree/nodes/applications-node';
 import { getApplication } from "../../../api/function";
@@ -22,8 +21,6 @@ export async function launchWorkFlow(payload: any) {
         await revealTreeNode(profileNode);
 
         const compartment = await ext.api.getCompartmentById(payload.compartment_ocid!);
-        const staticCompartmentsNode = new CompartmentsNode();
-        await revealTreeNode(staticCompartmentsNode);
 
         const compartmentNode = new OCICompartmentNode(compartment?.compartment, ext.api.getCurrentProfile().getProfileName(), undefined, []);
         await revealTreeNode(compartmentNode);

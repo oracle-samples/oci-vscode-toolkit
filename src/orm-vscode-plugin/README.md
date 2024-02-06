@@ -114,6 +114,7 @@ Provides ability to clone a repository
 ## References
 * [Resource Manager Documentation](https://docs.oracle.com/en-us/iaas/Content/ResourceManager/Concepts/resourcemanager.htm)
 * [Terraform Automated OCI Solutions](https://docs.oracle.com/solutions/)
+* [RMS Code Editor Plugin Documentation](https://confluence.oci.oraclecorp.com/display/ORCH/Code+Editor+KT)
 
 ## Contributing
 This project welcomes contributions from the community. Before submitting a pull request, please review our contribution guide.

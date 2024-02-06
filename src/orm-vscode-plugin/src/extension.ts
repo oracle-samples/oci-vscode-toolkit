@@ -10,11 +10,11 @@ import { RefreshTree, treeNodeCommands } from './commands/resources';
 import { ext } from './extensionVars';
 import { IOCIProfileTreeDataProvider, IOCIProfile } from './oci-api';
 import { DocumentationNode } from './tree/nodes/documentation-node';
-import { CompartmentsNode } from './tree/nodes/oci-compartments-node';
 import { MONITOR } from './common/monitor';
 import { Service } from 'oci-ide-plugin-base/dist/monitoring/service';
 import { METRIC_FAILURE, METRIC_SUCCESS } from 'oci-ide-plugin-base/dist/monitoring/monitoring' ;
 import { initializeRMSClient } from "./api/orm-client";
+import { createCompartmentNodes } from './tree/nodes/oci-compartment-node';
 
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
 
@@ -69,7 +69,7 @@ const localize: nls.LocalizeFunc = nls.loadMessageBundle();
  async function registerTreeView(): Promise<IOCIProfileTreeDataProvider> {
         
     const compartmentsNodeCreator = () =>
-        Promise.resolve([new CompartmentsNode()]);
+        Promise.resolve(createCompartmentNodes());
 
     const docNodeCreator = () =>
         Promise.resolve([new DocumentationNode()]);

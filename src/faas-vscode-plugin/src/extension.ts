@@ -10,10 +10,10 @@ import { RefreshTree, treeNodeCommands } from './ui/commands/resources';
 import { ext } from './extensionVars';
 import { IOCIProfileTreeDataProvider, IOCIProfile, LOG } from './oci-api';
 import { DcoumentationNode } from '../src/ui/tree/nodes/documentation-node';
-import { CompartmentsNode } from '../src/ui/tree/nodes/oci-compartments-node';
 import { getFAASRootFolder, getArtifactHook } from './common/fileSystem/local-artifact';
 import { MONITOR } from './common/monitor';
 import { installFunctionCLI } from './commands/install-oci-fn-cli';
+import { createCompartmentNodes } from './ui/tree/nodes/oci-compartment-node';
 
 let logger: LOG;
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
@@ -70,7 +70,7 @@ async function registerTreeView(): Promise<IOCIProfileTreeDataProvider> {
     const docNodeCreator = () =>
         Promise.resolve([new DcoumentationNode()]);
     const compartmentsNodeCreator = () =>
-        Promise.resolve([new CompartmentsNode()]);
+        Promise.resolve(createCompartmentNodes());
 
     const treeProvider = ext.api.createProfileTreeProvider(
         docNodeCreator,

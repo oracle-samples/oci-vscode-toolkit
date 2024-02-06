@@ -19,18 +19,11 @@ export const clientConfiguration: ociCommon.ClientConfiguration = {
 };
 
 export async function getAuthProvider(profile: string): Promise<ociCommon.AuthenticationDetailsProvider> {
-    try {
-        let authProvider = await ext.api.getOCIAuthProvider(profile);
-        MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_SUCCESS, 'AuthProvider', undefined));
-        return authProvider;
-    } catch (e) {
-        MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_FAILURE, 'AuthProvider', undefined, undefined, '' + e));
-        let defAuthProvider = makeAuthProviderFromDefaultConfig(profile);
-        MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_SUCCESS, 'AuthProvider-Default', undefined));
-        return defAuthProvider;
+    if (ext.api === undefined) {
+        // Unit test, default to session token auth
+        return new Promise((resolve) => resolve(new ociCommon.SessionAuthDetailProvider(undefined, profile)));
     }
-}
-
-function makeAuthProviderFromDefaultConfig(profileName: string = 'DEFAULT'): ociCommon.AuthenticationDetailsProvider {
-    return new ociCommon.ConfigFileAuthenticationDetailsProvider(undefined, profileName);
+    let authProvider = await ext.api.getOCIAuthProvider(profile);//.getOCIAuthProvider(profile);
+    MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_SUCCESS, 'AuthProvider', undefined));
+    return authProvider;
 }

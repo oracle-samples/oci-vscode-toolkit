@@ -27,11 +27,6 @@ const localize: nls.LocalizeFunc = nls.loadMessageBundle();
      );
  }
 
-// gets Tenancy information
- export async  function getTenancy(id: string): Promise<IOCICompartment> {
-    return (await ext.api.getCompartmentById( id )).compartment;
- }
-
  // gets all compartments under the provided rootCompartmentId.
  // If rootCompartmentId is not provided, it uses the tenancy ID (root)
  export async function getCompartments({
