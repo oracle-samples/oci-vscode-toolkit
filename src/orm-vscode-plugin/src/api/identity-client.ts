@@ -10,14 +10,9 @@ import { clientConfiguration, getAuthProvider } from "./client-configurations";
 import { METRIC_INVOCATION, METRIC_SUCCESS, METRIC_FAILURE } from "oci-ide-plugin-base/dist/monitoring/monitoring";
 import { Service } from "oci-ide-plugin-base/dist/monitoring/service";
 import { MONITOR } from "../common/monitor";
-import { ext } from "../extensionVars";
 
 async function getIdentityClient(profile: string): Promise<IdentityClient> {
     return new IdentityClient({ authenticationDetailsProvider: await getAuthProvider(profile)}, clientConfiguration);
-}
-
-export async  function getTenancy(id: string): Promise<IOCICompartment> {    
-    return (await ext.api.getCompartmentById( id )).compartment;
 }
 
  export async function getCompartments({

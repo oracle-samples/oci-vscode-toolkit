@@ -17,7 +17,7 @@ const localize: nls.LocalizeFunc = nls.loadMessageBundle();
  * @returns A template string literal containing the HTML that should be
  * rendered within the webview panel
  */
-export function getWebviewContent(webview: Webview, extensionUri: Uri, config: { [key: string]: string }) {
+export function EditConfigurationGetWebviewContent(webview: Webview, extensionUri: Uri, config: { [key: string]: string }) {
   const css_path = ["media", "css", "editFunctionConfig"];
   const js_path = ["media", "js", "editFunctionConfig"];
   const styleUri = getUri(webview, extensionUri, css_path.concat(["editFunctionConfig.css"]));

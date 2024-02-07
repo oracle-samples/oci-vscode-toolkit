@@ -14,7 +14,7 @@ export namespace ext {
     export let treeDataProvider: IOCIProfileTreeDataProvider;
     export let treeView: TreeView<IRootNode>;
     export let hasAccount: boolean;
-    export let tenancyName: string;
+    export let rootNodeName: string;
 
     export let api: IOCIApi;
     export let onProfileChangedEventEmitter: EventEmitter<IOCIProfile>;

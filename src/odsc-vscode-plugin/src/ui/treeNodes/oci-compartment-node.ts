@@ -4,7 +4,7 @@
  */
 
 import * as vscode                      from 'vscode';
-import { getCompartments, getTenancy }              from '../../api/oci/oci-sdk-client';
+import { getCompartments }              from '../../api/oci/oci-sdk-client';
 import { getResourcePath }              from '../vscode_ext';
 import { BaseNode }                     from './base-node';
 import { IRootNode, IOCIBasicResource } from '../../oci-api';
@@ -14,6 +14,24 @@ import { IOCIResourceNode }             from '../../api/oci/resourceinterfaces/i
 import { ext }                          from '../../extensionVars';
 import { ProjectsNode }                 from './static-projects-node';
 
+export async function createCompartmentNodes(): Promise<IRootNode[]> {
+    const profile = ext.api.getCurrentProfile();
+    const parentCompartmentId = profile.getTenancy();
+    const profileName = profile.getProfileName();
+    const nodes: IRootNode[] = [];
+
+    const compartments = await getCompartments({
+        profile: profileName,
+        rootCompartmentId: parentCompartmentId,
+        allCompartments: false,
+    });
+    
+    // Create the compartment nodes
+    for (const c of compartments) {
+        nodes.push(new OCICompartmentNode(c, profileName, undefined, []));
+    }
+    return Promise.resolve(nodes);
+}
 
 export class OCICompartmentNode extends BaseNode implements IRootNode, IOCIResourceNode {
     public profileName: string;
@@ -52,8 +70,7 @@ export class OCICompartmentNode extends BaseNode implements IRootNode, IOCIResou
 
     async getConsoleUrl(region: string): Promise<string> {
         var tenancy_id = ext.api.getCurrentProfile().getTenancy();
-        var tenancy_name = await getTenancy(tenancy_id);
-        return `https://cloud.oracle.com/data-science/projects?region=${region}&tenant=${tenancy_name.description}`;
+        return `https://cloud.oracle.com/data-science/projects?region=${region}&tenant=${tenancy_id}`;
     }
 
     // Returns the children for the given element or root if element is not provided

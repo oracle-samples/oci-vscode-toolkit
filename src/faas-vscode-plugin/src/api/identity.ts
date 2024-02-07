@@ -29,11 +29,6 @@ export async function getUsers(profile: string, compartmentId: string): Promise<
 
 }
 
-// gets Tenancy information
-export async function getTenancy(id: string): Promise<identity.models.Compartment> {
-    return (await ext.api.getCompartmentById(id)).compartment;
-}
-
 // gets user information
 // to be moved to toolkit
 export async function getUserInfo(id: string, profile: string): Promise<IOCIUser> {

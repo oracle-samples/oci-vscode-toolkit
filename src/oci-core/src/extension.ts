@@ -16,7 +16,6 @@ import { installOCICLI } from './commands/install-oci-cli';
 import { setupStatusBar, updateRegionStatusBar, updateProfileStatusBar } from './ui/status-bar';
 import { setupTreeView } from './ui/tree-view';
 import { registerCommands, registerNavigationCommands } from './ui/commands/register-commands';
-import { getTenancyName } from './api/oci-sdk-client';
 import { OciExtensionError } from './errorhandler/oci-plugin-error';
 
 export async function activate(context: ExtensionContext) {
@@ -58,8 +57,6 @@ export async function activate(context: ExtensionContext) {
     registerCommands(context, regionStatusBarItem, profileStatusBarItem);
     if (ociAccountExists) {
         try {
-            const defaultprofile = ext.api.getCurrentProfile();
-            ext.tenancyName = await getTenancyName(defaultprofile.getTenancy()).then((response) => { return response; });
             await setupTreeView();
             await registerNavigationCommands(ext.context);
 

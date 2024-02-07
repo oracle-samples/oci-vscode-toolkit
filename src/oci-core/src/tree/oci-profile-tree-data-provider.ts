@@ -12,14 +12,12 @@ import {IRootNode} from '../userinterface/root-node';
 import {IOCIProfileTreeDataProvider} from '../userinterface/profile-tree-data-provider';
 import {IOCIProfile} from '../profilemanager/profile';
 import { getLogger } from '../logger/logging';
-import { getTenancyName } from "../api/oci-sdk-client";
 import * as nls from 'vscode-nls';
 import { ext } from '../extension-vars';
 
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
 
 const logger = getLogger("oci-vscode-toolkit");
-let profileLabel: string = "";
 
 // This is the tree view with Profile node as root
 export class OCIProfileTreeDataProvider 
@@ -41,12 +39,12 @@ export class OCIProfileTreeDataProvider
         rootNodeCreatorFunc?: NodeCreatorFunc,
         profileChildrenCreatorFunc?: NodeCreatorFunc,
     ) {
-            profileLabel = ext.tenancyName;
             if (ociConfigExists) {
+                ext.rootNodeName = "Compartments";
                 this._rootNode = new OCIProfileNode(
                     profile,
                     profile.getProfileName(),
-                    profileLabel,
+                    ext.rootNodeName,
                     profile.getRegionName(),
                     profile.usesSessionAuth(),
                     profileChildrenCreatorFunc
@@ -56,7 +54,7 @@ export class OCIProfileTreeDataProvider
                 this._rootNode = new OCIProfileNode(
                     {} as IOCIProfile,
                     profileNamePlaceHolderText,
-                    profileLabel,
+                    ext.rootNodeName,
                     '',
                     false,
                     profileChildrenCreatorFunc,
@@ -118,12 +116,10 @@ export class OCIProfileTreeDataProvider
 
     // Trigger the profile change
     async switchProfile(profile: IOCIProfile): Promise<void> {
-        profileLabel = await getProfileLabel(profile);
-        ext.tenancyName = profileLabel;
         this._rootNode = new OCIProfileNode(
             profile,
             profile.getProfileName(),
-            profileLabel,
+            ext.rootNodeName,
             profile.getRegionName(),
             profile.usesSessionAuth(),
             this._childNodeCreator,
@@ -170,8 +166,4 @@ export class OCIProfileTreeDataProvider
     async findTreeItem(nodeId: string): Promise<IRootNode | undefined> {
         return this.findItem(nodeId, this._rootNode!);
     }
-}
-
-async function getProfileLabel(ociProfile: IOCIProfile): Promise<string> {
-   return `${await getTenancyName(ociProfile.getTenancy())}`;
 }

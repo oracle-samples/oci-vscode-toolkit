@@ -27,7 +27,7 @@ export const terraformAdvancedOptions =  {
 };
 
 export const pollingOptions = {
-    pollInterval: 100,
+    pollInterval: 5000,
     maxPollAttempts: 100000
 };
 

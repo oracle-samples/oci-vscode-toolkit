@@ -197,7 +197,7 @@ export async function getJobDetails(jobId: string) : Promise<resourcemanager.res
     }
 }
 
-export async function fetchJobLogs(jobId: string, startTime: Date, endTime: Date) : Promise<resourcemanager.models.LogEntry[]>{
+export async function fetchJobLogs(jobId: string, limit: number) : Promise<resourcemanager.models.LogEntry[]>{
     let fetchJobLogsResponse; 
     const results: resourcemanager.models.LogEntry[] = [];
     try {
@@ -205,10 +205,7 @@ export async function fetchJobLogs(jobId: string, startTime: Date, endTime: Date
         setClientRegion();
         const getJobLogsRequest: resourcemanager.requests.GetJobLogsRequest = {
             jobId: jobId,
-            type: [resourcemanager.models.LogEntry.Type.TerraformConsole],
-            sortOrder: resourcemanager.requests.GetJobLogsRequest.SortOrder.Asc,
-            timestampGreaterThanOrEqualTo: startTime,
-            timestampLessThanOrEqualTo: endTime
+            limit: limit
         };
 
         do {

@@ -33,3 +33,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Fixed
 
 - Enhanced ReadMe to ensure proper rendering of images.
+
+## 1.0.4 - 2024-02-05
+
+### Fixed
+
+- Removed tenancy node and mandatory inspect policy requirement for non-admin users

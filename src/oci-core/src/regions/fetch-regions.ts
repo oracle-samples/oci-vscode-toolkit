@@ -59,6 +59,9 @@ export const userFriendlyRegionsMap = new Map<string, string>([
   ["mx-queretaro-1", "Mexico Central (Queretaro)"], // OC1
   ["eu-madrid-1", "Spain Central (Madrid)"], // OC1
   ["us-chicago-1", "US Midwest (Chicago)"], // OC1
+  ["mx-monterrey-1", "Mexico Northeast (Monterrey)"], // OC1
+  ["us-saltlake-2", "US West (Salt Lake City)"], // OC1
+  ["sa-bogota-1", "Colombia Central (Bogota)"], // OC1
 
   ["us-langley-1", "US Gov East (Ashburn)"], // OC2
   ["us-luke-1", "US Gov West (Phoenix)"], // OC2
@@ -89,6 +92,7 @@ export const userFriendlyRegionsMap = new Map<string, string>([
   ["eu-madrid-2", "EU Sovereign South (Madrid)"], // OC19
   ["eu-frankfurt-2", "EU Sovereign Central (Frankfurt)"], // OC19
 
+  ["eu-dcc-zurich-1", "Avaloq Dedicated Region (Zurich)"], // OC24
 ]);
 
 regionsList.forEach((element) => {

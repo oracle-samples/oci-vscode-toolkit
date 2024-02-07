@@ -19,10 +19,10 @@ import * as clients                                             from './api/oci/
 import { ext }                                                  from './extensionVars';
 import { IOCIProfile, IOCIProfileTreeDataProvider }             from './oci-api';
 import { DocumentationNode }                                    from './ui/treeNodes/documentation-node';
-import { CompartmentsNode }                                     from './ui/treeNodes/oci-compartments-node';
 import { Service } from 'oci-ide-plugin-base/dist/monitoring/service';
 import { METRIC_FAILURE, METRIC_SUCCESS } from 'oci-ide-plugin-base/dist/monitoring/monitoring';
 import { MONITOR } from './common/monitor';
+import { createCompartmentNodes } from './ui/treeNodes/oci-compartment-node';
 
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
 
@@ -84,7 +84,7 @@ async function registerTreeView(): Promise<IOCIProfileTreeDataProvider> {
     const docNodeCreator = () =>
         Promise.resolve([new DocumentationNode()]);
     const compartmentsNodeCreator = () =>
-        Promise.resolve([new CompartmentsNode()]);
+        Promise.resolve(createCompartmentNodes());
 
     const treeProvider = ext.api.createProfileTreeProvider(
         docNodeCreator,

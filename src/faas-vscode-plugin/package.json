@@ -3,7 +3,7 @@
   "name": "faas",
   "displayName": "OCI Functions",
   "description": "Create, edit, deploy and invoke OCI functions within VS Code.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "engines": {
     "vscode": "^1.53.2"
   },
@@ -317,11 +317,11 @@
   },
   "scripts": {
     "vscode:prepublish": "rm -rf out && npm run compile && npm run webpack",
-    "webpack": "rm -rf dist && gulp webpack",
-    "webpack-dev": "rm -rf dist && gulp webpack-dev-watch",
+    "webpack": "gulp webpack",
+    "webpack-dev": "gulp webpack-dev-watch",
     "compile": "tsc -p tsconfig.json",
-    "lint": "eslint . --ext .js,.ts",
-    "lint-fix": "eslint . --ext .js,.ts --fix",
+    "lint": "eslint src --ext ts",
+    "lint-fix": "eslint src --ext ts --fix",
     "package": "vsce package",
     "build": "rm -rf dist && tsc -p tsconfig.production.json"
   },
@@ -343,7 +343,8 @@
     "chai": "^4.3.6",
     "del": "^6.1.1",
     "dir-compare": "^4.0.0",
-    "eslint": "^7.9.0",
+    "eslint": "^7.32.0",
+    "@babel/helper-validator-identifier": "^7.22.5",
     "gulp": "^4.0.2",
     "gulp-typescript": "^6.0.0-alpha.1",
     "loader-utils": "^2.0.4",
@@ -364,14 +365,18 @@
   "dependencies": {
     "glob": "^7.1.6",
     "js-yaml": "^3.14.0",
-    "oci-common": "^2.50.1",
-    "oci-core": "^2.50.1",
-    "oci-functions": "^2.50.1",
-    "oci-ide-plugin-base": "1.0.2",
-    "oci-identity": "^2.50.1",
-    "oci-objectstorage": "^2.50.1",
-    "oci-resourcesearch": "^2.50.1",
+    "oci-common": "^2.75.0",
+    "oci-core": "^2.75.0",
+    "oci-functions": "^2.75.0",
+    "oci-ide-plugin-base": "^1.0.3",
+    "oci-identity": "^2.75.0",
+    "oci-objectstorage": "^2.75.0",
+    "oci-resourcesearch": "^2.75.0",
     "terser": "^5.14.2",
     "vscode-nls": "^5.0.1"
+  },
+  "overrides": {
+    "fsevents": "2.3.1",
+    "semver": "7.5.4"
   }
 }

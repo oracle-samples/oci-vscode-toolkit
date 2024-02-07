@@ -7,7 +7,6 @@ import { ext } from "../../extensionVars";
 import { logger } from "../vscode_ext";
 import { IRootNode } from "../../oci-api";
 import { OCICompartmentNode } from "../treeNodes/oci-compartment-node";
-import { CompartmentsNode } from "../treeNodes/oci-compartments-node";
 import { ProjectsNode } from "../treeNodes/static-projects-node";
 import { OCIProjectNode } from "../treeNodes/oci-project-node";
 import { OCIJobNode } from "../treeNodes/oci-job-node";
@@ -27,8 +26,6 @@ export async function launchWorkFlow(payload: any) {
         await revealTreeNode(profileNode);
         
         const compartment = await ext.api.getCompartmentById(payload.compartment_ocid!);
-        const staticCompartmentsNode = new CompartmentsNode();
-        await revealTreeNode(staticCompartmentsNode);
 
         const compartmentNode = new OCICompartmentNode(compartment?.compartment, profile.getProfileName(), undefined, []);
         await revealTreeNode(compartmentNode);

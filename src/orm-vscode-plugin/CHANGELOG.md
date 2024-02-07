@@ -41,3 +41,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - Enhanced ReadMe to ensure proper rendering of images.
 
 - Fixed resources not being displayed using switched region.
+
+## 1.0.4 - 2024-02-05
+
+### Fixed
+
+- Fixed Logging issues for Plan & Apply stack jobs in RMS plugin

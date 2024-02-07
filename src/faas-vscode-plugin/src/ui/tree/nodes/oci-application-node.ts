@@ -16,14 +16,6 @@ import { OCIFunctionNode } from './oci-function-node';
 import { logger } from '../../../utils/get-logger';
 import { OCINewFunctionNode } from './oci-new-function-node';
 
-export function getCreateApplicationUrl(consoleUrl: string) {
-    return `${consoleUrl}/functions`;
-}
-
-export function getDeleteApplicationUrl(consoleUrl: string, ocid: string) {
-    return `${consoleUrl}/functions/apps/${ocid}/fns`;
-}
-
 export function getEditApplicationUrl(consoleUrl: string, ocid: string) {
     return `${consoleUrl}/functions/apps/${ocid}/config`;
 }

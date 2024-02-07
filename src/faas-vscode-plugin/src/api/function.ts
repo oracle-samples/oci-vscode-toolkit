@@ -5,8 +5,8 @@
 
 
 import { FunctionsManagementClient, FunctionsInvokeClient } from "oci-functions";
-import { FunctionSummary, ApplicationSummary, Application, UpdateFunctionDetails } from "oci-functions/lib/model";
-import { ListFunctionsRequest, ListApplicationsRequest, UpdateFunctionRequest, CreateFunctionRequest } from "oci-functions/lib/request";
+import { FunctionSummary, ApplicationSummary, Application, UpdateFunctionDetails, UpdateApplicationDetails } from "oci-functions/lib/model";
+import { ListFunctionsRequest, ListApplicationsRequest, UpdateFunctionRequest, CreateFunctionRequest, UpdateApplicationRequest } from "oci-functions/lib/request";
 import { CreateFunctionResponse, DeleteFunctionResponse, InvokeFunctionResponse, ListApplicationsResponse, DeleteApplicationResponse } from "oci-functions/lib/response";
 import * as common from "oci-common";
 
@@ -117,6 +117,22 @@ export async function updateFunctionConfig(
     };
     var client = await makeClient(profile);
     return client.updateFunction(updateFunctionRequest).then((updateFunctionResponse) => updateFunctionResponse.function);
+}
+
+export async function updateApplicationConfig(
+    profile: string,
+    appId: string,
+    config: { [key: string]: string }
+): Promise<types.IOCIApplication> {
+    const client = await makeClient(profile);
+    const request: UpdateApplicationRequest = {
+        applicationId: appId,
+        updateApplicationDetails: {
+            config: config
+        }
+    };
+    const response = await client.updateApplication(request);
+    return response.application;
 }
 
 export async function createOCIFunction(

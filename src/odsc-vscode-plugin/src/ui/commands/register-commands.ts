@@ -23,7 +23,6 @@ import { logger }                                           from "../vscode_ext"
 import { launchWorkFlow, revealTreeNode }                   from './launch-workflow';
 import { isPayloadValid }                                   from '../../validations/payload-validator';
 import * as localArtifact                                   from "../../api/oci/local-artifact";
-import { CompartmentsNode }                                 from '../treeNodes/oci-compartments-node';
 import * as nls                                             from 'vscode-nls';
 import { METRIC_FAILURE, METRIC_INVOCATION, METRIC_SUCCESS } from 'oci-ide-plugin-base/dist/monitoring/monitoring';
 import { getDirectoryName } from 'oci-ide-plugin-base/dist/common/fileSystem/filesystem';
@@ -174,9 +173,10 @@ export async function registerGenericCommands(context: vscode.ExtensionContext) 
         vscode.commands.registerCommand(createFullCommandName("launch"), async function (payload: any) {
             _appendCommandInfo(createFullCommandName('launch'), payload);
             MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, createFullCommandName("launch"), undefined));            
-            await vscode.commands.executeCommand(FocusDataSciencePlugin.commandName);
+            await vscode.commands.executeCommand(FocusDataSciencePlugin.commandName); // a short term solution fro bug in theia 1.38
             MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, FocusDataSciencePlugin.commandName, undefined));            
             if (isPayloadValid(payload)) {
+                await vscode.commands.executeCommand(FocusDataSciencePlugin.commandName);
                 MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, SwitchRegion.commandName, undefined));            
                 await vscode.commands.executeCommand(SwitchRegion.commandName, payload.region_name);
                 await launchWorkFlow(payload);
@@ -224,9 +224,6 @@ export async function expandCompartment(compartmentId: string | undefined) {
         
         let profileNode : IRootNode = await ext.treeDataProvider.findTreeItem(ext.api.getCurrentProfile().getProfileName()).then(function(data) {return data!;});
         await revealTreeNode(profileNode);
-       
-        const staticCompartmentsNode = new CompartmentsNode();
-        await revealTreeNode(staticCompartmentsNode);
 
         const compartmentNode = new OCICompartmentNode(compartment?.compartment, ext.api.getCurrentProfile().getProfileName(), undefined, []);
         await revealTreeNode(compartmentNode);
