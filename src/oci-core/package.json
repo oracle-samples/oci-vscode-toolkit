@@ -1,9 +1,9 @@
 {
-  "_comment": "Copyright © 2022, 2023, Oracle and/or its affiliates. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
+  "_comment": "Copyright © 2022, 2024, Oracle and/or its affiliates. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
   "name": "oci-core",
   "displayName": "OCI Core Extension",
   "description": "Base plugin of the OCI Toolkit extension pack. It provides common functionality shared among the OCI service extensions, including Functions, Resource Manager and Data Science such as integrated Sign-in, Profile Management, Region selection, Logging, Error notifications and more.",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "engines": {
     "vscode": "^1.53.0"
   },
@@ -360,7 +360,7 @@
     "@types/mocha": "^8.2.3",
     "@types/node": "^16.18.24",
     "@types/sinon": "^9.0.5",
-    "@types/uuid": "^8.3.0",
+    "@types/uuid": "^9.0.1",
     "@types/vscode": "^1.53.0",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
@@ -394,7 +394,7 @@
     "moment": "^2.29.4",
     "oci-ide-plugin-base": "^1.0.3",
     "semver": "^7.5.4",
-    "uuid": "^8.3.0",
+    "uuid": "^9.0.1",
     "vscode-icons-js": "^11.6.1",
     "vscode-nls": "^5.0.1"
   },

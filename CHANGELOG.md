@@ -68,12 +68,19 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Added
 - Incorporated new regions to the core plugin as supported by OCI Cloud
+
 - Added support to CREATE, EDIT and DELETE applications within Functions plugin instead of redirecting to console.
 
 ### Removed
- - Mandatory plugins inspect tenancy policy requirement fro non-admin users
+ - Mandatory plugins inspect tenancy policy requirement for non-admin users
 
  - Removed Tenancy parent node from service plugins
 
  ### Fixed
  - Fixed Logging issues for Plan & Apply stack jobs in RMS plugin
+
+## 1.0.5 - 2024-04-30
+
+### Fixed
+
+- Fixed vulnerability for uuid

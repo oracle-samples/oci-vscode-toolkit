@@ -1,9 +1,9 @@
 {
-  "_comment": "Copyright (c) 2022, 2023, Oracle and/or its affiliates. All rights reserved. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
+  "_comment": "Copyright (c) 2022, 2024, Oracle and/or its affiliates. All rights reserved. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
   "name": "oci-vscode-toolkit",
   "displayName": "OCI Toolkit for VS Code",
   "description": "OCI Toolkit for VS Code is a rich collection of OCI extensions, making it easier for you to develop, test and deploy applications on Oracle Cloud Infrastructure (OCI) straight from VS Code.",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "engines": {
     "vscode": "^1.53.0"
   },
