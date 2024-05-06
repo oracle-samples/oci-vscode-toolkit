@@ -1,9 +1,9 @@
 {
-  "_comment": "Copyright © 2022, 2023, Oracle and/or its affiliates. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
+  "_comment": "Copyright © 2022, 2024, Oracle and/or its affiliates. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
   "name": "rms",
   "displayName": "OCI Resource Manager",
   "description": "Edit, plan and deploy OCI Resource Manager Configurations stored in Object Storage or a Code repository.",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "engines": {
     "vscode": "^1.54.0"
   },

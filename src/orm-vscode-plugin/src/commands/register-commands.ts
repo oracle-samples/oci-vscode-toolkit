@@ -1,5 +1,5 @@
 /**
- * Copyright © 2022, 2023, Oracle and/or its affiliates.
+ * Copyright © 2022, 2024, Oracle and/or its affiliates.
  * This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.
  */
 import * as vscode from 'vscode';
@@ -69,7 +69,7 @@ context.subscriptions.push(
         async (node : OCIFileExplorerNode) => {
             _appendCommandInfo(createFullCommandName('createFile'), node);
             const fileName = await promptForFileOrDirName();
-            getResourceManagerArtifactHook().createTextFile(path.join(node.uriPath.fsPath, fileName!), '');
+            getResourceManagerArtifactHook().createTextFile(getResourceManagerArtifactHook().relativePathFromAbsolute(path.join(node.uriPath.fsPath, fileName!)), '');
             ext.treeDataProvider.refresh(node);
         }),
 );
@@ -80,7 +80,7 @@ context.subscriptions.push(
         async (node : OCIFileExplorerNode) => {
             _appendCommandInfo(createFullCommandName('createDirectory'), node);
             const fileName = await promptForFileOrDirName();
-            getResourceManagerArtifactHook().ensureDirectoryExists(path.join(node.uriPath.fsPath, fileName!));
+            getResourceManagerArtifactHook().ensureDirectoryExists(getResourceManagerArtifactHook().relativePathFromAbsolute(path.join(node.uriPath.fsPath, fileName!)));
             ext.treeDataProvider.refresh(node);
         }),
 );

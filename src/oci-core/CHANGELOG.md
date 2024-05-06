@@ -56,3 +56,15 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - Enhanced ReadMe to ensure proper rendering of images.
 
 - Implemented auto expansion up to the profile node level.
+
+## 1.0.4 - 2024-02-05
+
+### Fixed
+
+- Removed tenancy node and mandatory inspect policy requirement for non-admin users
+
+## 1.0.5 - 2024-04-30
+
+### Fixed
+
+- Fixed vulnerability for uuid
