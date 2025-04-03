@@ -1,0 +1,1 @@
+{"operationSuccessMessage":"命令檔更新成功.","scriptFileNameNotFound":"找不到命令檔檔案名稱, 正在取消作業","scriptContentNotFound":"找不到命令檔內容, 正在取消作業","filePathRetrieveError":"錯誤: 無法擷取儲存檔案的檔案路徑","fileDownloadFailure":"錯誤: {0}","fileDownloadSuccess":"檔案已順利下載."}

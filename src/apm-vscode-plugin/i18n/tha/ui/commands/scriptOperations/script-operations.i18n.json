@@ -1,0 +1,1 @@
+{"operationSuccessMessage":"อัปเดตสคริปต์สำเร็จแล้ว","scriptFileNameNotFound":"ไม่พบชื่อไฟล์สคริปต์ กำลังยกเลิกการดำเนินการ","scriptContentNotFound":"ไม่พบเนื้อหาสคริปต์ กำลังยกเลิกการดำเนินการ","filePathRetrieveError":"ข้อผิดพลาด: ไม่สามารถเรียกข้อมูลพาธของไฟล์สำหรับการบันทึกไฟล์","fileDownloadFailure":"ข้อผิดพลาด: {0}","fileDownloadSuccess":"ดาวน์โหลดไฟล์สำเร็จแล้ว"}
