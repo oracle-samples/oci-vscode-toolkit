@@ -1,0 +1,1 @@
+{"msg":"---Resultados de ejecución de la supervisión desde la fecha de inicio: {0} hasta la fecha de finalización: {1}---","monitorExecResultsMsg":"\nDisponibilidad: {0} \nHora de ejecución de supervisión (ms): {1} \nRegistro de hora (UTC): {2} \nRegistro de hora: {3} \nPunto estratégico: {4} \nCategoría de error: {5}"}

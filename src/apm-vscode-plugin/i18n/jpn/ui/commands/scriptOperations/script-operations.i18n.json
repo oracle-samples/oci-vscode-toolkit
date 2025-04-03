@@ -1,0 +1,1 @@
+{"operationSuccessMessage":"スクリプトの更新に成功しました。","scriptFileNameNotFound":"スクリプトのファイル名が見つかりません。操作を取り消しています","scriptContentNotFound":"スクリプトの内容が見つかりません。操作を取り消しています","filePathRetrieveError":"エラー: ファイルを保存するファイル・パスを取得できません","fileDownloadFailure":"エラー: {0}","fileDownloadSuccess":"ファイルは正常にダウンロードされました。"}

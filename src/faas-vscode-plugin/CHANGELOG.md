@@ -34,8 +34,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Incorporated updated modal dialogue for simplified FN-CLI installation process.
 
-## 1.0.4 - 2024-02-05
+## 1.0.4 - 2024-02-05 
 
 ### Fixed
 
-- Added support to CREATE, EDIT and DELETE applications within Functions plugin instead of redirecting to console.
+- Added support to CREATE, EDIT and DELETE applications within Functions plugin instead of redirecting to console. 

@@ -340,7 +340,7 @@
   },
   "main": "./dist/extension",
   "scripts": {
-    "vscode:prepublish": "rm -rf out && npm run compile && npm run webpack",
+    "vscode:prepublish": "rm -rf out && npm run compile && npm run test-theia-compatibility && npm run webpack",
     "webpack": "rm -rf dist && gulp webpack",
     "webpack-dev": "rm -rf dist && gulp webpack-dev-watch",
     "compile": "tsc -p tsconfig.json",
@@ -392,7 +392,7 @@
     "js-base64": "^3.5.2",
     "jwt-decode": "^2.2.0",
     "moment": "^2.29.4",
-    "oci-ide-plugin-base": "^1.0.3",
+    "oci-ide-plugin-base": "^1.1.87",
     "semver": "^7.5.4",
     "uuid": "^9.0.1",
     "vscode-icons-js": "^11.6.1",

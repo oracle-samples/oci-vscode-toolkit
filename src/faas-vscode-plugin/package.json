@@ -1,9 +1,9 @@
 {
-  "_comment": "Copyright © 2022, 2024, Oracle and/or its affiliates. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
+  "_comment": "Copyright © 2022, 2023, Oracle and/or its affiliates. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
   "name": "faas",
   "displayName": "OCI Functions",
   "description": "Create, edit, deploy and invoke OCI functions within VS Code.",
-  "version": "1.0.5",
+  "version": "1.0.4",
   "engines": {
     "vscode": "^1.53.2"
   },
@@ -316,7 +316,7 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "rm -rf out && npm run compile && npm run webpack",
+    "vscode:prepublish": "rm -rf out && npm run compile && npm run test-theia-compatibility && npm run webpack",
     "webpack": "gulp webpack",
     "webpack-dev": "gulp webpack-dev-watch",
     "compile": "tsc -p tsconfig.json",
@@ -368,7 +368,7 @@
     "oci-common": "^2.75.0",
     "oci-core": "^2.75.0",
     "oci-functions": "^2.75.0",
-    "oci-ide-plugin-base": "^1.0.3",
+    "oci-ide-plugin-base": "^1.1.87",
     "oci-identity": "^2.75.0",
     "oci-objectstorage": "^2.75.0",
     "oci-resourcesearch": "^2.75.0",
