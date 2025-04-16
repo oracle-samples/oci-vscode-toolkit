@@ -1,5 +1,5 @@
 /**
- * Copyright © 2022, 2023, Oracle and/or its affiliates.
+ * Copyright © 2022, 2024, Oracle and/or its affiliates.
  * This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.
  */
 import { CompartmentConfigSource, GitConfigSource, ObjectStorageConfigSource, UpdateZipUploadConfigSourceDetails, ZipUploadConfigSource } from "oci-resourcemanager/lib/model";
@@ -13,7 +13,7 @@ import { logger } from "../utils/get-logger";
 import { ProgressLocation, window, } from 'vscode';
 import { UpdateStackResponse } from "oci-resourcemanager/lib/response/update-stack-response";
 import { getResourceManagerArtifactHook, getResourceManagerFolder } from "../common/fileSystem/local-terraform-config";
-import { getTfConfigFiles, readFileAndEncodeContentBase64, deleteFile } from "../common/fileSystem/file-system";
+import { getTfConfigFiles, readFileAndEncodeContentBase64 } from "../common/fileSystem/file-system";
 import { zip } from "../common/fileSystem/zip";
 import path = require("path");
 import * as nls from "vscode-nls";
@@ -69,8 +69,7 @@ export async function deployStack(stack: Stack) {
                 },
             );
         }
-       else if(ZipUploadConfigSource.configSourceType === configSource || CompartmentConfigSource.configSourceType === configSource){   
-            await deleteFile(path.join(getResourceManagerFolder(stack.id!), `${stack.id!}.zip`))    
+       else if(ZipUploadConfigSource.configSourceType === configSource || CompartmentConfigSource.configSourceType === configSource){
             await zip(getResourceManagerFolder(stack.id!), stack.id!);
             const zipFilePath = path.join(getResourceManagerFolder(stack.id!), `${stack.id!}.zip`);
             const base64Zip = await readFileAndEncodeContentBase64(zipFilePath);

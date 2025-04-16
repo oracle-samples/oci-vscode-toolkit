@@ -1,1 +1,0 @@
-{"downloadWorkerCli":"\n若要透過 CLI 下載工作節點, 請複製以下命令並執行: \n{0}","opvpDetailsNotFound":"錯誤: 找不到 OPVP 詳細資訊, 正在取消作業","onPremiseVantagePointSummary":"---內部部署觀察點摘要---","onPremiseVantagePointDetails":"OPVP 名稱: {0} \nOPVP 更新時間: {1} \n工作節點總計: {2} \n可用的工作節點: {3} \n已使用的工作節點: {4} \nOPVP OCID: {5}\n"}

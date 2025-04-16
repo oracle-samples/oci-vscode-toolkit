@@ -1,1 +1,0 @@
-{"downloadWorkerCli":"\n要通过 CLI 下载 Worker，请复制并执行以下命令：\n{0}\n","opvpDetailsNotFound":"错误：未找到 OPVP 详细信息，将取消操作","onPremiseVantagePointSummary":"---内部部署观察点概要---","onPremiseVantagePointDetails":"OPVP 名称：{0} \nOPVP 更新名称：{1} \nWorker 总数：{2} \n可用 Worker：{3} \n已用 Worker：{4} \nOPVP OCID：{5}\n"}

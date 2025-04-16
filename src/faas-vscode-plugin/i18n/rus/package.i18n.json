@@ -1,5 +1,5 @@
 {
-    "_comment": "Copyright (c) 2022, 2023, Корпорация Oracle и аффилированные с ней лица. Данное программное обеспечение лицензировано в рамках Universal Permissive License (UPL) 1.0, см. https://oss.oracle.com/licenses/upl.",
+    "_comment": "Copyright (c) 2022, 2024, Корпорация Oracle и аффилированные с ней лица. Данное программное обеспечение лицензировано в рамках Universal Permissive License (UPL) 1.0, см. https://oss.oracle.com/licenses/upl.",
     "faas.refreshTree.title": "Обновить",
     "faas.createNewOCIApplication.title": "Создание приложения",
     "faas.createOCIFunction.title": "Создать функцию...",

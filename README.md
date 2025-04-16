@@ -13,7 +13,6 @@ OCI toolkit for VS Code is available from the [Visual Studio Marketplace](https:
 - **Functions** extension in the VS Code lets you create a new function, edit an existing function and deploy and invoke it. For more information, see the [Functions Walkthrough](https://docs.oracle.com/iaas/Content/Functions/Tasks/functionscreatingfunctions-usingVScodeplugin.htm)
 - **Data Science** extension allows you to edit your job artifacts and run Data Science jobs natively. For more information, see the [Data Science Walkthrough](https://docs.oracle.com/en-us/iaas/data-science/using/vscode.htm)
 - **OCI CLI** allows users to perform common platform actions, such as creating and managing OCI resources using the built-in OCI CLI in the VS Code terminal
-- **Application Performance Monitoring** extension allows you to manage APM Availability Monitoring scripts, monitors under APM domains within VS Code. For more information, see the [Application Performance Monitoring Walkthrough](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/home.htm)
 
     ![](./media/images/readme/oci_rms.gif)
 
