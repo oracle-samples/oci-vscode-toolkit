@@ -1,1 +1,0 @@
-{"downloadWorkerCli":"\nCLIを使用してワーカーをダウンロードするには、次のコマンドをコピーして実行します: \n{0}\n","opvpDetailsNotFound":"エラー: opvpの詳細が見つかりません。操作を取り消しています","onPremiseVantagePointSummary":"---オンプレミス・バンテージ・ポイント・サマリー---","onPremiseVantagePointDetails":"OPVP名: {0} \nOPVP更新時間: {1} \nワーカー合計: {2} \n使用可能なワーカー: {3} \n使用済ワーカー: {4} \nOPVP ocid: {5}\n"}

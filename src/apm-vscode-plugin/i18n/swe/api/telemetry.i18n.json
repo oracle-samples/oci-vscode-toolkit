@@ -1,1 +1,0 @@
-{"msg":"---Körningsresultat för körning från startdatum: {0} till slutdatum: {1}---","monitorExecResultsMsg":"\nTillgänglighet: {0} \nÖvervakningens körningstid (ms): {1} \nTidsstämpel (UTC): {2} \nTidsstämpel: {3} \nTestplats: {4} \nFelkategori: {5}"}
