@@ -1,0 +1,1 @@
+{"downloadWorkerCli":"\nCLI를 통해 워커를 다운로드하려면 다음 명령을 복사하여 실행합니다. \n{0}\n","opvpDetailsNotFound":"오류: OPVP 세부정보를 찾을 수 없습니다. 작업이 취소됩니다.","onPremiseVantagePointSummary":"---온프레미스 유리한 위치 요약---","onPremiseVantagePointDetails":"OPVP 이름: {0} \nOPVP 업데이트 시간: {1} \n총 워커: {2} \n사용 가능한 워커: {3} \n사용된 워커: {4} \nOPVP OCID: {5}\n"}

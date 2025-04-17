@@ -3,7 +3,7 @@
   "name": "oci-vscode-toolkit",
   "displayName": "OCI Toolkit for VS Code",
   "description": "OCI Toolkit for VS Code is a rich collection of OCI extensions, making it easier for you to develop, test and deploy applications on Oracle Cloud Infrastructure (OCI) straight from VS Code.",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "engines": {
     "vscode": "^1.53.0"
   },
@@ -35,6 +35,7 @@
     "Resource Manager",
     "Functions",
     "Data Science",
+    "Application Performance Monitoring",
     "Terraform",
     "Devops"
   ],
@@ -50,7 +51,8 @@
     "Oracle.oci-core",
     "Oracle.rms",
     "Oracle.odsc",
-    "Oracle.faas"
+    "Oracle.faas",
+    "Oracle.apm"
   ],
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.3.1",
