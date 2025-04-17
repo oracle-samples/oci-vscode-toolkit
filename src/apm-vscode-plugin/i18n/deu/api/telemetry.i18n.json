@@ -1,0 +1,1 @@
+{"msg":"---Ausführungsergebnisse von Monitoren von Startdatum: {0} bis Enddatum: {1}---","monitorExecResultsMsg":"\nVerfügbarkeit: {0} \nMonitorausführungszeit (ms): {1} \nZeitstempel (UTC): {2} \nZeitstempel: {3} \nStandort: {4} \nFehlerkategorie: {5}"}

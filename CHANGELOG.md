@@ -84,3 +84,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Fixed
 
 - Fixed vulnerability for uuid
+
+## 1.0.6 - 2025-04-17
+
+### Added new plugin OCI Application Performance Monitoring

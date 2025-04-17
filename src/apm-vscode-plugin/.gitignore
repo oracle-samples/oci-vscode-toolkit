@@ -1,0 +1,11 @@
+node_modules
+out
+dist
+.vscode-test
+*.vsix
+.DS_Store
+resources/.DS_Store
+resources/samples/.DS_Store
+package.nls.*.json
+test-resources/**
+target/
