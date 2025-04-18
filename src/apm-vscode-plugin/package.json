@@ -590,7 +590,7 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "rm -rf out && npm run compile && npm run test-theia-compatibility && npm run webpack",
+    "vscode:prepublish": "rm -rf out && npm run compile && npm run webpack",
     "webpack": "gulp webpack",
     "webpack-dev": "gulp webpack-dev-watch",
     "compile": "tsc -p tsconfig.json",
@@ -643,7 +643,7 @@
     "oci-apmsynthetics": "^2.100.0",
     "oci-common": "^2.75.0",
     "oci-core": "^2.75.0",
-    "oci-ide-plugin-base": "^1.1.87",
+    "oci-ide-plugin-base": "^1.0.3",
     "oci-identity": "^2.75.0",
     "oci-monitoring": "^2.100.0",
     "oci-objectstorage": "^2.75.0",
