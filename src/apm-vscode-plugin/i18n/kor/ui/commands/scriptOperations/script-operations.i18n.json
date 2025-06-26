@@ -1,1 +1,0 @@
-{"operationSuccessMessage":"스크립트 업데이트를 성공했습니다.","scriptFileNameNotFound":"스크립트 파일 이름을 찾을 수 없습니다. 작업이 취소됩니다.","scriptContentNotFound":"스크립트 콘텐츠를 찾을 수 없습니다. 작업이 취소됩니다.","filePathRetrieveError":"오류: 파일 저장을 위한 파일 경로를 검색할 수 없습니다.","fileDownloadFailure":"오류: {0}","fileDownloadSuccess":"파일이 성공적으로 다운로드되었습니다."}
