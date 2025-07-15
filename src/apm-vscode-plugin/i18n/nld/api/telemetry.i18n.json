@@ -1,1 +1,1 @@
-{"msg":"---Resultaten uitvoering controle van begindatum: {0} tot einddatum: {1}---","monitorExecResultsMsg":"\nBeschikbaarheid: {0} \nTijd uitvoering controle (ms): {1} \nTijdstempel (UTC): {2} \nTijdstempel: {3} \nUitkijkpunt: {4} \nFoutcategorie: {5}"}
+{"msg":"Controle uitvoeringsresultaten <br><h4>Controle: {0} <br>Begindatum: {1} <br>Einddatum: {2}</h4>","monitorExecResultsMsg":"Beschikbaarheid: {0}\nTijd uitvoering controle (ms): {1}\nTijdstempel (UTC): {2}\nTijdstempel (epoch): {3}\nUitkijkpunt: {4}\nFoutcategorie: {5}"}

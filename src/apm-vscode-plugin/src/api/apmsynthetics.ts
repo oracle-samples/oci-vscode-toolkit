@@ -71,8 +71,7 @@ export async function getMonitorDetailsInOutput(
     updatedMonitor["vantagePoints"] = vpDisplayNameArray;
 
     let outputText = localize('monitorSummary', '\n {0}', JSON.stringify(updatedMonitor, null, '\t'));
-    panel.webview.html = ViewOutput(panel.webview, context.extensionUri,
-        "Monitor Details", outputText);
+    panel.webview.html = ViewOutput(panel.webview, context.extensionUri, "", outputText);
 }
 
 
@@ -134,7 +133,7 @@ export async function listScripts(
     profile: string
 ): Promise<Array<ScriptSummary>> {
     var client = await makeClient(profile);
-    let resp = await client.listScripts({ apmDomainId, "contentType": ContentTypes.Side.toString() });
+    let resp = await client.listScripts({ apmDomainId, "contentType": `${ContentTypes.Side.toString()},${ContentTypes.PlaywrightTs.toString()}` });
     return resp.scriptCollection.items;
 };
 
@@ -143,10 +142,11 @@ export async function createScript(
     apmDomainId: string,
     displayName: string,
     content: string,
-    contentFileName: string
+    contentFileName: string,
+    contentType: ContentTypes
 ): Promise<Script> {
     var client = await makeClient(profile);
-    let resp = await client.createScript({ apmDomainId, "createScriptDetails": { "displayName": displayName, "contentType": ContentTypes.Side, "content": content, "contentFileName": contentFileName } });
+    let resp = await client.createScript({ apmDomainId, "createScriptDetails": { "displayName": displayName, "contentType": contentType, "content": content, "contentFileName": contentFileName } });
     return resp.script;
 };
 
@@ -180,8 +180,7 @@ export async function getScriptDetailsInOutput(
     let scriptJSON = JSON.parse(JSON.stringify(script));
     scriptJSON["Monitors executing this script"] = monitorList;
     let outputText = localize('scriptSummary', '\n {0}', JSON.stringify(scriptJSON, null, '\t'));
-    panel.webview.html = ViewOutput(panel.webview, context.extensionUri,
-        "Script Details", outputText);
+    panel.webview.html = ViewOutput(panel.webview, context.extensionUri, "", outputText);
 }
 
 export async function updateScript(
@@ -400,7 +399,8 @@ export async function getMonitorResult(
         resp = await client.getMonitorResult({ "apmDomainId": apmDomainId, "monitorId": monitorId, "vantagePoint": vantagePoint, "resultType": resultType, "resultContentType": resultContentType, "executionTime": executionTime });
         return resp.monitorResult;
     } catch (e) {
-        vscode.window.showErrorMessage(localize('getMonitorResultErr', 'Error: No data found to download'));
+        console.error(e);
+        vscode.window.showErrorMessage(localize('getMonitorResultErr', 'Error: Requested resource not found or invalid'));
     }
     return undefined;
 }

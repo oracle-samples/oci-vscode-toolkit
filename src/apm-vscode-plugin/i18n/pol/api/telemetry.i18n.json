@@ -1,1 +1,1 @@
-{"msg":"---Wyniki wykonywania monitorów od daty początkowej: {0} do daty końcowej: {1}---","monitorExecResultsMsg":"\nDostępność: {0} \nCzas wykonywania monitora (s): {1} \nZnacznik czasu (UTC): {2} \nZnacznik czasu: {3} \nPunkt obserwacyjny: {4} \nKategoria błędów: {5}"}
+{"msg":"Wyniki wykonywania monitorów <br><h4>Monitor: {0} <br>Data początkowa: {1} <br>Data końcowa: {2}</h4>","monitorExecResultsMsg":"Dostępność: {0} \nCzas wykonywania monitora (ms): {1} \nZnacznik czasu (UTC): {2} \nZnacznik czasu (czas uniksowy): {3} \nPunkt obserwacyjny: {4} \nKategoria błędów: {5}"}

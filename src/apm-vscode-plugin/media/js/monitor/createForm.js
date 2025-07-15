@@ -100,7 +100,7 @@ $(document).ready(function () {
   /** Required fields **/
   const fileTextInput = document.getElementById('file-text-input');
   fileTextInput.addEventListener('change', function (event) {
-    jsonTextInput = fileTextInput.value;
+    jsonTextInput = editor.getValue();//fileTextInput.value;
     var jsonError = validateJsonFile(jsonTextInput);
     if (jsonError) {
       document.getElementById('file-text-error').innerHTML = jsonError;
@@ -111,7 +111,7 @@ $(document).ready(function () {
   });
 
   fileTextInput.addEventListener('input', function (event) {
-    jsonTextInput = fileTextInput.value;
+    jsonTextInput = editor.getValue();//fileTextInput.value;
     var jsonError = validateJsonFile(jsonTextInput);
     if (jsonError) {
       document.getElementById('file-text-error').innerHTML = jsonError;
@@ -483,19 +483,12 @@ $(document).ready(function () {
 
   const saveAsJsonButton = document.getElementById('save-json-button');
   saveAsJsonButton.addEventListener('click', () => {
-    //hide previous error 
-    // if (createType === "ui") {
-    //   hideErrors();
-    //   //validate form inputs
-    //   if (isValidateForm() === false) {
-    //     return;
-    //   }
-    // } 
-
     hideErrors();
     if (isValidateJsonFileForm() === false) {
       return;
     }
+
+    let status = saveAsFile(jsonData.displayName + '.json', "JSON", jsonData);
 
     // Post a message to the extension when the save button is clicked
     vscode.postMessage({
@@ -504,21 +497,13 @@ $(document).ready(function () {
       monitorName: displayName,
       target: target,
       scriptId: scriptId,
-      monitorJson: jsonData
+      monitorJson: jsonData,
+      status: status
     });
   });
 
   const createButton = document.getElementById('create-button');
   createButton.addEventListener('click', () => {
-    //hide previous error 
-    // if (createType === "ui") {
-    //   hideErrors();
-    //   //validate form inputs
-    //   if (isValidateForm() === false) {
-    //     return;
-    //   }
-    // }
-
     hideErrors();
     if (isValidateJsonFileForm() === false) {
       return;
@@ -560,8 +545,6 @@ $(document).ready(function () {
       }
     },
     submitHandler: function (form) {
-      //console.log('submit form json ... ' + JSON.stringify(jsonData));
-      //form.submit(); // default form submit
       return false;
     }
   });
@@ -582,7 +565,27 @@ $(document).ready(function () {
         }
         hideError('file-text-input-error');
 
-        document.getElementById('file-text-input').value = JSON.stringify(jsonData, null, '\t') || '';
+        document.getElementById('file-text-input').value = JSON.stringify(jsonData, null, 2) || '';
+      };
+      reader.readAsText(file);
+    }
+  });
+  loadFromJsonInputsButton.addEventListener('input', function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      document.getElementById('form-buttons').style.display = 'block';
+      document.getElementById('file-text-div').style.display = 'block';
+      const reader = new FileReader();
+      reader.onload = function () {
+        var jsonError = validateJsonFile(reader.result);
+        if (jsonError) {
+          document.getElementById('file-text-error').innerHTML = jsonError;
+          showError('file-text-input-error');
+          return;
+        }
+        hideError('file-text-input-error');
+
+        document.getElementById('file-text-input').value = JSON.stringify(jsonData, null, 2) || '';
       };
       reader.readAsText(file);
     }
@@ -863,6 +866,10 @@ $(document).ready(function () {
         if (Object.keys(jsonData).length === 0) {
           return ErrorJson.validation.jsonFile.empty;
         }
+        // add monitor type to avoid error case where this edit file can be saved as json and then used in create monitor flow
+        if (jsonData['monitorType'] === undefined) {
+          jsonData['monitorType'] = monitorType;
+        }
       } catch (e) {
         return ErrorJson.validation.jsonFile.invalidJson;
       }
@@ -954,7 +961,7 @@ $(document).ready(function () {
 
   function isValidateJsonFileForm() {
     let isValid = true;
-    jsonTextInput = fileTextInput.value;
+    jsonTextInput = editor.getValue();// fileTextInput.value;
     var jsonError = validateJsonFile(jsonTextInput);
     if (jsonError) {
       document.getElementById('file-text-error').innerHTML = jsonError;

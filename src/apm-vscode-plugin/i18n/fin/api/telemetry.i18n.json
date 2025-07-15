@@ -1,1 +1,1 @@
-{"msg":"---Seuraa suoritustuloksia alkamispäivästä {0} päättymispäivään {1}---","monitorExecResultsMsg":"\nSaatavuus: {0} \nSuoritusajan seuranta (ms): {1} \nAikaleima (UTC): {2} \nAikaleima: {3} \nTarkastelupiste: {4} \nVirheluokka: {5}"}
+{"msg":"Seuraa suoritustuloksia <br><h4>Seuranta: {0} <br>Alkamispäivä: {1} <br>Päättymispäivä: {2}</h4>","monitorExecResultsMsg":"Saatavuus: {0} \nSuoritusajan seuranta (ms): {1} \nAikaleima (UTC): {2} \nAikaleima (Unix-aika): {3} \nTarkastelupiste: {4} \nVirheluokka: {5}"}

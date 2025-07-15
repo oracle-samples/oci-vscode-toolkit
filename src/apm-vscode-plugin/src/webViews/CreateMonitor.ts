@@ -9,8 +9,10 @@ export function CreateMonitorGetWebview(webview: Webview, extensionUri: Uri, vpL
    scriptsList: string, apmDomainId: string) {
    const css_path = ["media", "css"];
    const js_path = ["media", "js", "monitor"];
+   const download_path = ["media", "js", "download"];
    const svg_path = ["resources", "dark"];
    const errorSvg = getUri(webview, extensionUri, svg_path.concat(["error.svg"]));
+   const downloadJs = getUri(webview, extensionUri, download_path.concat(["download.js"]));
    const vpDropDownJs = getUri(webview, extensionUri, js_path.concat(["populateVPs.js"]));
    const scriptDropDownJs = getUri(webview, extensionUri, js_path.concat(["populateScript.js"]));
    const submitForm = getUri(webview, extensionUri, js_path.concat(["createForm.js"]));
@@ -22,27 +24,30 @@ export function CreateMonitorGetWebview(webview: Webview, extensionUri: Uri, vpL
    <!DOCTYPE html>
    <html lang="en">
    <head>
-       <meta charsset="UTF-8">
+       <meta charset="UTF-8">
        <meta http-equiv="Content-Security-Policy">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
        <link rel="stylesheet" href="${tableStyle}">  
        <script id="vp_drop_down_js" type="module" src="${vpDropDownJs}">${vpList}</script>
        <script id="script_drop_down_js" type="module" src="${scriptDropDownJs}">${scriptsList}</script>       
-       <script type="module" src="${submitForm}"></script>       
+       <script type="text/javascript" src="${downloadJs}"></script>
+       <script type="module" src="${submitForm}"></script>
        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
-       <title>Create Monitor</title>
-       <style>
-       </style>
+       <!-- Monaco Editor -->
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs/loader.js"></script>
+ 
+        <title>Create Monitor</title>
+        <style>
+        </style>
    </head>
    <body id="webview-body">
 
-      <h3>Create Monitor</h3>
-
-      <label class="label-margin-info">Upload JSON file. For sample JSON template refer Visual Studio Code Plugin section under
-       <a href="https://docs.oracle.com/en-us/iaas/application-performance-monitoring/home.htm" target="_blank">
-        APM
-       </a> &nbsp;&nbsp;</label>
+      <br/></br>
+      <label class="label-margin-info">Upload JSON file. For sample JSON template refer
+       <a href="https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/availability-monitor-vs.html#APMGN-GUID-8330E2EF-B5F1-472B-97AA-BF3FEA2C7C6E" target="_blank">
+        Create Availability Monitor
+       </a> under Visual Studio Code Plugin section &nbsp;&nbsp;</label>
       
       <div class="float-container" style="${showInputs}"> 
          <label class="label-margin">Choose an option to create using :&nbsp;&nbsp;</label>
@@ -56,13 +61,67 @@ export function CreateMonitorGetWebview(webview: Webview, extensionUri: Uri, vpL
       </div>
       <div class="float-container file-padding" id="file-div"> 
          <input type="file" accept=".json" name="create-monitor" id="load-json-button">
-      </div>
+      </div>&nbsp;&nbsp;
 
       <form id="form_create_monitor" onsubmit="return false;" method="post" action="*">
          <input class="input-margin" type="hidden" id="apmdomain-id-input" value="${apmDomainId}"/>
-         <div class="row">
+          <!-- Monaco Editor -->
+          <div id="file-text-input"></div>
+ 
+          <div id="file-text-input-error" style="display: none; color: red;">
+             <img src="${errorSvg}"/> Invalid JSON.
+          </div>
+       <script>
+          let editor;
+          let monitorContent = "";
+          require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs' }});
+ 
+          require(['vs/editor/editor.main'], function() {
+              editor = monaco.editor.create(document.getElementById('file-text-input'), {
+                  value: "// Enter json object for monitor detail",
+                  language: "json",
+                  theme: "vs-light"
+              });
+ 
+            // Update monitorContent in real time
+            editor.onDidChangeModelContent(() => {
+               monitorContent = editor.getValue();
+              try {
+                  JSON.parse(editor.getValue());
+                  document.getElementById('file-text-input-error').style.display = "none";
+              } catch (e) {
+                  document.getElementById('file-text-input-error').style.display = "block";
+              }
+            }); 
+          // JSON Validation
+          document.getElementById('create-button').addEventListener('click', function() {
+              try {
+                  JSON.parse(editor.getValue());
+                  document.getElementById('file-text-input-error').style.display = "none";
+              } catch (e) {
+                  document.getElementById('file-text-input-error').style.display = "block";
+              }
+          });
+ 
+          // Load JSON from file
+          document.getElementById('load-json-button').addEventListener('change', function(event) {
+              const file = event.target.files[0];
+              if (file) {
+                  const reader = new FileReader();
+                  reader.onload = function(e) {
+                      editor.setValue(JSON.stringify(JSON.parse(e.target.result), null, 2));
+                  };
+                  reader.readAsText(file);
+              }
+          });
+          });
+       </script>
+
+       <!-- Monaco Editor --> 
+
+         <div class="row" style="${showInputs}">
             <div class="file input text" id="file-text-div">
-               <textarea class="textarea-margin textarea-size input-block oui-react-input" placeholder="Enter json object for monitor details" id="file-text-input"></textarea>
+               <textarea class="textarea-margin textarea-size input-block oui-react-input" placeholder="Enter json object for monitor details" id="file-text-input-temp"></textarea>
                <div class="oui-display-hint-padding">
                  <div class="oui-text-small oui-form-danger oui-margin-small-bottom" id="file-text-input-error" style="${showInputs}">
                     <img src="${errorSvg}"/><div id="file-text-error">Invalid JSON.</div>

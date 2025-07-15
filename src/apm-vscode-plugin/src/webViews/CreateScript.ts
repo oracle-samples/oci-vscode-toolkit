@@ -19,20 +19,31 @@ export function CreateScriptGetWebview(webview: Webview, extensionUri: Uri) {
     <!DOCTYPE html>
     <html lang="en">
     <head>
-       <meta charsset="UTF-8">
+       <meta charset="UTF-8">
        <meta http-equiv="Content-Security-Policy">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
        <link rel="stylesheet" href="${tableStyle}"> 
        <script type="module" src="${submitForm}"></script>
        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
-       <title>Create Script</title>
-       <style>
-       </style>
+       <!-- Monaco Editor -->
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs/loader.js"></script>
+ 
+        <title>Create Script</title>
+        <style>
+        </style>
     </head>
     <body id="webview-body">
-       <h1>Create Script</h1>
        <form id="form_create_script" method="post" action="*">
+
+         <label class="label-margin column">Choose an option to create using :&nbsp;&nbsp;</label>
+         <label class="label-margin label-file-width" for="create-script">
+            <input class="div-radio" type="radio" id="side-radio" name="create-script" value="SIDE" checked/>&nbsp;SIDE
+         </label>
+         <label class="label-margin label-file-width" for="create-script">
+            <input class="div-radio" type="radio" id="ts-radio" name="create-script" value="PLAYWRIGHT_TS" />&nbsp;&nbsp;TS
+         </label>
+
          <div class="row">
             <div class="column" id="col1-div">
                <label class="label-margin" for="script-name-input" id="script-name-label">Script Name</label>&nbsp;
@@ -49,23 +60,94 @@ export function CreateScriptGetWebview(webview: Webview, extensionUri: Uri) {
                </div>
 
                <label class="label-margin" for="script-file-input" id="script-file-label" >Script File</label>
-               <input class="input-margin input-block oui-react-input" placeholder="Select script file" accept=".side" type="file" id="script-file-input"/>
+               <input class="input-margin input-block oui-react-input" placeholder="Select script file" type="file" id="script-file-input"/>
                <input id="fileContents" type="hidden" />
                <div class="oui-display-hint-padding">
                   <div class="oui-text-small oui-form-danger oui-margin-small-bottom" id="script-file-error" style="${showInputs}">
-                     <img src="${errorSvg}"/>Invalid script file.
+                      <img src="${errorSvg}"/><div id="file-text-error-tmp">Invalid SIDE file.</div>
                   </div>
                </div>
-
-               <div class="file input text" id="file-text-div">
-                  <textarea class="textarea-margin textarea-size input-block oui-react-input" placeholder="Enter SIDE file content" id="file-text-input"></textarea>
-                  <div class="oui-display-hint-padding">
-                     <div class="oui-text-small oui-form-danger oui-margin-small-bottom" id="file-text-input-error" style="${showInputs}">
-                        <img src="${errorSvg}"/><div id="file-text-error">Invalid SIDE file.</div>
-                     </div>
+              
+               <!-- Monaco Editor -->
+               <div id="file-text-input"></div>
+               <div class="oui-display-hint-padding">
+                 <div class="oui-text-small oui-form-danger oui-margin-small-bottom" id="file-text-input-error"  style="${showInputs}">
+                     <img src="${errorSvg}"/><div id="file-text-error">Invalid Side file</div>
                   </div>
-               </div>     
+               </div>
+              
+               <script>
+                  let editor;
+                  let scriptContent = "";
 
+                  require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs' }});                      
+                  
+                  require(['vs/editor/editor.main'], function() {
+                     editor = monaco.editor.create(document.getElementById('file-text-input'), {
+                           value: "// Enter file content",
+                           language: "json",
+                           theme: "vs-light"
+                        });
+
+                     const selected = document.querySelector('input[name="create-script"]:checked').value;                     
+                     // Update scriptContent in real time
+                     editor.onDidChangeModelContent(() => {
+                        scriptContent = editor.getValue();
+                        try {
+                              const selected = document.querySelector('input[name="create-script"]:checked').value;
+                              if (selected === "SIDE") {
+                                 JSON.parse(scriptContent);
+                              }
+                              document.getElementById('file-text-input-error').style.display = "none";
+                        } catch (e) {
+                              document.getElementById('file-text-input-error').style.display = "block";
+                        }
+                     });
+                  
+                     // Load JSON from file
+                     document.getElementById('script-file-input').addEventListener('change', function(event) {
+                        const file = event.target.files[0];
+                        if (file) {
+                           const reader = new FileReader();
+                           reader.onload = function(e) {
+                              const selected = document.querySelector('input[name="create-script"]:checked').value;
+                              if (selected === "SIDE") {
+                              editor.setValue(JSON.stringify(JSON.parse(e.target.result), null, 2));
+                              } else {
+                              editor.setValue(e.target.result);
+                              }
+                           };
+                           reader.readAsText(file);
+                        }
+                     });
+
+                     const fileInput = document.getElementById('script-file-input');
+                     const radios = document.querySelectorAll('input[name="create-script"]');
+                     var monacoDisplayLanguage;
+                     function radioChangeHandler() {
+                        const selected = document.querySelector('input[name="create-script"]:checked').value;
+                        if (selected === 'SIDE') {
+                           fileInput.accept = '.side';
+                           monacoDisplayLanguage = "json";
+                        } else if (selected === 'PLAYWRIGHT_TS') {
+                           fileInput.accept = '.ts,.spec.ts';
+                           monacoDisplayLanguage = "typescript";
+                        }                     
+                        monaco.editor.setModelLanguage(editor.getModel(), monacoDisplayLanguage);
+                     }
+
+                     // Attach event listener to each radio button
+                     radios.forEach(radio => {
+                        radio.addEventListener('change', radioChangeHandler);
+                     });
+                     // Set initial value on page load
+                     window.onload = function() {
+                        radioChangeHandler(); 
+                     }; 
+                  });                                   
+               </script>
+
+               <!-- Monaco Editor -->
             </div>
          </div>
 

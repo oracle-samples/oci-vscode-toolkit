@@ -141,12 +141,8 @@ export async function getMonitorResultInfo(apmDomainId: string, vantagePoints: A
     };
 }
 
-export async function getMetricDataPointsTimeRangeInfo(): Promise<IOCIMetricDataTimeRangeInfo | undefined> {
-    const selectedTime = await promptForTimeDurations(Object.values(TimeDurations));
-    if (selectedTime === undefined || selectedTime == '') {
-        return undefined;
-    }
-
+export async function getMetricTimeRangeInfo(selectedTime: string,
+    start: string | undefined, end: string | undefined): Promise<IOCIMetricDataTimeRangeInfo | undefined> {
     var startDate = new Date(new Date().toUTCString());
     var endDate = new Date(startDate.toUTCString());
     switch (selectedTime) {
@@ -175,17 +171,15 @@ export async function getMetricDataPointsTimeRangeInfo(): Promise<IOCIMetricData
             break;
         }
         case TimeDurations.Custom: {
-            let startDateStr = await promptForDate(startDate.toUTCString(), ' start date');
-            if (startDateStr === undefined) {
+            if (start === undefined) {
                 return undefined;
             }
-            startDate = new Date(startDateStr);
+            startDate = new Date(start);
 
-            let endDateStr = await promptForDate(startDate.toUTCString(), ' end date');
-            if (endDateStr === undefined) {
+            if (end === undefined) {
                 return undefined;
             }
-            endDate = new Date(endDateStr);
+            endDate = new Date(end);
             break;
         }
     }
@@ -195,4 +189,3 @@ export async function getMetricDataPointsTimeRangeInfo(): Promise<IOCIMetricData
         endDate
     };
 }
-

@@ -41,6 +41,8 @@ Below are the steps:
 - Right click on the Scripts option and click on `Create`
   
   ![](./media/images/readme/create_script.png)
+- Choose script type between Selenium SIDE script or Playwright typescript 
+  ![](./media/images/readme/choose_script_type.png)
 - Add script name, and select script file. Refer **https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/create-script.html** for script inputs.  
 
 ## View Script Details
@@ -146,9 +148,16 @@ Below are the steps:
 
 - Right click on monitor, expand `Execution results`, select `View error message`
 
-## Download HAR, Logs, Screenshots
+## View HAR, Screenshots
 
-- Right click on monitor, expand `Execution results`, select  `Download execution HAR`  or `Download execution logs` or  `Download execution screenshots`.
+- Right click on monitor, expand `Execution results`, select `View execution HAR`  or `View execution screenshots`.
+- It will prompt for timestamp, enter its value (get this value from the output of `Get execution results` command), then select vantage point for which you want to view the result.
+- To download the results, `Download` button can be clicked.
+- Select location to download file, this will download the file on the local system.
+
+## Download Logs 
+
+- Right click on monitor, expand `Execution results`, select `Download execution logs`. 
 - It will prompt for timestamp, enter its value (get this value from the output of `Get execution results` command), then select vantage point for which you want to download the result.
 - Select location to download file, this will download the file on the local system.
 

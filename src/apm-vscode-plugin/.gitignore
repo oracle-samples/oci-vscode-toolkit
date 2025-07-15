@@ -9,3 +9,14 @@ resources/samples/.DS_Store
 package.nls.*.json
 test-resources/**
 target/
+
+# Playwright
+playwright.config.js
+playwright.config.js.map
+playwright.config.ts
+/tests-examples/
+/tests/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

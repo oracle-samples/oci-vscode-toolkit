@@ -34,7 +34,6 @@ export async function getRepo(path: vscode.Uri): Promise<Repository | null | und
 export async function getLatestRemoteCommit(repo: Repository) {
     await repo.fetch();
     var diff = await repo.diff();
-    console.log("Diff:", diff);
     if (repo.state.HEAD?.upstream === undefined || (repo.state.HEAD.ahead === undefined || repo.state.HEAD.behind === undefined)) {
         console.log("Branch not on remote");
         return null;

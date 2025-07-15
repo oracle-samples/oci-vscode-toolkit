@@ -5,7 +5,7 @@
 import * as vscode from 'vscode';
 import {
     CreateOCIAPMSynMonitor, ExpandCompartment, ListResource, ShowDocumentation, SignInItem,
-    DeleteOCIAPMSynMonitor, FocusApmSyntheticPlugin, SwitchRegion,
+    DeleteOCIAPMSynMonitor, FocusApmSyntheticPlugin, SwitchRegion, OpenIssueInGithub,
     createFullCommandName, CreateOCIAPMSynScript, RunNowOCIAPMSynMonitor, GetAPMSynMonitorResults,
     CreateOCIAPMSynOnPremiseVantagePoint, CreateWorkerOCIAPMSynOnPremiseVantagePoint,
     GetAPMSynOnPremiseVantagePointResults, DeleteOCIAPMSynOnPremiseVantagePoint,
@@ -14,9 +14,6 @@ import {
     CreateOCIAPMSynWorker, DownloadRestWorkerOCIAPMSynOPVP, DownloadSideWorkerOCIAPMSynOPVP,
     EditOCIAPMSynMonitor,
     GetAPMSynWorkerResults, DeleteOCIAPMSynWorker, DisableOCIAPMSynWorker, UpdatePriorityOCIAPMSynWorker,
-    GetHar,
-    GetScreenshots,
-    GetLogs,
     Launch,
     DownloadOCIAPMSynScript,
     GetOCIAPMSynMonitorDetails,
@@ -26,13 +23,16 @@ import {
     CopyScriptOCID,
     ListVantagePoints,
     CopyMonitorOCID,
-    ViewErrorMessage
+    ViewErrorMessage,
+    ViewScreenshots,
+    GetLogs,
+    ViewHar
 } from './resources';
+import { ExecutionResults } from '../../ui-helpers/ui-helpers';
 import { ext } from '../../extensionVars';
 import { IOCIProfileTreeDataProvider, IRootNode } from '../../oci-api';
 import { IActionResult, isCanceled, hasFailed, newCancellation } from '../../utils/actionResult';
 import { OCICompartmentNode } from "../tree/nodes/oci-compartment-node";
-import path = require('path');
 import { launchWorkFlow, revealTreeNode } from './launchWorkflow/launch';
 import { isPayloadValid } from '../../common/validations/launchPayload';
 import * as nls from 'vscode-nls';
@@ -43,10 +43,12 @@ import { listRecentCommands } from 'oci-ide-plugin-base/dist/extension/ui/featur
 import { executeUserCommand, _appendCommandInfo } from './ui/list-recent-commands';
 import { RootNode } from '../tree/nodes/rootNode';
 import {
-    getHar, getLogs, getMonitorResultMetrics, webviewEditMonitor,
-    getScreenshots, runNow, webviewCreateNewMonitor, webviewSaveMonitorJson,
-    getMonitorDetails,
-    viewErrorMessage
+    webviewEditMonitor,
+    runNow, webviewCreateNewMonitor,
+    getMonitorDetails, getMonitorExecutionResultMetrics,
+    viewHarWebview,
+    viewScreenshotWebview,
+    viewErrorMessageWebview
 } from "./monitorOperations/monitor-operations";
 import {
     deleteMonitor, deleteOnPremiseVantagePoint, deleteScript, deleteWorker,
@@ -54,7 +56,7 @@ import {
 } from '../../api/apmsynthetics';
 import { MonitorsNode } from '../tree/nodes/monitors-node';
 import { OCIApmSynMonitorSummaryNode } from '../tree/nodes/oci-apm-syn-monitor-summary-node';
-import { getMonitor } from '../../api/apmsynthetics';
+import { getMonitor, getMonitorResult } from '../../api/apmsynthetics';
 // OPVP
 import { OnPremiseVantagePointsNode } from '../tree/nodes/opvps-node';
 import { createNewOnPremiseVantagePoint, getOnPremiseVantagePointResults, downloadRestImage, downloadSideImage } from './opvpOperations/opvp-operations';
@@ -70,11 +72,15 @@ import { createNewScript, editScript, getScriptContent, getScriptDetails, webvie
 import { OCIApmSynScriptSummaryNode } from '../tree/nodes/oci-apm-syn-script-summary-node';
 import { CreateMonitorGetWebview } from '../../webViews/CreateMonitor';
 import { EditMonitorGetWebview } from '../../webViews/EditMonitor';
+import { GetResultsWebView } from '../../webViews/ExecutionResults';
 import { CreateScriptGetWebview } from '../../webViews/CreateScript';
 import { EditScriptGetWebview } from '../../webViews/EditScript';
+import { DownloadScript } from '../../webViews/DownloadScript';
+import { ViewResultsMonitorWebView } from '../../webViews/ViewResultsMonitorWebView';
+import { GetLogsWebView } from '../../webViews/GetLogs';
 import { getVPList, VantagePointItem } from './ui/get-monitor-info';
 import { getScriptsList } from './ui/get-script-info';
-import { Monitor, MonitorScriptParameterInfo, MonitorScriptParameter } from 'oci-apmsynthetics/lib/model';
+import { Monitor, MonitorScriptParameterInfo, MonitorScriptParameter, ContentTypes } from 'oci-apmsynthetics/lib/model';
 import { ViewOutput } from '../../webViews/ViewOutput';
 
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
@@ -172,8 +178,7 @@ export function registerCommands(
                 });
                 currentPanel = panel;
                 let outputText = localize("viewOutput", "\n {0}", JSON.stringify(vpList, null, '\t'));
-                panel.webview.html = ViewOutput(panel.webview, context.extensionUri,
-                    "Vantage Points", outputText);
+                panel.webview.html = ViewOutput(panel.webview, context.extensionUri, "", outputText);
 
                 panel.onDidDispose(() => {
                     currentPanel = undefined;
@@ -196,18 +201,6 @@ export function registerCommands(
                 var stringifiedVpList = JSON.stringify(vpList);
                 let scriptsList = await getScriptsList(apmDomainId);
                 var stringifiedScriptsList = JSON.stringify(scriptsList);
-                // const jsonTemplate = "{ \n \"displayName\": \"string\",\n \"monitorType\": \"SCRIPTED_BROWSER\",\n \"vantagePoints\": [\n  \"string\",\n  \"string\"\n ],\n " +
-                //     " \"scriptId\": \"string\",\n \"status\": \"ENABLED\",\n \"repeatIntervalInSeconds\":300,\n \"isRunOnce\": false,\n \"timeoutInSeconds\": 60,\n " +
-                //     " \"target\": \"string\",\n \"configuration\": {\n    \"configType\": \"SCRIPTED_BROWSER_CONFIG\",\n    \"isFailureRetried\": true,\n " +
-                //     " \"dnsConfiguration\": {\n      \"isOverrideDns\": true,\n      \"overrideDnsIp\": \"string\"\n    },\n    \"isCertificateValidationEnabled\": true,\n " +
-                //     "    \"isDefaultSnapshotEnabled\": true,\n    \"networkConfiguration\": {\n      \"numberOfHops\": 50,\n      \"probeMode\": \"SACK\",\n      \"probePerHop\": 3,\n " +
-                //     "      \"protocol\": \"TCP\",\n      \"transmissionRate\": 16\n     }\n  },\n \"availabilityConfiguration\": {\n  \"maxAllowedFailuresPerInterval\": 0,\n " +
-                //     "  \"minAllowedRunsPerInterval\": 1\n },\n \"maintenanceWindowSchedule\": {\n  \"timeEnded\": \"2017-01-01T00:00:00+00:00\",\n " +
-                //     "  \"timeStarted\": \"2017-01-01T00:00:00+00:00\"\n },\n \n \n \"freeformTags\": {\n  \"tagKey1\": \"string\",\n  \"tagKey2\": \"string\"\n },\n\n \"definedTags\": {\n " +
-                //     "  \"tagNamespace1\": {\n   \"tagKey1\": \"string\",\n   \"tagKey2\": \"string\"\n  },\n  \"tagNamespace2\": {\n   \"tagKey1\": \"string\",\n " +
-                //     "  \"tagKey2\": \"string\"\n  }\n },\n\n \"scriptParameters\": [\n  {\n   \"paramName\": \"string\",\n   \"paramValue\": \"string\"\n  },\n " +
-                //     "  {\n   \"paramName\": \"string\",\n   \"paramValue\": \"string\"\n  }\n ],\n\n \"isRunNow\": false,\n \"schedulingPolicy\": \"ALL\",\n " +
-                //     "  \n}";
 
                 let panel = vscode.window.createWebviewPanel("createMonitor", "Create Monitor", vscode.ViewColumn.One, {
                     enableScripts: true,
@@ -218,7 +211,7 @@ export function registerCommands(
                     stringifiedVpList, stringifiedScriptsList, apmDomainId!);
                 panel.webview.onDidReceiveMessage(async (message: {
                     command: any; vantagePoint: any; monitorName: any;
-                    target: any; scriptId: any; monitorJson: any
+                    target: any; scriptId: any; monitorJson: any, status: boolean
                 }) => {
                     switch (message.command) {
                         case 'create_monitor':
@@ -235,15 +228,18 @@ export function registerCommands(
                             });
                             currentPanel = responsePanel;
                             let outputText = localize("viewOutput", "\n {0}", JSON.stringify(response, null, '\t'));
-                            responsePanel.webview.html = ViewOutput(responsePanel.webview, context.extensionUri,
-                                "Create Monitor Response", outputText);
+                            responsePanel.webview.html = ViewOutput(responsePanel.webview, context.extensionUri, "", outputText);
+                            responsePanel.onDidDispose(() => {
+                                currentPanel = undefined;
+                            });
                             break;
                         case 'save_as_json':
-                            runWithStatusBarMessage(
-                                webviewSaveMonitorJson(message.monitorName, message.monitorJson, panel, node.getOutputChannel()),
-                                localize('saveMonitorMessage', 'Saving json template...'),
-                                () => refreshNode(node)
-                            );
+                            const saveMessage = message.status ? localize("DownloadJsonMessage", 'Json downloaded successfully.') : localize("JsonDownloadMessage", 'Json download operation is failed.');;
+                            if (message.status) {
+                                vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'File is downloaded successfully.'));
+                            } else {
+                                vscode.window.showErrorMessage(localize('fileDownloadFailure', 'Error: Unable to download file.'));
+                            }
                             break;
                         case 'cancel':
                             const operationCancelledMessage = localize("monitorCancelledMessage", 'Monitor creation operation was cancelled.');
@@ -290,19 +286,55 @@ export function registerCommands(
                 if (currentPanel && currentPanel.viewType !== "viewOutput") {
                     currentPanel.dispose();
                 }
-                let panel = vscode.window.createWebviewPanel("viewOutput", "Execution Results", vscode.ViewColumn.One, {
+                let panel = vscode.window.createWebviewPanel("getExecutionResults", 'Get Execution Results : ' + node.getMonitorName(), vscode.ViewColumn.One, {
                     enableScripts: true,
                     retainContextWhenHidden: true
                 });
-                currentPanel = panel;
-                let r = await getMonitorResultMetrics(node.getMonitorId(), node.getMonitorName(), node.getCompartmentId(), panel, context);
-                if (r.canceled) {
-                    currentPanel.dispose();
-                    currentPanel = undefined;
-                }
-                panel.onDidDispose(() => {
-                    currentPanel = undefined;
-                });
+                panel.webview.html = GetResultsWebView(panel.webview, context.extensionUri, 'Get Execution Results : ' + node.getMonitorName());
+                //currentPanel = panel;
+                panel.webview.onDidReceiveMessage(async (message: {
+                    command: any; selectedTime: string, startDate: any; endDate: any
+                }) => {
+                    switch (message.command) {
+                        case 'get_results':
+                            panel.dispose();
+                            let responsePanel = vscode.window.createWebviewPanel("viewOutput", "Execution Results : " + node.getMonitorName(), vscode.ViewColumn.One, {
+                                enableScripts: true,
+                                retainContextWhenHidden: true
+                            });
+                            currentPanel = responsePanel;
+                            try {
+                                let r = await getMonitorExecutionResultMetrics(apmDomainId, node.getMonitorId(), node.getMonitorType(), node.getMonitorName(), node.getCompartmentId(),
+                                    message.selectedTime, message.startDate, message.endDate, currentPanel, context);
+                                if (r.canceled) {
+                                    responsePanel.dispose();
+                                }
+                            } catch (e) {
+                                if (typeof e === "string") {
+                                    vscode.window.showErrorMessage(e.toUpperCase());
+                                } else if (e instanceof Error) {
+                                    vscode.window.showErrorMessage(e.message);
+                                }
+                            }
+                            responsePanel.onDidDispose(() => {
+                                currentPanel = undefined;
+                            });
+                            break;
+                        case 'cancel':
+                            const operationCancelledMessage = localize("monitorCancelledMessage", 'Get execution results operation was cancelled.');
+                            vscode.window.showWarningMessage(
+                                operationCancelledMessage, { modal: false }
+                            );
+                            panel.dispose();
+                            break;
+                    }
+                },
+                    undefined,
+                    context.subscriptions
+                );
+                // panel.onDidDispose(() => {
+                //     currentPanel = undefined;
+                // });
             }
         ));
 
@@ -326,7 +358,8 @@ export function registerCommands(
                 node.synMonSummary.vantagePoints.forEach((item) => {
                     vpNameSel = vpNameSel.concat(item.name + ',');
                 });
-                let panel = vscode.window.createWebviewPanel("editMonitor", "Edit Monitor", vscode.ViewColumn.One, {
+                let panelTitle = "Edit Monitor: " + node.getMonitorName();
+                let panel = vscode.window.createWebviewPanel("editMonitor", panelTitle, vscode.ViewColumn.One, {
                     enableScripts: true,
                     retainContextWhenHidden: true
                 });
@@ -346,10 +379,12 @@ export function registerCommands(
                     });
                     updatedMonitor["scriptParameters"] = scriptParams;
                 }
+                // unset fields that are received from GET monitor response obj but are not used in edit monitor call
                 updatedMonitor["vantagePoints"] = monitor.vantagePoints.map(vp => vp.name);
                 updatedMonitor["id"] = undefined;
                 updatedMonitor["vantagePointCount"] = undefined;
                 updatedMonitor["monitorType"] = undefined;
+                updatedMonitor["contentType"] = undefined;
                 updatedMonitor["scriptName"] = undefined;
                 updatedMonitor["timeCreated"] = undefined;
                 updatedMonitor["timeUpdated"] = undefined;
@@ -361,7 +396,7 @@ export function registerCommands(
                 panel.webview.html = EditMonitorGetWebview(panel.webview, context.extensionUri,
                     stringifiedVpList, stringifiedScriptsList, vpNameSel, monitor, updatedMonitor, apmDomainId!);
                 panel.webview.onDidReceiveMessage(async (message: {
-                    command: any; apmDomainId: any; monitorId: any; monitorName: any, monitorJson: any
+                    command: any; apmDomainId: any; monitorId: any; monitorName: any, monitorJson: any, status: boolean
                 }) => {
                     switch (message.command) {
                         case 'edit_monitor':
@@ -378,15 +413,18 @@ export function registerCommands(
                             });
                             currentPanel = responsePanel;
                             let outputText = localize("viewOutput", "\n {0}", JSON.stringify(response, null, '\t'));
-                            responsePanel.webview.html = ViewOutput(responsePanel.webview, context.extensionUri,
-                                "Edit Monitor Response", outputText);
+                            responsePanel.webview.html = ViewOutput(responsePanel.webview, context.extensionUri, "", outputText);
+                            responsePanel.onDidDispose(() => {
+                                currentPanel = undefined;
+                            });
                             break;
                         case 'save_as_json':
-                            runWithStatusBarMessage(
-                                webviewSaveMonitorJson(message.monitorName, message.monitorJson, panel, node.getOutputChannel()),
-                                localize('saveMonitorMessage', 'Saving json template...'),
-                                () => refreshNode(node)
-                            );
+                            const saveMessage = message.status ? localize("DownloadJsonMessage", 'Json downloaded successfully.') : localize("JsonDownloadMessage", 'Json download operation is failed.');;
+                            if (message.status) {
+                                vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'File is downloaded successfully.'));
+                            } else {
+                                vscode.window.showErrorMessage(localize('fileDownloadFailure', 'Error: Unable to download file.'));
+                            }
                             break;
                         case 'cancel':
                             const operationCancelledMessage = localize("monitorCancelledMessage", 'Monitor edit operation was cancelled.');
@@ -441,17 +479,36 @@ export function registerCommands(
                 if (currentPanel !== undefined && currentPanel.viewType !== "viewOutput") {
                     currentPanel.dispose();
                 }
-                let panel = vscode.window.createWebviewPanel("viewOutput", "Error Message", vscode.ViewColumn.One, {
+
+                let panel2 = vscode.window.createWebviewPanel("viewOutput", 'View Error : ' + node.getMonitorName(), vscode.ViewColumn.One, {
                     enableScripts: true,
                     retainContextWhenHidden: true
                 });
-                currentPanel = panel;
-                let r = await viewErrorMessage(apmDomainId!, node.getMonitorId(), node.getMonitorType(), node.getVantagePoints(), panel, context);
-                if (r.canceled) {
-                    currentPanel.dispose();
-                    currentPanel = undefined;
-                }
-                panel.onDidDispose(() => {
+                var vpList = JSON.stringify(await getVPList(apmDomainId));
+                panel2.webview.html = ViewResultsMonitorWebView(panel2.webview, context.extensionUri, 'View Error',
+                    vpList, node.getMonitorName(), ExecutionResults.ERROR);
+                panel2.webview.onDidReceiveMessage(async (message: {
+                    command: any; timestamp: string, vp: any, status: boolean
+                }) => {
+                    switch (message.command) {
+                        case 'view_errors':
+                            panel2.dispose();
+                            viewErrorMessageWebview(currentPanel, apmDomainId, node.getMonitorId(), node.getMonitorType(), node.getMonitorName(),
+                                message.vp, message.timestamp, context);
+                            break;
+                        case 'cancel':
+                            const operationCancelledMessage = localize("viewErrorCancelMessage", 'View error message operation was cancelled.');
+                            vscode.window.showWarningMessage(
+                                operationCancelledMessage, { modal: false }
+                            );
+                            panel2.dispose();
+                            break;
+                    }
+                },
+                    undefined,
+                    context.subscriptions
+                );
+                panel2.onDidDispose(() => {
                     currentPanel = undefined;
                 });
             }
@@ -459,34 +516,94 @@ export function registerCommands(
 
     context.subscriptions.push(
         vscode.commands.registerCommand(
-            GetHar.commandName,
+            ViewHar.commandName,
             async (node: OCIApmSynMonitorSummaryNode) => {
-                _appendCommandInfo(GetHar.commandName, node);
+                _appendCommandInfo(ViewHar.commandName, node);
                 const apmDomainId = node.getApmDomainId();
-                MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, GetHar.commandName, apmDomainId));
-                return runWithStatusBarMessage(
-                    getHar(apmDomainId!, node.getMonitorId(), node.getVantagePoints(), node.getOutputChannel()),
-                    localize('getHarMessage', 'Downloading HAR...'),
-                    () => refreshNode(node)
+                MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, ViewHar.commandName, apmDomainId));
+
+                if (currentPanel !== undefined && currentPanel.viewType !== "viewOutput") {
+                    currentPanel.dispose();
+                }
+                let panel2 = vscode.window.createWebviewPanel("viewOutput", 'View HAR : ' + node.getMonitorName(), vscode.ViewColumn.One, {
+                    enableScripts: true,
+                    retainContextWhenHidden: true
+                });
+                var vpList = JSON.stringify(await getVPList(apmDomainId));
+                panel2.webview.html = ViewResultsMonitorWebView(panel2.webview, context.extensionUri, 'View HAR',
+                    vpList, node.getMonitorName(), ExecutionResults.HARS);
+                panel2.webview.onDidReceiveMessage(async (message: {
+                    command: any; timestamp: string, vp: any, status: boolean
+                }) => {
+                    switch (message.command) {
+                        case 'get_hars':
+                            panel2.dispose();
+                            viewHarWebview(currentPanel, apmDomainId, node.getMonitorId(), node.getMonitorType(), node.getMonitorName(),
+                                message.vp, message.timestamp, context);
+                            break;
+                        case 'cancel':
+                            const operationCancelledMessage = localize("getHarCancelMessage", 'View HAR operation was cancelled.');
+                            vscode.window.showWarningMessage(
+                                operationCancelledMessage, { modal: false }
+                            );
+                            panel2.dispose();
+                            break;
+                    }
+                },
+                    undefined,
+                    context.subscriptions
                 );
+                panel2.onDidDispose(() => {
+                    currentPanel = undefined;
+                });
             }
         ));
 
     context.subscriptions.push(
         vscode.commands.registerCommand(
-            GetScreenshots.commandName,
+            ViewScreenshots.commandName,
             async (node: OCIApmSynMonitorSummaryNode) => {
-                _appendCommandInfo(GetScreenshots.commandName, node);
+                _appendCommandInfo(ViewScreenshots.commandName, node);
                 const apmDomainId = node.getApmDomainId();
-                MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, GetScreenshots.commandName, apmDomainId));
-                return runWithStatusBarMessage(
-                    getScreenshots(apmDomainId!, node.getMonitorId(), node.getVantagePoints(), node.getOutputChannel()),
-                    localize('getScreenshotsMessage', 'Downloading Screenshots...'),
-                    () => refreshNode(undefined)
+                MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, ViewScreenshots.commandName, apmDomainId));
+
+                if (currentPanel !== undefined && currentPanel.viewType !== "viewOutput") {
+                    currentPanel.dispose();
+                }
+
+                let panel2 = vscode.window.createWebviewPanel("viewOutput", 'View Screenshots : ' + node.getMonitorName(), vscode.ViewColumn.One, {
+                    enableScripts: true,
+                    retainContextWhenHidden: true
+                });
+                var vpList = JSON.stringify(await getVPList(apmDomainId));
+                panel2.webview.html = ViewResultsMonitorWebView(panel2.webview, context.extensionUri, 'View Screenshots',
+                    vpList, node.getMonitorName(), ExecutionResults.SCREENSHOTS);
+                panel2.webview.onDidReceiveMessage(async (message: {
+                    command: any; timestamp: string, vp: any, status: boolean
+                }) => {
+                    switch (message.command) {
+                        case 'get_screenshots':
+                            panel2.dispose();
+                            viewScreenshotWebview(currentPanel, apmDomainId, node.getMonitorId(), node.getMonitorType(), node.getMonitorName(),
+                                message.vp, message.timestamp, context);
+                            break;
+                        case 'cancel':
+                            const operationCancelledMessage = localize("getScreenshotCancelMessage", 'View Screenshot operation was cancelled.');
+                            vscode.window.showWarningMessage(
+                                operationCancelledMessage, { modal: false }
+                            );
+                            panel2.dispose();
+                            break;
+                    }
+                },
+                    undefined,
+                    context.subscriptions
                 );
+                panel2.onDidDispose(() => {
+                    currentPanel = undefined;
+                });
             }
         ));
-
 
     context.subscriptions.push(
         vscode.commands.registerCommand(
@@ -495,13 +612,70 @@ export function registerCommands(
                 _appendCommandInfo(GetLogs.commandName, node);
                 const apmDomainId = node.getApmDomainId();
                 MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, GetLogs.commandName, apmDomainId));
-                return runWithStatusBarMessage(
-                    getLogs(apmDomainId!, node.getMonitorId(), node.getVantagePoints(), node.getOutputChannel()),
-                    localize('getLogsMessage', 'Downloading Logs...'),
-                    () => refreshNode(node)
+                let panel = vscode.window.createWebviewPanel("viewOutput", 'Download Logs : ' + node.getMonitorName(), vscode.ViewColumn.One, {
+                    enableScripts: true,
+                    retainContextWhenHidden: true
+                });
+                var vpList = JSON.stringify(await getVPList(apmDomainId));
+                panel.webview.html = GetLogsWebView(panel.webview, context.extensionUri, 'Download Logs', vpList,
+                    node.getMonitorName(), ExecutionResults.LOGS);
+                panel.webview.onDidReceiveMessage(async (message: {
+                    command: any; timestamp: string, vp: any, status: boolean
+                }) => {
+                    switch (message.command) {
+                        case 'get_logs':
+                            const result = await getMonitorResult(ext.api.getCurrentProfile().getProfileName(),
+                                apmDomainId, node.getMonitorId(), message.vp, "log", "zip", message.timestamp);
+                            if (result === undefined) {
+                                //currentPanel.dispose();
+                                currentPanel = undefined;
+                                return;
+                            }
+                            const resultDataSet = result.resultDataSet;
+                            if (resultDataSet === undefined) {
+                                vscode.window.showErrorMessage(localize('resultDataSetNotFound', 'Error: result data set not found, cancelling operation'));
+                                currentPanel = undefined;
+                                return;
+                            }
+
+                            const content = resultDataSet[0].byteContent ?? '';
+                            if (content === undefined || content === '') {
+                                vscode.window.showErrorMessage(localize('fileContentNotFound', 'Error: file content not found, cancelling operation'));
+                                currentPanel = undefined;
+                            }
+                            const fileName = resultDataSet[0].name;
+                            if (fileName === undefined) {
+                                vscode.window.showErrorMessage(localize('fileNotFound', 'Error: file name not found, cancelling operation'));
+                                currentPanel = undefined;
+                            }
+                            currentPanel = panel;
+                            currentPanel.webview.postMessage({ command: 'download_logs', content: content, fileName: fileName });
+                            break;
+                        case 'download_complete':
+                            if (message.status) {
+                                vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'Logs file is downloaded successfully.'));
+                            } else {
+                                vscode.window.showErrorMessage(localize('fileDownloadFailure', 'Error: Unable to download logs file.'));
+                            }
+                            break;
+                        case 'cancel':
+                            const operationCancelledMessage = localize("getLogsCancelMessage", 'Download execution logs operation was cancelled.');
+                            vscode.window.showWarningMessage(
+                                operationCancelledMessage, { modal: false }
+                            );
+                            panel.dispose();
+                            break;
+                    }
+                },
+                    undefined,
+                    context.subscriptions
                 );
+                panel.onDidDispose(() => {
+                    currentPanel = undefined;
+                });
             }
-        ));
+        )
+    );
 
     context.subscriptions.push(
         vscode.commands.registerCommand(
@@ -567,11 +741,17 @@ export function registerCommands(
                 });
                 currentPanel = panel;
                 panel.webview.html = CreateScriptGetWebview(panel.webview, context.extensionUri);
-                panel.webview.onDidReceiveMessage(async (message: { command: any; scriptName: any; scriptContent: any; scriptFileName: any }) => {
+                panel.webview.onDidReceiveMessage(async (message: { command: any; scriptName: any; scriptContent: any; scriptFileName: any, scriptContentType: any }) => {
                     switch (message.command) {
                         case 'create_script':
+                            let contentType: ContentTypes;
+                            if (message.scriptContentType === ContentTypes.PlaywrightTs.toString()) {
+                                contentType = ContentTypes.PlaywrightTs;
+                            } else {
+                                contentType = ContentTypes.Side;
+                            }
                             let r = await runWithStatusBarMessage(
-                                webviewCreateNewScript(apmDomainId!, message.scriptName, message.scriptContent, message.scriptFileName, panel),
+                                webviewCreateNewScript(apmDomainId!, message.scriptName, message.scriptContent, message.scriptFileName, contentType, panel),
                                 localize('createScriptMessage', 'Creating new script...'),
                                 () => refreshNode(undefined)
                             );
@@ -583,8 +763,10 @@ export function registerCommands(
                             });
                             currentPanel = responsePanel;
                             let outputText = localize("viewOutput", "\n {0}", JSON.stringify(response, null, '\t'));
-                            responsePanel.webview.html = ViewOutput(responsePanel.webview, context.extensionUri,
-                                "Create Script Response", outputText);
+                            responsePanel.webview.html = ViewOutput(responsePanel.webview, context.extensionUri, "", outputText);
+                            responsePanel.onDidDispose(() => {
+                                currentPanel = undefined;
+                            });
                             break;
                         case 'cancel':
                             const operationCancelledMessage = localize("scriptCancelledMessage", 'Script create operation was cancelled.');
@@ -610,12 +792,65 @@ export function registerCommands(
             async (node: OCIApmSynScriptSummaryNode) => {
                 _appendCommandInfo(DownloadOCIAPMSynScript.commandName, node);
                 const apmDomainId = node.getApmDomainId();
+                const scriptId = node.getScriptId();
                 MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, DownloadOCIAPMSynScript.commandName, apmDomainId));
-                return runWithStatusBarMessage(
-                    getScriptContent(apmDomainId!, node.getScriptId(), node.getOutputChannel()),
-                    localize('getScriptMessage', 'Downloading script content ...'),
-                    () => refreshNode(undefined)
+                let panel = vscode.window.createWebviewPanel("downloadScript", "Download Script", vscode.ViewColumn.One, {
+                    enableScripts: true,
+                    retainContextWhenHidden: true
+                });
+                currentPanel = panel;
+                const profile = ext.api.getCurrentProfile().getProfileName();
+                const scriptDetails = await getScript(profile, apmDomainId!, scriptId);
+                const scriptContent = scriptDetails.content;
+                if (scriptContent === undefined) {
+                    vscode.window.showErrorMessage(localize('scriptContentNotFound', 'Script content not found, cancelling operation'));
+                    node.getOutputChannel().appendLine(localize('scriptContentNotFound', 'Script content not found, cancelling operation'));
+                    return newCancellation();
+                }
+
+                const scriptContentType = scriptDetails.contentType;
+                var scriptContentEncoded;
+                var defaultFileName: string;
+                switch (scriptContentType) {
+                    case ContentTypes.Side:
+                        defaultFileName = 'monitor.side';
+                        scriptContentEncoded = btoa(JSON.stringify(scriptContent));
+                        break;
+                    case ContentTypes.PlaywrightTs:
+                        defaultFileName = 'monitor.ts';
+                        scriptContentEncoded = encodeURIComponent(scriptContent);
+                        break;
+                    case ContentTypes.UnknownValue:
+                        vscode.window.showErrorMessage(localize('incorrectScriptContentType', 'Incorrect script content type'));
+                        return newCancellation();
+                }
+                panel.webview.html = DownloadScript(panel.webview, context.extensionUri, 'Downloading Script ' + scriptDetails.displayName,
+                    scriptContentEncoded, scriptContentType.toString(), scriptDetails.contentFileName ?? defaultFileName!);
+                panel.webview.onDidReceiveMessage(async (message: { command: any; status: boolean }) => {
+                    switch (message.command) {
+                        case 'download_complete':
+                            if (message.status) {
+                                vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'File is downloaded successfully.'));
+                            } else {
+                                vscode.window.showErrorMessage(localize('fileDownloadFailure', 'Error: Unable to download file.'));
+                            }
+                            break;
+                        case 'cancel':
+                            const operationCancelledMessage = localize("scriptCancelledMessage", 'Script download operation was cancelled.');
+                            vscode.window.showWarningMessage(
+                                operationCancelledMessage, { modal: false }
+                            );
+                            panel.dispose();
+                            break;
+                    }
+                },
+                    undefined,
+                    context.subscriptions
                 );
+
+                panel.onDidDispose(() => {
+                    currentPanel = undefined;
+                });
             }
         ));
 
@@ -639,15 +874,30 @@ export function registerCommands(
                     node.getOutputChannel().appendLine(localize('scriptContentNotFound', 'Script content not found, cancelling operation'));
                     return newCancellation();
                 }
-                const scriptContentEncoded = btoa(JSON.stringify(scriptContent));
 
-                let panel = vscode.window.createWebviewPanel("editScript", "Edit Script", vscode.ViewColumn.One, {
+                const scriptContentType = scriptDetails.contentType;
+                var scriptContentEncoded: any;
+                switch (scriptContentType) {
+                    case ContentTypes.Side:
+                        scriptContentEncoded = btoa(JSON.stringify(scriptContent));
+                        break;
+                    case ContentTypes.PlaywrightTs:
+                        scriptContentEncoded = encodeURIComponent(scriptContent);
+                        break;
+                    case ContentTypes.UnknownValue:
+                        vscode.window.showErrorMessage(localize('incorrectScriptContentType', 'Incorrect script content type'));
+                        return newCancellation();
+                }
+
+                let panelTitle = "Edit Script: " + node.getScriptName();
+                let panel = vscode.window.createWebviewPanel("editScript", panelTitle, vscode.ViewColumn.One, {
                     enableScripts: true,
                     retainContextWhenHidden: true
                 });
                 currentPanel = panel;
 
-                panel.webview.html = EditScriptGetWebview(panel.webview, context.extensionUri, node.synScriptSummary.displayName, node.synScriptSummary.id, scriptContentEncoded);
+                panel.webview.html = EditScriptGetWebview(panel.webview, context.extensionUri,
+                    node.synScriptSummary.displayName, node.synScriptSummary.id, scriptContentType.toString(), scriptContentEncoded!);
                 panel.webview.onDidReceiveMessage(async (message: { command: any; scriptName: any; scriptContent: any; }) => {
                     switch (message.command) {
                         case 'edit_script':
@@ -664,8 +914,10 @@ export function registerCommands(
                             });
                             currentPanel = responsePanel;
                             let outputText = localize("viewOutput", "\n {0}", JSON.stringify(response, null, '\t'));
-                            responsePanel.webview.html = ViewOutput(responsePanel.webview, context.extensionUri,
-                                "Edit Script Response", outputText);
+                            responsePanel.webview.html = ViewOutput(responsePanel.webview, context.extensionUri, "", outputText);
+                            responsePanel.onDidDispose(() => {
+                                currentPanel = undefined;
+                            });
                             break;
                         case 'cancel':
                             const operationCancelledMessage = localize("scriptCancelledMessage", 'Edit script operation was cancelled.');
@@ -941,13 +1193,13 @@ export function registerCommands(
 }
 
 export async function registerItemContextCommands(context: vscode.ExtensionContext, dataProvider: IOCIProfileTreeDataProvider,) {
-    // context.subscriptions.push(
-    //     vscode.commands.registerCommand(OpenIssueInGithub.commandName, () => {
-    //         _appendCommandInfo(OpenIssueInGithub.commandName, undefined);
-    //         MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, OpenIssueInGithub.commandName, undefined));
-    //         vscode.env.openExternal(vscode.Uri.parse("https://github.com/oracle-samples/oci-vscode-toolkit/issues"));
-    //     }),
-    // );
+    context.subscriptions.push(
+        vscode.commands.registerCommand(OpenIssueInGithub.commandName, () => {
+            _appendCommandInfo(OpenIssueInGithub.commandName, undefined);
+            MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, OpenIssueInGithub.commandName, undefined));
+            vscode.env.openExternal(vscode.Uri.parse("https://github.com/oracle-samples/oci-vscode-toolkit/issues"));
+        }),
+    );
     vscode.commands.executeCommand('setContext', 'enableApmSyntheticsViewTitleMenus', true);
 }
 
@@ -962,7 +1214,7 @@ export async function registerGenericCommands(context: vscode.ExtensionContext, 
     );
 
     context.subscriptions.push(
-        vscode.commands.registerCommand('oci-core.listRecentActions', async (node: any) => {
+        vscode.commands.registerCommand('apm.listRecentActions', async (node: any) => {
             const selectedCommand = await listRecentCommands(node);
             executeUserCommand(selectedCommand);
         }

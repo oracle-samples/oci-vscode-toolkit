@@ -1,1 +1,1 @@
-{"msg":"---Rezultati izvršavanja nadzora od početnog datuma: {0} do završnog datuma: {1}---","monitorExecResultsMsg":"\nDostupnost: {0}\nVrijeme izvršavanja nadzora (ms): {1}\nVremenska oznaka (UTC): {2}\nVremenska oznaka: {3}\nTočka nadzora: {4}\nKategorija pogreške: {5}"}
+{"msg":"Rezultati izvršavanja nadzora <br><h4>Nadzor: {0} <br>Datum početka: {1} <br>Datum završetka: {2}</h4>","monitorExecResultsMsg":"Dostupnost: {0}\nVrijeme izvršavanja nadzora (ms): {1}\nVremenska oznaka (UTC): {2}\nVremenska oznaka (razdoblje): {3}\nTočka nadzora: {4}\nKategorija pogreške: {5}"}

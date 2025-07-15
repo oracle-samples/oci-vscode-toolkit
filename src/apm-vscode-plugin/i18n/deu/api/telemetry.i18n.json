@@ -1,1 +1,1 @@
-{"msg":"---Ausführungsergebnisse von Monitoren von Startdatum: {0} bis Enddatum: {1}---","monitorExecResultsMsg":"\nVerfügbarkeit: {0} \nMonitorausführungszeit (ms): {1} \nZeitstempel (UTC): {2} \nZeitstempel: {3} \nStandort: {4} \nFehlerkategorie: {5}"}
+{"msg":"Monitorausführungsergebnisse <br><h4>Monitor: {0} <br>Startdatum: {1} <br>Enddatum: {2}</h4>","monitorExecResultsMsg":"Verfügbarkeit: {0} \nMonitorausführungszeit (ms): {1} \nZeitstempel (UTC): {2} \nZeitstempel (Epoch): {3} \nStandort: {4} \nFehlerkategorie: {5}"}

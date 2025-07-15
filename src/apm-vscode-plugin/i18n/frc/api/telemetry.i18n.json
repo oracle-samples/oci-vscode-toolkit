@@ -1,1 +1,1 @@
-{"msg":"---Résultats d'exécution du moniteur du {0} au {1}---","monitorExecResultsMsg":"\nDisponibilité : {0}\nTemps d'exécution du moniteur (ms) : {1}\nHorodatage (UTC) : {2}\nHorodatage : {3}\nPoint d'observation : {4}\nCatégorie d'erreur : {5}"}
+{"msg":"Résultats d’exécution du moniteur <br><h4>Moniteur : {0} <br>Date de début : {1} <br>Date de fin : {2}</h4>","monitorExecResultsMsg":"Disponibilité : {0}\nTemps d'exécution du moniteur (ms) : {1}\nHorodatage (UTC) : {2}\nHorodatage (epoch) : {3}\nPoint d'observation : {4}\nCatégorie d'erreur : {5}"}
