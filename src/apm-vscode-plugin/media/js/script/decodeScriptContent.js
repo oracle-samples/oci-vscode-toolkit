@@ -5,6 +5,20 @@
 
 $(document).ready(function () {
     var script_content_tag = document.getElementById("script_content_decode_js");
-    const decodedScriptContent = atob(script_content_tag.text);
-    document.getElementById('file-text-input').value = JSON.parse(decodedScriptContent, null, '\t');
+    var decodedScriptContent;
+    const scriptContentType = script_content_tag.dataset.type;
+    switch (scriptContentType) {
+        case "SIDE":
+            decodedScriptContent = atob(script_content_tag.dataset.content);
+            document.getElementById('file-text-input').value = JSON.parse(decodedScriptContent, null, '\t');
+            break;
+        case "PLAYWRIGHT_TS":
+            decodedScriptContent = decodeURIComponent(script_content_tag.dataset.content);
+            document.getElementById('file-text-input').value = decodedScriptContent;
+            break;
+        case "UNKNOWN_VALUE":
+            vscode.window.showErrorMessage(localize('incorrectScriptContentType', 'Incorrect script content type'));
+            return newCancellation();
+    }
+
 });

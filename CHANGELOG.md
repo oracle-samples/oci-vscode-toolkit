@@ -87,4 +87,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## 1.0.6 - 2025-04-17
 
-### Added new plugin OCI Application Performance Monitoring
+- Added new plugin OCI Application Performance Monitoring
+
+## 1.1.0 - 2025-07-15
+
+- Added new functionality for OCI Application Performance Monitoring plugin 

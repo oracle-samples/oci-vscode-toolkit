@@ -1,1 +1,1 @@
-{"msg":"---Rezultati izvajanja monitorja od datuma začetka: {0} do datuma konca: {1}---","monitorExecResultsMsg":"\nRazpoložljivost: {0} \nČas izvajanja monitorja (ms): {1} \nČasovni žig (UTC): {2} \nČasovni žig: {3} \nIzhodiščna točka: {4} \nKategorija napak: {5}"}
+{"msg":"Rezultati izvajanja monitorja <br><h4>Monitor: {0} <br>Datum začetka: {1} <br>Datum konca: {2}</h4>","monitorExecResultsMsg":"Razpoložljivost: {0} \nČas izvajanja monitorja (ms): {1} \nČasovni žig (UTC): {2} \nČasovni žig (epoha): {3} \nIzhodiščna točka: {4} \nKategorija napak: {5}"}

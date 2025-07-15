@@ -5,7 +5,7 @@
 import { Webview, Uri } from "vscode";
 import { getUri } from "../utils/getUri";
 
-export function EditScriptGetWebview(webview: Webview, extensionUri: Uri, scriptName: string, scriptId: string, scriptContentEncoded: string) {
+export function EditScriptGetWebview(webview: Webview, extensionUri: Uri, scriptName: string, scriptId: string, scriptContentType: string, scriptContentEncoded: any) {
    const css_path = ["media", "css"];
    const js_path = ["media", "js", "script"];
    const decodeScriptContent = getUri(webview, extensionUri, js_path.concat(["decodeScriptContent.js"]));
@@ -13,28 +13,32 @@ export function EditScriptGetWebview(webview: Webview, extensionUri: Uri, script
    const tableStyle = getUri(webview, extensionUri, css_path.concat(["synthetics.css"]));
    const svg_path = ["resources", "dark"];
    const errorSvg = getUri(webview, extensionUri, svg_path.concat(["error.svg"]));
-
    const showInputs = "display: none";
 
    return /*html*/ `
     <!DOCTYPE html>
     <html lang="en">
     <head>
-       <meta charsset="UTF-8">
+       <meta charset="UTF-8">
        <meta http-equiv="Content-Security-Policy">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
        <link rel="stylesheet" href="${tableStyle}"> 
-       <script id="script_content_decode_js" type="module" src="${decodeScriptContent}">${scriptContentEncoded}</script>
+       <script id="script_content_decode_js" type="module" src="${decodeScriptContent}" data-content=${scriptContentEncoded}, data-type=${scriptContentType} ></script>
+       <script> let tempScriptContent;</script>
        <script type="module" src="${submitForm}"></script>
        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+       <!-- Monaco Editor -->
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs/loader.js">
+       </script>
        <title>Edit Script</title>
-       <style>
-       </style>
+        <style>
+        </style>
     </head>
     <body id="webview-body">
-       <h1>Edit Script</h1>
-       <h5>Script OCID: ${scriptId}</h5>
+       <div class="label-file-width label-margin">
+         <h5>Script OCID: ${scriptId}</h5>
+       </div>
 
        <form id="form_edit_script" method="post" action="*">
          <div class="row">
@@ -43,7 +47,7 @@ export function EditScriptGetWebview(webview: Webview, extensionUri: Uri, script
                <input class="input-margin input-block oui-react-input" placeholder="Enter script name" type="text" id="script-name-input" value="${scriptName}" />
                <input type="hidden" id="script-id-input" value="${scriptId}"/>
                <div class="oui-display-hint-padding">
-                  <div class="oui-text-small oui-text-muted" id="script-hint">
+                  <div class="label-margin oui-text-small oui-text-muted" id="script-hint">
                      No spaces, only letters, numerals, hyphens or underscores.
                   </div>
                </div>
@@ -54,23 +58,85 @@ export function EditScriptGetWebview(webview: Webview, extensionUri: Uri, script
                </div>
 
                <label class="label-margin" for="script-file-input" id="script-file-label" >Script File</label>
-               <input class="input-margin input-block oui-react-input" placeholder="Select script file" accept=".side" type="file" id="script-file-input"/>
+               <input class="input-margin input-block oui-react-input" placeholder="Select script file" type="file" id="script-file-input"/>
                <input id="fileContents" type="hidden" />
                <div class="oui-display-hint-padding">
                   <div class="oui-text-small oui-form-danger oui-margin-small-bottom" id="script-file-error" style="${showInputs}">
-                     <img src="${errorSvg}"/><div id="script-error-file">Invalid script file.</div>
+                     <img src="${errorSvg}"/><div id="script-error-file-temp">Invalid script file.</div>
                   </div>
+               </div>               
+             <input type="hidden" id="script-content-type" value="${scriptContentType}"/>
+             <script>    
+               const fileInput = document.getElementById('script-file-input');            
+               function updateAccept() {          
+                  if ("${scriptContentType}" === "SIDE") {                      
+                     fileInput.accept = '.side';
+                  } else if ("${scriptContentType}" === "PLAYWRIGHT_TS") {
+                     fileInput.accept = '.ts,.spec.ts';
+                  }
+               }
+               // Set initial value on page load
+               window.addEventListener('DOMContentLoaded', updateAccept);
+            </script>
+
+            <!-- Monaco Editor -->
+            <div id="file-text-input"></div>
+            <div class="oui-display-hint-padding">
+               <div class="oui-text-small oui-form-danger oui-margin-small-bottom" id="file-text-input-error" style="${showInputs}">
+                  <img src="${errorSvg}"/><div id="file-text-error">Invalid Side file</div>
                </div>
+            </div>
+            <script>
+               let editor;
+               let scriptContent; 
+               var monacoDisplayLanguage;
+               if ("${scriptContentType}" === "SIDE") {                      
+                  scriptContent = JSON.parse(atob("${scriptContentEncoded}"), null, '\t');
+                  monacoDisplayLanguage = "json";
+               } else if ("${scriptContentType}" === "PLAYWRIGHT_TS") {
+                  scriptContent = decodeURIComponent("${scriptContentEncoded}");
+                  monacoDisplayLanguage = "typescript";
+               }
+               require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs' }});
+   
+               require(['vs/editor/editor.main'], function() {
+                  editor = monaco.editor.create(document.getElementById('file-text-input'), {
+                        value: scriptContent,
+                        language: monacoDisplayLanguage,
+                        theme: "vs-light"
+                  });
+   
+               // Update scriptContent in real time
+               editor.onDidChangeModelContent(() => {
+                  scriptContent = editor.getValue();
+                  try {
+                        if ("${scriptContentType}" === "SIDE") {                      
+                           JSON.parse(scriptContent);
+                        }                  
+                        document.getElementById('file-text-input-error').style.display = "none";
+                  } catch (e) {
+                        document.getElementById('file-text-input-error').style.display = "block";
+                  }
+               });
+               // Load JSON from file
+               document.getElementById('script-file-input').addEventListener('change', function(event) {
+                  const file = event.target.files[0];
+                  if (file) {
+                     const reader = new FileReader();
+                     reader.onload = function(e) {
+                        if (selected === "SIDE") {
+                           editor.setValue(JSON.stringify(JSON.parse(e.target.result), null, 2));
+                        } else {
+                           editor.setValue(e.target.result);
+                        }
+                     };
+                     reader.readAsText(file);
+                  }
+               });
+            });
+       </script>
 
-               <div class="file input text" id="file-text-div">
-                  <textarea class="textarea-margin textarea-size input-block oui-react-input" placeholder="Enter SIDE file content" id="file-text-input" ></textarea>
-                  <div class="oui-display-hint-padding">
-                     <div class="oui-text-small oui-form-danger oui-margin-small-bottom" id="file-text-input-error" style="${showInputs}">
-                        <img src="${errorSvg}"/><div id="file-text-error">Invalid SIDE file.</div>
-                     </div>
-                  </div>
-               </div>   
-
+       <!-- Monaco Editor -->
             </div>
          </div>
 

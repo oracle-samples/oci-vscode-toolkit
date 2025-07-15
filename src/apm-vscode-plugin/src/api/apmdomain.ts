@@ -4,7 +4,7 @@
  */
 
 import * as vscode from 'vscode';
-import { DataKeySummary, DataKeyTypes } from "oci-apmcontrolplane/lib/model";
+import { DataKeySummary, DataKeyTypes, LifecycleStates } from "oci-apmcontrolplane/lib/model";
 import { clientConfiguration, getAuthProvider } from "./common";
 //import { Monitor } from "oci-apmcontrolplane/lib/model/";
 import { ApmDomainClient } from "oci-apmcontrolplane";
@@ -21,7 +21,7 @@ export async function listDomains(
     profile: string
 ): Promise<ListApmDomainsResponse> {
     var client = await makeClient(profile);
-    let domainList = await client.listApmDomains({ compartmentId });
+    let domainList = await client.listApmDomains({ "compartmentId": compartmentId, "lifecycleState": LifecycleStates.Active });
     return domainList;
 };
 

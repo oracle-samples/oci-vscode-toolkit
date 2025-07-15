@@ -42,10 +42,8 @@ export async function downloadTar(namespace: string, bucket: string, object: str
         bucketName: bucket,
         objectName: object
     };
-    //console.log('reading image');
     const response = await client.getObject(request);
     let content = await streamToString(response.value as st.Readable);
-    //console.log('writing to file');
     writeToFile(content, downloadPath, 'utf8', outputChannel);
     return 'done';
 }

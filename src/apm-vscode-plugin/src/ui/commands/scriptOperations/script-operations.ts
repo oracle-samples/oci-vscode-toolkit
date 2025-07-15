@@ -14,15 +14,17 @@ import {
     newSuccess,
 } from '../../../utils/actionResult';
 import { createScript, getScript, getScriptDetailsInOutput, updateScript } from "../../../api/apmsynthetics";
+import { ContentTypes } from 'oci-apmsynthetics/lib/model';
 
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
 
-export async function webviewCreateNewScript(apmDomainId: string, scriptNname: string, scriptContent: any, contentFileName: string, panel: vscode.WebviewPanel): Promise<IActionResult> {
-    return createNewScript(apmDomainId, scriptNname, scriptContent, contentFileName, panel);
+export async function webviewCreateNewScript(apmDomainId: string, scriptNname: string, scriptContent: any, contentFileName: string,
+    contentType: ContentTypes, panel: vscode.WebviewPanel): Promise<IActionResult> {
+    return createNewScript(apmDomainId, scriptNname, scriptContent, contentFileName, contentType, panel);
 }
 
 export async function createNewScript(apmDomainId: string, displayName: string, scriptContent: any, contentFileName: string,
-    panel: vscode.WebviewPanel | undefined): Promise<IActionResult> {
+    contentType: ContentTypes, panel: vscode.WebviewPanel | undefined): Promise<IActionResult> {
     const currentProfile = ext.api.getCurrentProfile();
     try {
         const r = await createScript(
@@ -30,7 +32,8 @@ export async function createNewScript(apmDomainId: string, displayName: string, 
             apmDomainId,
             displayName,
             scriptContent,
-            contentFileName
+            contentFileName,
+            contentType
         );
         const operationSuccessMessage = localize("operationCreateSuccessMessage", 'Script creation is successful.');
         vscode.window.showInformationMessage(

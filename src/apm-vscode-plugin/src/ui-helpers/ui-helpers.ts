@@ -26,6 +26,13 @@ export enum TimeDurations {
     Custom = "Custom"
 }
 
+export enum ExecutionResults {
+    ERROR = "view_errors",
+    HARS = "get_hars",
+    LOGS = "get_logs",
+    RESULTS = "get_results",
+    SCREENSHOTS = "get_screenshots",
+}
 
 export enum ContainerType {
     COLIMA = "Colima",
@@ -218,7 +225,6 @@ export async function promptForOPVPInput(
     });
     opVPs.map((m) => {
         let sum = 0;
-        //console.log("item: " + JSON.stringify(m));
         m.workersSummary?.availableCapabilities?.map((workercapability: any) => {
             workercapability?.capability.split(",").map((type: any) => {
                 const str: string = type.replace(/[\[\s\]']+/g, "");
@@ -226,7 +232,6 @@ export async function promptForOPVPInput(
             });
             //if (sum > 0)
             modifiedVantagepointsArray.push({ ...m, totalMonitorType: sum });
-            console.log("item: " + m.displayName + ", sum: " + sum);
             //else if (sum >= 0 &&isEdit)
         });
     });
@@ -421,6 +426,10 @@ interface TimeDurationQuickPickItem extends vscode.QuickPickItem {
     timeDuration?: string;
 }
 
+interface FileNameItem extends vscode.QuickPickItem {
+    fileName?: string;
+}
+
 // Prompts for public vantage point
 export async function promptForPublicVP(
     publicVPs: PublicVantagePointSummary[],
@@ -523,3 +532,25 @@ export async function promptForDate(
     return vscode.window.showInputBox(date);
 }
 
+
+export async function promptForFileNames(
+    fileNames: string[],
+): Promise<string | undefined> {
+    const opts: vscode.QuickPickOptions = {
+        placeHolder: localize('fileNamesPrompt', 'Select file name'),
+        ignoreFocusOut: true
+    };
+
+    const fileNameList: FileNameItem[] = fileNames.map((m) => {
+        return {
+            fileName: m,
+            label: m || 'undefined',
+        };
+    });
+    return vscode.window
+        .showQuickPick(fileNameList, opts && { canPickMany: false },)
+        .then((f) => {
+            let selectedFileName = f?.fileName;
+            return selectedFileName;
+        });
+}

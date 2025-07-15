@@ -1,9 +1,17 @@
 {
   "_comment": "Copyright © 2025, Oracle and/or its affiliates. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
   "name": "apm",
+  "author": {
+    "name": "Oracle Cloud Infrastructure - Application Performance Monitoring",
+    "email": "rahul.chandok@oracle.com"
+  },
+  "contributors": [
+    "Pushpendra Rajpoot <pushpendra.rajpoot@oracle.com>",
+    "Surbhi Bhalla <surbhi.bhalla@oracle.com>"
+  ],
   "displayName": "OCI Application Performance Monitoring",
   "description": "Manage APM Availability Monitoring scripts and monitors under APM domains within VS Code",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "engines": {
     "vscode": "^1.53.2"
   },
@@ -31,10 +39,17 @@
     "OCI",
     "Application Performance Monitoring",
     "apm",
+    "availability monitoring",
+    "synthetics",
     "json",
     "typescript"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onView:apm",
+    "onCommand:apm.refreshTree",
+    "onCommand:apm.openIssueInGithub",
+    "onCommand:apm.launch"
+  ],
   "main": "./dist/extension",
   "contributes": {
     "_comment": "Please place images in resources folder & refer them in the below command's icon property as 'resources/oci-icon.png'",
@@ -43,6 +58,13 @@
         "command": "apm.refreshTree",
         "title": "%apm.refreshTree.title%",
         "icon": "$(refresh)",
+        "category": "OCI Application Performance Monitoring"
+      },
+      {
+        "command": "apm.openIssueInGithub",
+        "title": "%apm.openIssueInGithub.title%",
+        "icon": "$(github)",
+        "enablement": "!cloudEditorEnv",
         "category": "OCI Application Performance Monitoring"
       },
       {
@@ -106,14 +128,14 @@
         "category": "OCI Application Performance Monitoring"
       },
       {
-        "command": "apm.getHar",
-        "title": "%apm.getHar.title%",
+        "command": "apm.viewHar",
+        "title": "%apm.viewHar.title%",
         "icon": "",
         "category": "OCI Application Performance Monitoring"
       },
       {
-        "command": "apm.getScreenshots",
-        "title": "%apm.getScreenshots.title%",
+        "command": "apm.viewScreenshots",
+        "title": "%apm.viewScreenshots.title%",
         "icon": "",
         "category": "OCI Application Performance Monitoring"
       },
@@ -235,11 +257,15 @@
         "command": "apm.launch",
         "title": "%apm.launch.title%",
         "category": "OCI Application Performance Monitoring"
+      },
+      {
+        "command": "apm.listRecentActions",
+        "title": "List recent action(s)"
       }
     ],
     "keybindings": [
       {
-        "command": "oci-core.listRecentActions",
+        "command": "apm.listRecentActions",
         "key": "ctrl+alt+l",
         "mac": "cmd+l"
       }
@@ -272,8 +298,8 @@
           "group": "navigation"
         },
         {
-          "command": "apm.launch",
-          "when": "view == apm && false",
+          "command": "apm.openIssueInGithub",
+          "when": "view == apm && (!cloudEditorEnv) && enableApmSyntheticsViewTitleMenus",
           "group": "navigation"
         }
       ],
@@ -426,19 +452,19 @@
           "group": "navigation && 1@2"
         },
         {
-          "command": "apm.getHar",
+          "command": "apm.viewHar",
           "when": "view == apm && viewItem == OCIApmSynMonitorSummaryNode",
           "group": "navigation && 1@3"
         },
         {
-          "command": "apm.getScreenshots",
+          "command": "apm.viewScreenshots",
           "when": "view == apm && viewItem == OCIApmSynMonitorSummaryNode",
-          "group": "navigation && 1@4"
+          "group": "navigation && 1@5"
         },
         {
           "command": "apm.getLogs",
           "when": "view == apm && viewItem == OCIApmSynMonitorSummaryNode",
-          "group": "navigation && 1@5"
+          "group": "navigation && 1@6"
         }
       ],
       "commandPalette": [
@@ -483,11 +509,11 @@
           "when": "false"
         },
         {
-          "command": "apm.getHar",
+          "command": "apm.viewHar",
           "when": "false"
         },
         {
-          "command": "apm.getScreenshots",
+          "command": "apm.viewScreenshots",
           "when": "false"
         },
         {
@@ -640,14 +666,15 @@
     "glob": "^7.1.6",
     "js-yaml": "^3.14.0",
     "oci-apmcontrolplane": "^2.100.0",
-    "oci-apmsynthetics": "^2.100.0",
-    "oci-common": "^2.75.0",
+    "oci-apmsynthetics": "^2.110.0",
+    "oci-common": "^2.100.0",
     "oci-core": "^2.75.0",
     "oci-ide-plugin-base": "^1.0.3",
     "oci-identity": "^2.75.0",
     "oci-monitoring": "^2.100.0",
     "oci-objectstorage": "^2.75.0",
     "oci-resourcesearch": "^2.75.0",
+    "oci-workrequests": "^2.100.0",
     "terser": "^5.14.2",
     "vscode-nls": "^5.0.1"
   },

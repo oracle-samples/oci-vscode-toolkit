@@ -1,6 +1,7 @@
 {
   "_comment": "Copyright © 2025, Oracle and/or its affiliates. This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.",
   "apm.refreshTree.title": "Refresh",
+  "apm.openIssueInGithub.title": "Open issue in github",
   "apm.createOCIAPMSynMonitor.title": "Create",
   "apm.listVantagePoints.title": "List vantage points",
   "apm.runNowOCIAPMSynMonitor.title": "Run now",
@@ -9,8 +10,8 @@
   "apm.getOCIAPMSynMonitorDetails.title": "Get details",
   "apm.getAPMSynMonitorResults.title": "Get execution results",
   "apm.viewErrorMessage.title": "View error message",
-  "apm.getHar.title": "Download execution HAR",
-  "apm.getScreenshots.title": "Download execution screenshots",
+  "apm.viewHar.title": "View execution HAR",
+  "apm.viewScreenshots.title": "View execution screenshots",
   "apm.getLogs.title": "Download execution logs",
   "apm.viewMonitorInBrowser.title": "View in browser...",
   "apm.copyMonitorOCID.title": "Copy OCID",

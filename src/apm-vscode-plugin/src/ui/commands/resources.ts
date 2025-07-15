@@ -15,6 +15,10 @@ export const RefreshTree = {
     commandName: `${commandPrefix}.refreshTree`,
 };
 
+export const OpenIssueInGithub = {
+    commandName: `${commandPrefix}.openIssueInGithub`,
+};
+
 export const ExpandCompartment = {
     commandName: `${commandPrefix}.expandCompartment`,
 };
@@ -107,12 +111,12 @@ export const ViewErrorMessage = {
     commandName: `${commandPrefix}.viewErrorMessage`,
 };
 
-export const GetHar = {
-    commandName: `${commandPrefix}.getHar`,
+export const ViewHar = {
+    commandName: `${commandPrefix}.viewHar`,
 };
 
-export const GetScreenshots = {
-    commandName: `${commandPrefix}.getScreenshots`,
+export const ViewScreenshots = {
+    commandName: `${commandPrefix}.viewScreenshots`,
 };
 
 export const GetLogs = {
