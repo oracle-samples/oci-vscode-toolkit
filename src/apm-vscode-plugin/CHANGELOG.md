@@ -10,4 +10,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [1.1.0]
 
-- Added new functionality for OCI Application Performance Monitoring plugin
+- Added new functionality for OCI Application Performance Monitoring plugin 
+
+## [1.2.0]
+
+- Added Create Script command in File Explorer right click context menu and Editor right click context menu for APM plugin

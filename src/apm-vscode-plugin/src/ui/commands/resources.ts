@@ -139,6 +139,14 @@ export const CreateOCIAPMSynScript = {
     commandName: `${commandPrefix}.createOCIAPMSynScript`,
 };
 
+export const CreateOCIAPMSynScriptFromFile = {
+    commandName: `${commandPrefix}.createOCIAPMSynScriptFromFile`,
+};
+
+export const CreateOCIAPMSynScriptFromEditor = {
+    commandName: `${commandPrefix}.createOCIAPMSynScriptFromEditor`,
+};
+
 export const EditOCIAPMSynScript = {
     commandName: `${commandPrefix}.editOCIAPMSynScript`,
 };
@@ -162,7 +170,6 @@ export const ViewScriptInBrowser = {
 export const CopyScriptOCID = {
     commandName: `${commandPrefix}.copyScriptOCID`,
 };
-
 
 // opvp command
 

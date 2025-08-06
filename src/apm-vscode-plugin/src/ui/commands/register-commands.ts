@@ -26,7 +26,10 @@ import {
     ViewErrorMessage,
     ViewScreenshots,
     GetLogs,
-    ViewHar
+    ViewHar,
+    CreateOCIAPMSynScriptFromFile,
+    OCIAPMDomainNodeItem,
+    CreateOCIAPMSynScriptFromEditor
 } from './resources';
 import { ExecutionResults } from '../../ui-helpers/ui-helpers';
 import { ext } from '../../extensionVars';
@@ -82,8 +85,12 @@ import { getVPList, VantagePointItem } from './ui/get-monitor-info';
 import { getScriptsList } from './ui/get-script-info';
 import { Monitor, MonitorScriptParameterInfo, MonitorScriptParameter, ContentTypes } from 'oci-apmsynthetics/lib/model';
 import { ViewOutput } from '../../webViews/ViewOutput';
+import { TreeView } from 'vscode';
+import path = require('path');
 
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
+let currentTreeSelection: IRootNode | undefined;
+let fileExplorerScriptPanel: vscode.WebviewPanel | undefined = undefined;
 let currentPanel: vscode.WebviewPanel | undefined = undefined;
 // Runs an action with status bar and progress image.
 // It can also execute specified function on success or on cancelation.
@@ -135,6 +142,7 @@ function runWithStatusBarMessage(
 export function registerCommands(
     context: vscode.ExtensionContext,
     dataProvider: IOCIProfileTreeDataProvider,
+    treeView: TreeView<IRootNode>
 ): void {
     const refreshNode = (node: RootNode | undefined): void => dataProvider.refresh(node);
     ext.api.onSignInCompleted(() => dataProvider.refresh(undefined));
@@ -740,7 +748,7 @@ export function registerCommands(
                     retainContextWhenHidden: true
                 });
                 currentPanel = panel;
-                panel.webview.html = CreateScriptGetWebview(panel.webview, context.extensionUri);
+                panel.webview.html = CreateScriptGetWebview(panel.webview, context.extensionUri, undefined, "", undefined, "");
                 panel.webview.onDidReceiveMessage(async (message: { command: any; scriptName: any; scriptContent: any; scriptFileName: any, scriptContentType: any }) => {
                     switch (message.command) {
                         case 'create_script':
@@ -786,6 +794,146 @@ export function registerCommands(
             }
         ));
 
+    treeView.onDidChangeSelection(e => {
+        if (e.selection[0].commandName === OCIAPMDomainNodeItem.commandName) {
+            currentTreeSelection = e.selection[0]; // store latest selected node
+            if (fileExplorerScriptPanel && fileExplorerScriptPanel.visible) {
+                fileExplorerScriptPanel.webview.postMessage({
+                    type: 'treeSelectionChanged',
+                    payload: {
+                        currentTreeSelection: currentTreeSelection
+                    }
+                });
+            }
+        }
+    });
+
+    context.subscriptions.push(
+        vscode.commands.registerCommand(
+            CreateOCIAPMSynScriptFromFile.commandName,
+            async (fileUri: vscode.Uri) => {
+                scriptCreationFromContextMenu(fileUri, CreateOCIAPMSynScriptFromFile.commandName);
+            }
+        ));
+
+    context.subscriptions.push(
+        vscode.commands.registerCommand(
+            CreateOCIAPMSynScriptFromEditor.commandName,
+            async (fileUri: vscode.Uri) => {
+                scriptCreationFromContextMenu(fileUri, CreateOCIAPMSynScriptFromEditor.commandName);
+            }
+        ));
+
+    async function scriptCreationFromContextMenu(fileUri: vscode.Uri, commandName: string) {
+        if (!fileUri) {
+            vscode.window.showErrorMessage(localize("noFileSelectedMsg", 'No file selected!'));
+            return newCancellation();
+        }
+        let fileContent: string;
+        let fileExt: string;
+        let fileName: string;
+        try {
+            // Read the file content as Uint8Array
+            const fileData = await vscode.workspace.fs.readFile(fileUri);
+            // Convert to string (assuming UTF-8 encoding)
+            fileContent = Buffer.from(fileData).toString('utf8');
+            fileExt = path.extname(fileUri.fsPath);
+            fileName = path.basename(fileUri.fsPath, fileExt);
+        } catch (error) {
+            vscode.window.showErrorMessage(localize("failedToReadFileMsg", "Failed to read file"));
+        }
+
+        if (currentPanel && currentPanel.viewType !== "viewOutput") {
+            currentPanel.dispose();
+        }
+        _appendCommandInfo(commandName, fileUri);
+        // MONITOR.pushCustomMetric(Service.prepareMetricData(METRIC_INVOCATION, commandName, apmDomainId));
+
+        fileExplorerScriptPanel = vscode.window.createWebviewPanel("createScript", "Create Script", vscode.ViewColumn.One, {
+            enableScripts: true,
+            retainContextWhenHidden: true
+        });
+        currentPanel = fileExplorerScriptPanel;
+        var scriptContentEncoded: any;
+        switch (fileExt!) {
+            case '.side':
+                scriptContentEncoded = btoa(JSON.stringify(fileContent!));
+                break;
+            case '.ts':
+                scriptContentEncoded = encodeURIComponent(fileContent!);
+                break;
+            default:
+                vscode.window.showErrorMessage(localize('incorrectScriptContentType', 'Incorrect script content type'));
+                return newCancellation();
+        }
+
+        let currentTreeSelectionStr = JSON.stringify(currentTreeSelection, getCircularReplacer());
+        fileExplorerScriptPanel.webview.html = CreateScriptGetWebview(fileExplorerScriptPanel.webview, context.extensionUri,
+            scriptContentEncoded!, fileExt!, currentTreeSelectionStr, fileName!);
+        fileExplorerScriptPanel.webview.onDidReceiveMessage(async (message: { command: any; scriptName: any; scriptContent: any; scriptFileName: any, scriptContentType: any, currentTreeSelection: any }) => {
+            switch (message.command) {
+                case 'create_script':
+                    let contentType: ContentTypes;
+                    if (message.scriptContentType === ContentTypes.PlaywrightTs.toString()) {
+                        contentType = ContentTypes.PlaywrightTs;
+                    } else {
+                        contentType = ContentTypes.Side;
+                    }
+                    if (message.currentTreeSelection === undefined) {
+                        vscode.window.showErrorMessage(localize('currentTreeSelectionNotFound', 'APM domain is not selected. You need to select an APM domain from the tree view of APM extension.'));
+                        return newCancellation();
+                    }
+                    let currentTreeSelectionParsed = JSON.parse(message.currentTreeSelection);
+                    let apmDomainId = currentTreeSelectionParsed.id;
+                    let r = await runWithStatusBarMessage(
+                        webviewCreateNewScript(apmDomainId!, message.scriptName, message.scriptContent, message.scriptFileName, contentType, fileExplorerScriptPanel!),
+                        localize('createScriptMessage', 'Creating new script...'),
+                        () => refreshNode(undefined)
+                    );
+                    let response = r.result;
+                    // Display script response on webview
+                    let responsePanel = vscode.window.createWebviewPanel("viewOutput", "Create Script Response", vscode.ViewColumn.One, {
+                        enableScripts: true,
+                        retainContextWhenHidden: true
+                    });
+                    currentPanel = responsePanel;
+                    let outputText = localize("viewOutput", "\n {0}", JSON.stringify(response, null, '\t'));
+                    responsePanel.webview.html = ViewOutput(responsePanel.webview, context.extensionUri, "", outputText);
+                    responsePanel.onDidDispose(() => {
+                        currentPanel = undefined;
+                    });
+                    break;
+                case 'cancel':
+                    const operationCancelledMessage = localize("scriptCancelledMessage", 'Script create operation was cancelled.');
+                    vscode.window.showWarningMessage(
+                        operationCancelledMessage, { modal: false }
+                    );
+                    fileExplorerScriptPanel!.dispose();
+                    break;
+            }
+        },
+            undefined,
+            context.subscriptions
+        );
+        fileExplorerScriptPanel.onDidDispose(() => {
+            currentPanel = undefined;
+            fileExplorerScriptPanel = undefined;
+        });
+    }
+
+    function getCircularReplacer() {
+        const seen = new WeakSet();
+        return function (key: any, value: object | null) {
+            if (typeof value === "object" && value !== null) {
+                if (seen.has(value)) {
+                    return undefined; // Skip circular reference
+                }
+                seen.add(value);
+            }
+            return value;
+        };
+    }
+
     context.subscriptions.push(
         vscode.commands.registerCommand(
             DownloadOCIAPMSynScript.commandName,
@@ -824,7 +972,7 @@ export function registerCommands(
                         vscode.window.showErrorMessage(localize('incorrectScriptContentType', 'Incorrect script content type'));
                         return newCancellation();
                 }
-                panel.webview.html = DownloadScript(panel.webview, context.extensionUri, 'Downloading Script ' + scriptDetails.displayName,
+                panel.webview.html = DownloadScript(panel.webview, context.extensionUri, 'Downloading Script: ' + scriptDetails.displayName,
                     scriptContentEncoded, scriptContentType.toString(), scriptDetails.contentFileName ?? defaultFileName!);
                 panel.webview.onDidReceiveMessage(async (message: { command: any; status: boolean }) => {
                     switch (message.command) {

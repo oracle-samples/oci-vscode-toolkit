@@ -18,7 +18,7 @@ async function makeClient(profile: string): Promise<MonitoringClient> {
 }
 
 /** date shown on Result page */
-function formatDateUiUTC(dt: Date) {
+export function formatDateUiUTC(dt: Date) {
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];

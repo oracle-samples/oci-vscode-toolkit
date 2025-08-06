@@ -14,6 +14,7 @@ $(document).ready(function () {
   let scriptFileName;
   var scriptContent;
   var scriptContentType;
+  var currentTreeSelection;
 
   const contentTypeSide = document.getElementById('side-radio');
   contentTypeSide.addEventListener('change', updateScriptContentType);
@@ -468,7 +469,8 @@ $(document).ready(function () {
         "size":  "Script size can't exceed 64 KB.",
         "noScriptCreated": "There are no scripts defined. Before you can create a monitor, you must create a script.",
         "incorrectScriptContentType": "Incorrect script content type",
-        "paramIsEmpty": "Invalid content, it cannot be empty" 
+        "paramIsEmpty": "Invalid content, it cannot be empty" ,
+        "apmDomainNotSelected": "APM domain is not selected. You need to select an APM domain from the tree view of APM extension."
       },
       "sideFile": {
         "empty": "Input JSON can not be empty",
@@ -520,6 +522,18 @@ $(document).ready(function () {
       showError(errorIds[0]);
       isValid = false;
     }
+    currentTreeSelection = document.getElementById('treeInfo').dataset.currentTreeSelection;
+    let scriptCreateType = document.getElementById('treeInfo').dataset.scriptCreateType;
+    let currentTreeSelectionParsed;
+    if (currentTreeSelection !== undefined) {
+      currentTreeSelectionParsed = JSON.parse(currentTreeSelection);
+    }
+    if (scriptCreateType === undefined || (scriptCreateType === "FileExplorer" && (currentTreeSelection === undefined || currentTreeSelectionParsed["commandName"] !== "apm.ociAPMDomainNode"))) {
+      let jsonError = ErrorJson.validation.script.apmDomainNotSelected;;
+      isValid = false;
+      document.getElementById('file-text-error').innerHTML = jsonError;
+      showError('file-text-input-error');
+    }
 
     jsonTextInput = editor.getValue();
     var jsonError = validateJsonFile(jsonTextInput);
@@ -544,6 +558,7 @@ $(document).ready(function () {
     scriptContent = editor.getValue();
     //hide previous error 
     hideErrors();
+    hideError('file-text-input-error');
     //validate form inputs
     if (isValidateForm() === false) {
       return;
@@ -555,7 +570,8 @@ $(document).ready(function () {
       scriptName: scriptName,
       scriptContent: scriptContent,
       scriptFileName: scriptFileName,
-      scriptContentType: scriptContentType
+      scriptContentType: scriptContentType,
+      currentTreeSelection: currentTreeSelection
     });
   });
   /** Event : submit form -- END */

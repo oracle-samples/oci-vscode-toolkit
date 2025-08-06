@@ -5,7 +5,8 @@
 import { Webview, Uri } from "vscode";
 import { getUri } from "../utils/getUri";
 
-export function CreateScriptGetWebview(webview: Webview, extensionUri: Uri) {
+export function CreateScriptGetWebview(webview: Webview, extensionUri: Uri,
+   fileExplorerScriptContentEncoded: any, scriptFileExt: any, currentTreeSelection: any, scriptName: string,) {
    const css_path = ["media", "css"];
    const js_path = ["media", "js", "script"];
    const submitForm = getUri(webview, extensionUri, js_path.concat(["createForm.js"]));
@@ -22,7 +23,7 @@ export function CreateScriptGetWebview(webview: Webview, extensionUri: Uri) {
        <meta charset="UTF-8">
        <meta http-equiv="Content-Security-Policy">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <link rel="stylesheet" href="${tableStyle}"> 
+       <link rel="stylesheet" href="${tableStyle}">        
        <script type="module" src="${submitForm}"></script>
        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
@@ -35,6 +36,7 @@ export function CreateScriptGetWebview(webview: Webview, extensionUri: Uri) {
     </head>
     <body id="webview-body">
        <form id="form_create_script" method="post" action="*">
+         <label id="apm-domain-selected-msg"></label>
 
          <label class="label-margin column">Choose an option to create using :&nbsp;&nbsp;</label>
          <label class="label-margin label-file-width" for="create-script">
@@ -46,8 +48,8 @@ export function CreateScriptGetWebview(webview: Webview, extensionUri: Uri) {
 
          <div class="row">
             <div class="column" id="col1-div">
-               <label class="label-margin" for="script-name-input" id="script-name-label">Script Name</label>&nbsp;
-               <input class="input-margin input-block oui-react-input" placeholder="Enter script name" type="text" id="script-name-input" />
+               <label class="label-margin" for="script-name-input" id="script-name-label">APM Availability Script Name</label>&nbsp;
+               <input class="input-margin input-block oui-react-input" placeholder="Enter script name" type="text" id="script-name-input" value="${scriptName}"/>
                <div class="oui-display-hint-padding">
                   <div class="oui-text-small oui-text-muted" id="script-hint">
                      No spaces, only letters, numerals, hyphens or underscores.
@@ -58,6 +60,8 @@ export function CreateScriptGetWebview(webview: Webview, extensionUri: Uri) {
                      <img src="${errorSvg}"/><div id="script-error-text">Script name is required.</div>
                   </div>
                </div>
+
+               <div id="treeInfo"></div>
 
                <label class="label-margin" for="script-file-input" id="script-file-label" >Script File</label>
                <input class="input-margin input-block oui-react-input" placeholder="Select script file" type="file" id="script-file-input"/>
@@ -78,14 +82,27 @@ export function CreateScriptGetWebview(webview: Webview, extensionUri: Uri) {
               
                <script>
                   let editor;
-                  let scriptContent = "";
+                  let scriptContent = "// Enter file content";
+                  var monacoDisplayLanguage = "json";
 
-                  require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs' }});                      
+                  require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs' }});  
                   
+                  if ("${scriptFileExt}" !== undefined && "${scriptFileExt}" !== "") {  
+                     if ("${scriptFileExt}" === ".side") {
+                        monacoDisplayLanguage = "json";
+                        document.getElementById('side-radio').checked = true;
+                        scriptContent = JSON.parse(atob("${fileExplorerScriptContentEncoded}"), null, '\t');
+                     } else if ("${scriptFileExt}" === ".ts") {
+                        monacoDisplayLanguage = "typescript"; 
+                        document.getElementById('ts-radio').checked = true;
+                        scriptContent = decodeURIComponent("${fileExplorerScriptContentEncoded}");
+                     }
+                  } 
+         
                   require(['vs/editor/editor.main'], function() {
                      editor = monaco.editor.create(document.getElementById('file-text-input'), {
-                           value: "// Enter file content",
-                           language: "json",
+                           value: scriptContent,
+                           language: monacoDisplayLanguage,
                            theme: "vs-light"
                         });
 
@@ -112,9 +129,9 @@ export function CreateScriptGetWebview(webview: Webview, extensionUri: Uri) {
                            reader.onload = function(e) {
                               const selected = document.querySelector('input[name="create-script"]:checked').value;
                               if (selected === "SIDE") {
-                              editor.setValue(JSON.stringify(JSON.parse(e.target.result), null, 2));
+                                 editor.setValue(JSON.stringify(JSON.parse(e.target.result), null, 2));
                               } else {
-                              editor.setValue(e.target.result);
+                                 editor.setValue(e.target.result);
                               }
                            };
                            reader.readAsText(file);
@@ -140,9 +157,40 @@ export function CreateScriptGetWebview(webview: Webview, extensionUri: Uri) {
                      radios.forEach(radio => {
                         radio.addEventListener('change', radioChangeHandler);
                      });
+
+                     function currentTreeSelectionChangeHandler(currentTreeSelectionNode) {                      
+                        let scriptCreateType = "APMPlugin";
+                        if ("${scriptFileExt}" !== undefined && "${scriptFileExt}" !== "") {
+                           scriptCreateType = "FileExplorer";
+                        }                       
+                        document.getElementById('treeInfo').dataset.scriptCreateType = scriptCreateType; 
+                        if (scriptCreateType === "FileExplorer") {
+                           if (currentTreeSelectionNode !== undefined) {
+                              document.getElementById('treeInfo').dataset.currentTreeSelection = JSON.stringify(currentTreeSelectionNode);  
+                              document.getElementById('apm-domain-selected-msg').innerHTML = "<br/>APM Domain: " + currentTreeSelectionNode.label + "<br/><br/>";                         
+                              document.getElementById("apm-domain-selected-msg").style.color = "";
+                           } else {
+                              document.getElementById('apm-domain-selected-msg').innerHTML = "<br/>No APM Domain selected." +
+                              " You can select APM Domain from tree view of APM extension by expanding compartments, and selecting required Domain to create Availability Script.<br/>" + 
+                              " Refer <a href='https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/prerequisites-visual-studio.html'>Create an APM Domain</a> to create Domain. &nbsp;&nbsp;<br/><br/>";
+                              document.getElementById("apm-domain-selected-msg").style.color = "red";
+                           }
+                        }
+                     }
+
+                     // Attach event listener to take action on APM Domain tree node change 
+                     window.addEventListener('message', event => {
+                        const message = event.data;
+                        if (message.type === 'treeSelectionChanged') {
+                           const node = message.payload;
+                           currentTreeSelectionChangeHandler(node.currentTreeSelection);                           
+                        }
+                     });     
+
                      // Set initial value on page load
                      window.onload = function() {
                         radioChangeHandler(); 
+                        currentTreeSelectionChangeHandler(${currentTreeSelection});
                      }; 
                   });                                   
                </script>

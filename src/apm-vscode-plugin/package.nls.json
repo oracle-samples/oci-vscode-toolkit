@@ -16,6 +16,8 @@
   "apm.viewMonitorInBrowser.title": "View in browser...",
   "apm.copyMonitorOCID.title": "Copy OCID",
   "apm.createOCIAPMSynScript.title": "Create",
+  "apm.createOCIAPMSynScriptFromFile.title": "Create APM Availability Script",
+  "apm.createOCIAPMSynScriptFromEditor.title": "Create APM Availability Script",
   "apm.editOCIAPMSynScript.title": "Edit",
   "apm.deleteOCIAPMSynScript.title": "Delete",
   "apm.getOCIAPMSynScriptDetails.title": "Get details",
