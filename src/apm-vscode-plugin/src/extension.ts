@@ -24,6 +24,7 @@ export async function activate(context: vscode.ExtensionContext) {
         'Oracle.oci-core',
     );
     vscode.commands.executeCommand('setContext', 'enableApmSyntheticsViewTitleMenus', false);
+    vscode.commands.executeCommand('setContext', 'apm.active', true);
     if (!compartmentsExtension) {
         throw new Error(localize('ociCoreNotLoadedErrorMsg', 'Failed to load the Compartments extension.'));
     }
@@ -55,7 +56,7 @@ async function setupTreeView(outputChannel: vscode.OutputChannel) {
         await ext.treeDataProvider.switchProfile(profile);
         ext.treeDataProvider.refresh(undefined);
     });
-    registerCommands(ext.context, treeDataProvider);
+    registerCommands(ext.context, treeDataProvider, ext.treeView);
     ext.treeDataProvider = treeDataProvider;
     ext.treeView.onDidExpandElement((element) => {
         ext.treeView.reveal(element.element, { focus: true, select: true, expand: 1 });

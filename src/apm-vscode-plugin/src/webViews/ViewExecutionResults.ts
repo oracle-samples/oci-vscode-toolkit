@@ -59,28 +59,30 @@ export function ViewExecutionResults(webview: Webview, extensionUri: Uri, header
       <script>
         function sortTable(columnIndex) {
           const table = document.getElementById("monitor-exec-results");
-          const tbody = table.tBodies[0];
-          const rows = Array.from(tbody.rows);
+          if (table !== null) {
+            const tbody = table.tBodies[0];
+            const rows = Array.from(tbody.rows);
 
-          // Sort in descending order
-          rows.sort((a, b) => {
-            const valA = a.cells[columnIndex].innerText.trim();
-            const valB = b.cells[columnIndex].innerText.trim();
+            // Sort in descending order
+            rows.sort((a, b) => {
+              const valA = a.cells[columnIndex].innerText.trim();
+              const valB = b.cells[columnIndex].innerText.trim();
 
-            // If numeric, compare as numbers
-            const numA = parseFloat(valA);
-            const numB = parseFloat(valB);
+              // If numeric, compare as numbers
+              const numA = parseFloat(valA);
+              const numB = parseFloat(valB);
 
-            if (!isNaN(numA) && !isNaN(numB)) {
-              return numB - numA; // Descending
-            }
+              if (!isNaN(numA) && !isNaN(numB)) {
+                return numB - numA; // Descending
+              }
 
-            // Otherwise, compare as strings
-            return valB.localeCompare(valA); // Descending
-          });
+              // Otherwise, compare as strings
+              return valB.localeCompare(valA); // Descending
+            });
 
-          // Re-attach sorted rows
-          rows.forEach(row => tbody.appendChild(row));
+            // Re-attach sorted rows
+            rows.forEach(row => tbody.appendChild(row));
+          }
         }
         window.onload = function() {
           sortTable(4); // Change the column index as needed (0-based)

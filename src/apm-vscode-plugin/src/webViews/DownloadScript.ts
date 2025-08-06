@@ -19,7 +19,6 @@ export function DownloadScript(webview: Webview, extensionUri: Uri, header: stri
        <meta charsset="UTF-8">
        <meta http-equiv="Content-Security-Policy">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <script id="script_content_decode_js" type="module" src="${decodeScriptContent}" data-content=${content}, data-type=${scriptContentType} ></script>
        <script id="download_script_js" type="text/javascript" src="${downloadJs}" data-type=${scriptContentType} ></script>
        <script id="script_js" type="module" src="${scriptJs}" data-type=${scriptContentType} ></script>
        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -31,6 +30,15 @@ export function DownloadScript(webview: Webview, extensionUri: Uri, header: stri
        <a id="downloadAnchorElem" style="display:none"></a>
        <input type="hidden" id="file-name" value="${fileName}"/>
        <textarea style="display:none" id="file-text-input" ></textarea>
+       <script>
+        let scriptContent; 
+        if ("${scriptContentType}" === "SIDE") {                      
+           scriptContent = JSON.parse(atob("${content}"));           
+        } else if ("${scriptContentType}" === "PLAYWRIGHT_TS") {
+           scriptContent = decodeURIComponent("${content}");
+        }
+        document.getElementById('file-text-input').value = scriptContent;
+       </script>
     </body>
     </html>
     `;

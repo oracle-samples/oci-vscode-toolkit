@@ -35,15 +35,35 @@ Hierarchy of tree view: the tree view has tenancy at the top level followed by c
 ## Create Script 
 
 The plugin provides the ability to create new Availability scripts.
-Below are the steps:
+Scripts can be created in below 3 ways:
+### Create Script from APM plugin
 
 - Expand APM Domains, select required domain 
 - Right click on the Scripts option and click on `Create`
   
   ![](./media/images/readme/create_script.png)
 - Choose script type between Selenium SIDE script or Playwright typescript 
+
+  ![](./media/images/readme/choose_script_type.png)
+- Add script name, and select script file. Refer **https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/create-script.html** for script inputs.
+
+### Create Script from right click menu in File Explorer
+
+- In the file browser on the left side, right click on the script file for which you want to create Script resource and click on `Create APM Availability Script`.
+- Verify the APM Domain displayed at the top for which Script resource would be created. In case when no APM Domain is selected then you need to select an APM domain from the tree view of APM extension
+- Choose script type between Selenium SIDE script or Playwright typescript 
+
   ![](./media/images/readme/choose_script_type.png)
 - Add script name, and select script file. Refer **https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/create-script.html** for script inputs.  
+
+### Create Script from right click menu in Editor
+
+- In the file browser on the left side, right click on the script file for which you want to create Script resource and click on `Create APM Availability Script`.
+- Verify the APM Domain displayed at the top for which Script resource would be created. In case when no APM Domain is selected then you need to select an APM domain from the tree view of APM extension
+- Choose script type between Selenium SIDE script or Playwright typescript 
+
+  ![](./media/images/readme/choose_script_type.png)
+- Add script name, and select script file. Refer **https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/create-script.html** for script inputs.
 
 ## View Script Details
 
@@ -122,8 +142,6 @@ Below are the steps:
 ## Edit Availability Monitor 
 
 - Right click on monitor to be edited and update values.
-
-  ![](./media/images/readme/edit_monitor.png)
 - Click on 
   - `Edit` to edit monitor.
   - `Save as JSON` button to save input values as JSON file and use this file later to create monitor(s)  

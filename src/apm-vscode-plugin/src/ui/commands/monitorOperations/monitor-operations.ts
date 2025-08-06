@@ -14,14 +14,12 @@ import {
 } from '../../../utils/actionResult';
 import { getMonitorResultInfo, getMetricTimeRangeInfo } from '../ui/get-monitor-info';
 import { createMonitor, getMonitorDetailsInOutput, getMonitorResult, runNowMonitor, updateMonitorJson } from "../../../api/apmsynthetics";
-import { getMonitorExecutionResults } from '../../../api/telemetry';
+import { formatDateUiUTC, getMonitorExecutionResults } from '../../../api/telemetry';
 import { MonitorStatus, VantagePointInfo } from 'oci-apmsynthetics/lib/model';
 import { writeToFile } from '../scriptOperations/script-operations';
 import { ViewOutput } from '../../../webViews/ViewOutput';
 import { ViewScreenshots } from '../../../webViews/ViewScreenshots';
-import { promptForFileNames } from '../../../ui-helpers/ui-helpers';
 import { ViewHar } from '../../../webViews/ViewHar';
-import { OCIApmSynMonitorSummaryNode } from '../../tree/nodes/oci-apm-syn-monitor-summary-node';
 
 const localize: nls.LocalizeFunc = nls.loadMessageBundle();
 
@@ -234,7 +232,8 @@ export async function getRawResult(apmDomainId: string, monitorId: string, monit
             vscode.window.showErrorMessage(localize('resultDataSetNotFound', 'Error: result data set not found, cancelling operation'));
             return newCancellation();
         }
-        var utcDate = new Date(parseInt(executionTime, 10)).toUTCString();
+        var utcDate = new Date(parseInt(executionTime, 10));
+        var utcFormattedDate = formatDateUiUTC(utcDate);
         let fileNames: string[] = [];
         switch (resultType) {
             case 'diagnostics':
@@ -274,7 +273,7 @@ export async function getRawResult(apmDomainId: string, monitorId: string, monit
                     // Convert Map to object to pas to webview
                     const mapObject = Object.fromEntries(nameToResultsetMap);
                     panel.webview.html = ViewScreenshots(panel.webview, context.extensionUri,
-                        "<b>Monitor</b>: " + monitorName + "<br><br><b>Timestamp</b>: " + executionTime + "<br><br><b>Time (UTC)</b>: " + utcDate +
+                        "<b>Monitor</b>: " + monitorName + "<br><br><b>Timestamp</b>: " + executionTime + "<br><br><b>Time (UTC)</b>: " + utcFormattedDate +
                         "<br><br><b>Vantagepoint</b>: " + vantagePoint + "", JSON.stringify(fileNames), mapObject, vantagePoint, executionTime);
                     // For large data we cannot pass object directly in above call, hence we need to separately call the postmessage function
                     // panel.webview.postMessage({
@@ -295,7 +294,7 @@ export async function getRawResult(apmDomainId: string, monitorId: string, monit
 
                     fileNames = Array.from(nameToStringContentMap.keys());
                     panel.webview.html = ViewHar(panel.webview, context.extensionUri,
-                        "<b>Monitor</b>: " + monitorName + "<br><br><b>Timestamp</b>: " + executionTime + "<br><br><b>Time (UTC)</b>: " + utcDate +
+                        "<b>Monitor</b>: " + monitorName + "<br><br><b>Timestamp</b>: " + executionTime + "<br><br><b>Time (UTC)</b>: " + utcFormattedDate +
                         "<br><br><b>Vantagepoint</b>: " + vantagePoint + "", JSON.stringify(fileNames), Object.fromEntries(nameToStringContentMap), vantagePoint, executionTime);
                 } catch (e) {
                     vscode.window.showErrorMessage(localize('resultDataSetNotFound', 'Error: result data set not found, cancelling operation'));
@@ -322,7 +321,7 @@ export async function getRawResult(apmDomainId: string, monitorId: string, monit
             //             return newCancellation();
             //         }
             //         panel.webview.html = ViewLogs(panel.webview, context.extensionUri,
-            //             "Logs (monitor: " + monitorName + ", timestamp: " + executionTime + ", time (UTC): " + utcDate +
+            //             "Logs (monitor: " + monitorName + ", timestamp: " + executionTime + ", time (UTC): " + utcFormattedDate +
             //             ", vantagepoint: " + vantagePoint + ")", selectedFileName, errorContent, logContent);
             //     } catch (e) {
             //         vscode.window.showErrorMessage(localize('resultDataSetNotFound', 'Error: result data set not found, cancelling operation'));

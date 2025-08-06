@@ -23,8 +23,6 @@ export function EditScriptGetWebview(webview: Webview, extensionUri: Uri, script
        <meta http-equiv="Content-Security-Policy">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
        <link rel="stylesheet" href="${tableStyle}"> 
-       <script id="script_content_decode_js" type="module" src="${decodeScriptContent}" data-content=${scriptContentEncoded}, data-type=${scriptContentType} ></script>
-       <script> let tempScriptContent;</script>
        <script type="module" src="${submitForm}"></script>
        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>

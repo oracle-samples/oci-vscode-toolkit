@@ -9,7 +9,7 @@ $(document).ready(function () {
     const scriptContentType = script_content_tag.dataset.type;
     switch (scriptContentType) {
         case "SIDE":
-            decodedScriptContent = atob(script_content_tag.dataset.content);
+            decodedScriptContent = JSON.parse(atob(script_content_tag.dataset.content, null, '\t'));
             document.getElementById('file-text-input').value = JSON.parse(decodedScriptContent, null, '\t');
             break;
         case "PLAYWRIGHT_TS":

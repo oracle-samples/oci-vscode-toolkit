@@ -11,7 +11,7 @@
   ],
   "displayName": "OCI Application Performance Monitoring",
   "description": "Manage APM Availability Monitoring scripts and monitors under APM domains within VS Code",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "engines": {
     "vscode": "^1.53.2"
   },
@@ -254,6 +254,18 @@
         "category": "OCI Application Performance Monitoring"
       },
       {
+        "command": "apm.createOCIAPMSynScriptFromFile",
+        "title": "%apm.createOCIAPMSynScriptFromFile.title%",
+        "icon": "",
+        "category": "OCI Application Performance Monitoring"
+      },
+      {
+        "command": "apm.createOCIAPMSynScriptFromEditor",
+        "title": "%apm.createOCIAPMSynScriptFromEditor.title%",
+        "icon": "",
+        "category": "OCI Application Performance Monitoring"
+      },
+      {
         "command": "apm.launch",
         "title": "%apm.launch.title%",
         "category": "OCI Application Performance Monitoring"
@@ -300,6 +312,20 @@
         {
           "command": "apm.openIssueInGithub",
           "when": "view == apm && (!cloudEditorEnv) && enableApmSyntheticsViewTitleMenus",
+          "group": "navigation"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "apm.createOCIAPMSynScriptFromFile",
+          "when": "apm.active && (resourceExtname == .ts || resourceExtname == .side)",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "apm.createOCIAPMSynScriptFromEditor",
+          "when": "apm.active && (resourceExtname == .ts || resourceExtname == .side)",
           "group": "navigation"
         }
       ],
@@ -653,7 +679,7 @@
     "sinon": "^9.0.3",
     "ts-loader": "^8.0.3",
     "ts-node": "^10.7.0",
-    "typescript": "^4.4.4",
+    "typescript": "^4.9.5",
     "vsce": "1.92.0",
     "vscode-extension-tester": "^4.2.0",
     "vscode-nls-dev": "^4.0.4",
