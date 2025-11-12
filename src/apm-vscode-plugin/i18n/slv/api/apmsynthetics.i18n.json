@@ -1,1 +1,1 @@
-{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Napaka: Podatkov za prenos ni bilo mogoče najti"}
+{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Napaka: Zahtevanega vira ni bilo mogoče najti ali pa je neveljaven"}

@@ -1,1 +1,1 @@
-{"msg":"İzleme yürütme sonuçları <br><h4>İzleme: {0} <br>Başlangıç tarihi: {1} <br>Bitiş tarihi: {2}</h4>","monitorExecResultsMsg":"Erişilebilirlik: {0} \nİzleme Yürütme Zamanı (ms): {1} \nZaman Damgası (UTC): {2} \nZaman Damgası (epoch): {3} \nGözlem Noktası: {4} \nHata Kategorisi {5}"}
+{"msg":"<p>İzleme: {0} <br>Başlangıç tarihi: {1} <br>Bitiş tarihi: {2}</p>","monitorCancelledMessage":"Yürütme sonuçlarını alma işlemi iptal edildi."}

@@ -1,1 +1,1 @@
-{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Fehler: Keine Daten zum Download gefunden"}
+{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Fehler: Angeforderte Ressource nicht gefunden oder ungültig"}

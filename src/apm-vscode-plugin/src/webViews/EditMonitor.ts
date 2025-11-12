@@ -22,15 +22,17 @@ export function EditMonitorGetWebview(webview: Webview, extensionUri: Uri, vpLis
    const monitorData = JSON.stringify(updatedMonitor, null, 2);
 
    const scriptParameters: MonitorScriptParameterInfo[] = monitor?.scriptParameters;
-   let scriptParams: string = "";
-   scriptParameters.forEach((param, index) => {
-      if (index > 0) {
-         scriptParams = scriptParams.concat(",");
+   if (scriptParameters && scriptParameters !== undefined) {
+      let scriptParams: string = '';
+      scriptParameters.forEach((param, index) => {
+         if (index > 0) {
+            scriptParams = scriptParams.concat(",");
+         }
+         scriptParams = scriptParams.concat(JSON.stringify(param?.monitorScriptParameter));
+      });
+      if (scriptParams !== '') {
+         scriptParams = "[".concat(scriptParams, "]");
       }
-      scriptParams = scriptParams.concat(JSON.stringify(param?.monitorScriptParameter));
-   });
-   if (scriptParameters && scriptParameters !== undefined && scriptParams !== '') {
-      scriptParams = "[".concat(scriptParams, "]");
    }
    // scriptParams = scriptParams.replace(/'/g, "\\'");
 
@@ -153,11 +155,6 @@ export function EditMonitorGetWebview(webview: Webview, extensionUri: Uri, vpLis
                   </div>
                </div>
 
-               <label class="label-margin" for="monitor-type-input" id="monitor-type-label" >Type</label>
-               <select class="input-margin oui-react-select" readonly=true disabled=true id="monitor-type-input"/>
-                  <option value="SCRIPTED_BROWSER" selected>Scripted Browser</option>
-               </select>
-
                <label class="label-margin" for="script-id-input" id="script-id-label" >Script</label>
                <select class="input-margin oui-react-select" id="script-id-input"/></select>
                <input type="hidden" id="script-id-sel" value="${monitor.scriptId}"/>
@@ -165,15 +162,7 @@ export function EditMonitorGetWebview(webview: Webview, extensionUri: Uri, vpLis
                   <div class="oui-text-small oui-form-danger oui-margin-small-bottom" id="script-error" style="${showInputs}">
                      <img src="${errorSvg}"/>Script is required.
                   </div>
-               </div>
-
-               <label class="label-margin" for="script-param-input" id="script-param-label" >Script Parameters (JSON)</label>
-               <input class="input-margin input-block oui-react-input" placeholder="Enter script parameters in json format" type="text" id="script-param-input" value='${scriptParams}' />
-               <div class="oui-display-hint-padding">
-                  <div class="oui-text-small oui-form-danger oui-margin-small-bottom" id="script-param-error" style="${showInputs}">
-                     <img src="${errorSvg}"/>Invalid script parameters json.
-                  </div>
-               </div>
+               </div>               
 
                <label class="label-margin" for="target-input" id="target-label">
                   Base URL<span class="oui-react-optional-text oui-text-small oui-text-muted">Optional</span>
@@ -314,15 +303,7 @@ export function EditMonitorGetWebview(webview: Webview, extensionUri: Uri, vpLis
 
                         <label class="fs-label-margin" for="min-runs-input" id="min-runs-label">Minimum runs allowed per interval</label>
                         <input class="fs-input-margin oui-react-input" value="${monitor?.availabilityConfiguration?.minAllowedRunsPerInterval ?? 1}" type="number" min="1" max="720" step="1" id="min-runs-input"/>
-                     </div>
-                     <div id="monitor-div" data-apmDomainId="${apmDomainId}" data-batchIntervalInSeconds="${monitor.batchIntervalInSeconds}"
-                      data-configuration='${monitor.configuration}' data-displayName="${monitor.displayName}"
-                      data-definedTags='${definedTags}' data-freeformTags='${freeformTags}' data-id="${monitor.id}" data-isRunOnce="${monitor.isRunOnce}"
-                      data-isRunNow="${monitor.isRunNow}" data-isIPv6="${monitor.isIPv6}" data-maintenanceWindowSchedule="${monitor.maintenanceWindowSchedule}" 
-                      data-monitorType="${monitor.monitorType}" data-repeatIntervalInSeconds="${monitor.repeatIntervalInSeconds}" data-scriptId="${monitor.scriptId}"
-                      data-scriptName="${monitor.scriptName}" data-status="${monitor.status}" data-scriptParameters="${scriptParams}" data-schedulingPolicy="${monitor.schedulingPolicy}"
-                      data-timeoutInSeconds="${monitor.timeoutInSeconds}" data-target="${monitor.target}"
-                      data-vp="${monitor.vpIdSelected}" ></div>
+                     </div>                    
                      <input id="monitor-json" type="hidden" value='${JSON.stringify(monitor)}'/>
                </fieldset>
             </div>

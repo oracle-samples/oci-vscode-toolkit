@@ -3,11 +3,13 @@
  * This software is licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl.
  */
 
-export const SCRIPT_CONTENT_TYPE_TS = "PLAYWRIGHT_TS";
 export const SCRIPT_CONTENT_TYPE_SIDE = "SIDE";
 export const SCRIPT_CONTENT_EXT_SIDE = ".side";
+export const SCRIPT_CONTENT_TYPE_TS = "PLAYWRIGHT_TS";
 export const SCRIPT_CONTENT_EXT_TS = ".ts";
 export const SCRIPT_CONTENT_EXT_SPEC_TS = ".spec.ts";
+export const SCRIPT_CONTENT_TYPE_JS = "JS";
+export const SCRIPT_CONTENT_EXT_JS = ".js";
 
 export const SYNTHETIC_CUSTOM_MARKER_COMMAND = "oraSynCustomMarker";
 export const SYNTHETIC_CUSTOM_SCREENSHOT_COMMAND = "oraSynCustomScreenshot";
@@ -41,10 +43,12 @@ export const sideVersionsAndCmdsWithoutTargetMap = new Map();
 sideVersionsAndCmdsWithoutTargetMap.set(_VALID_SIDEFILE_VERSION_V2, cmdsWithoutTarget_v2);
 sideVersionsAndCmdsWithoutTargetMap.set(_VALID_SIDEFILE_VERSION_V3, cmdsWithoutTarget_v3);
 
+export const POSTMAN_REQUEST_MODULE = "postman-request";
 export const modules = new Set();
-modules.add("postman-request");
+modules.add(POSTMAN_REQUEST_MODULE);
 modules.add("util");
 modules.add("oci-common");
+modules.add("jsrsasign");
 
 export const customOperations = new Set();
 

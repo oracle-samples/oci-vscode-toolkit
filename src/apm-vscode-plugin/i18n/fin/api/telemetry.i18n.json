@@ -1,1 +1,1 @@
-{"msg":"Seuraa suoritustuloksia <br><h4>Seuranta: {0} <br>Alkamispäivä: {1} <br>Päättymispäivä: {2}</h4>","monitorExecResultsMsg":"Saatavuus: {0} \nSuoritusajan seuranta (ms): {1} \nAikaleima (UTC): {2} \nAikaleima (Unix-aika): {3} \nTarkastelupiste: {4} \nVirheluokka: {5}"}
+{"msg":"<p>Seuranta: {0} <br>Alkamispäivä: {1} <br>Päättymispäivä: {2}</p>","monitorCancelledMessage":"Suorituksen tulosten hakutoiminto peruutettiin."}

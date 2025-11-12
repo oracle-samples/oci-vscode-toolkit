@@ -12,6 +12,7 @@ $(document).ready(function () {
             decodedScriptContent = JSON.parse(atob(script_content_tag.dataset.content, null, '\t'));
             document.getElementById('file-text-input').value = JSON.parse(decodedScriptContent, null, '\t');
             break;
+        case "JS":
         case "PLAYWRIGHT_TS":
             decodedScriptContent = decodeURIComponent(script_content_tag.dataset.content);
             document.getElementById('file-text-input').value = decodedScriptContent;

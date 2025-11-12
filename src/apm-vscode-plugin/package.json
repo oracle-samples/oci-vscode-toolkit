@@ -11,7 +11,7 @@
   ],
   "displayName": "OCI Application Performance Monitoring",
   "description": "Manage APM Availability Monitoring scripts and monitors under APM domains within VS Code",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "engines": {
     "vscode": "^1.53.2"
   },
@@ -318,14 +318,14 @@
       "explorer/context": [
         {
           "command": "apm.createOCIAPMSynScriptFromFile",
-          "when": "apm.active && (resourceExtname == .ts || resourceExtname == .side)",
+          "when": "apm.active && (resourceExtname == .ts || resourceExtname == .side || resourceExtname == .js)",
           "group": "navigation"
         }
       ],
       "editor/context": [
         {
           "command": "apm.createOCIAPMSynScriptFromEditor",
-          "when": "apm.active && (resourceExtname == .ts || resourceExtname == .side)",
+          "when": "apm.active && (resourceExtname == .ts || resourceExtname == .side || resourceExtname == .js)",
           "group": "navigation"
         }
       ],

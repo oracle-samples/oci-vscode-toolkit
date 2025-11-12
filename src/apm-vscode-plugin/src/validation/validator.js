@@ -61,92 +61,85 @@ const ErrorJson = JSON.parse(`{
       }
     }
   }`);
-const MON_TYPE = 'SCRIPTED_BROWSER';
 const VP_LIMIT = 100;
 function validateDisplayName(displayName) {
-    if (displayName) {
-        return displayName.length > 255 ? ErrorJson.validation.displayName.lengthy :
-            (/\s/.test(displayName)) ? ErrorJson.validation.displayName.spaceNotAllowed :
-                !(/^[a-zA-Z_](-?[a-zA-Z_0-9])*$/.test(displayName)) ?
-                    ErrorJson.validation.displayName.invalidName : '';
-    }
-    else {
-        return ErrorJson.validation.displayName.empty;
-    }
+  if (displayName) {
+    return displayName.length > 255 ? ErrorJson.validation.displayName.lengthy :
+      (/\s/.test(displayName)) ? ErrorJson.validation.displayName.spaceNotAllowed :
+        !(/^[a-zA-Z_](-?[a-zA-Z_0-9])*$/.test(displayName)) ?
+          ErrorJson.validation.displayName.invalidName : '';
+  }
+  else {
+    return ErrorJson.validation.displayName.empty;
+  }
 }
 exports.validateDisplayName = validateDisplayName;
 ;
-function validateMonitorType(type) {
-    if (type === "" || type !== MON_TYPE) {
-        return ErrorJson.validation.type.empty;
-    }
-}
-exports.validateMonitorType = validateMonitorType;
-;
+
 function validateBaseUrl(url, type) {
-    if (!url && type !== MON_TYPE) {
-        ErrorJson.validation.target.empty;
-    }
-    // Check if target has protocol in correct format. 
-    if (url && (type === MON_TYPE) && !((/^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//).test(url))) {
-        return ErrorJson.validation.target.invalidProtocolFormat;
-    }
+  if (!url) {
+    ErrorJson.validation.target.empty;
+  }
+  // Check if target has protocol in correct format. 
+  if (url && !((/^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//).test(url))) {
+    return ErrorJson.validation.target.invalidProtocolFormat;
+  }
 }
 exports.validateBaseUrl = validateBaseUrl;
 ;
 function validateScript(script, type) {
-    if (!script && type === MON_TYPE) {
-        return ErrorJson.validation.script.empty;
-    }
+  if (!script) {
+    return ErrorJson.validation.script.empty;
+  }
 }
 exports.validateScript = validateScript;
 ;
 function validateScriptParams(params) {
-    let error;
-    if (params && params.length !== 0 && !validateJSON(params)) {
-        error = ErrorJson.validation.scriptParameters.invalidJson;
-    }
-    return error;
+  let error;
+  if (params && params.length !== 0 && !validateJSON(params)) {
+    error = ErrorJson.validation.scriptParameters.invalidJson;
+  }
+  return error;
 }
 exports.validateScriptParams = validateScriptParams;
 ;
 function validateDefinedTags(params) {
-    let error;
-    if (params && params.length !== 0 && !validateJSON(params)) {
-        error = ErrorJson.validation.definedTags.invalidJson;
-    }
-    return error;
+  let error;
+  if (params && params.length !== 0 && !validateJSON(params)) {
+    error = ErrorJson.validation.definedTags.invalidJson;
+  }
+  return error;
 }
 exports.validateDefinedTags = validateDefinedTags;
 ;
 function validateFreeformTags(params) {
-    let error;
-    if (params && params.length !== 0 && !validateJSON(params)) {
-        error = ErrorJson.validation.freeformTags.invalidJson;
-    }
-    return error;
+  let error;
+  if (params && params.length !== 0 && !validateJSON(params)) {
+    error = ErrorJson.validation.freeformTags.invalidJson;
+  }
+  return error;
 }
 exports.validateFreeformTags = validateFreeformTags;
 ;
 function validateVPs(VPNames) {
-    if (VPNames && VPNames.length) {
-        return VPNames.length > VP_LIMIT ?
-            ErrorJson.validation.vantagePoints.limited : undefined;
-    }
-    else {
-        return ErrorJson.validation.vantagePoints.empty;
-    }
+  if (VPNames && VPNames.length) {
+    return VPNames.length > VP_LIMIT ?
+      ErrorJson.validation.vantagePoints.limited : undefined;
+  }
+  else {
+    return ErrorJson.validation.vantagePoints.empty;
+  }
 }
 exports.validateVPs = validateVPs;
 ;
 function validateJSON(content) {
-    try {
-        JSON.parse(content);
-        return true;
-    }
-    catch (e) {
-        return false;
-    }
+  try {
+    JSON.parse(content);
+    return true;
+  }
+  catch (e) {
+    return false;
+  }
 }
 exports.validateJSON = validateJSON;
 ;

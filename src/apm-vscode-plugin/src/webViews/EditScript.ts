@@ -71,6 +71,8 @@ export function EditScriptGetWebview(webview: Webview, extensionUri: Uri, script
                      fileInput.accept = '.side';
                   } else if ("${scriptContentType}" === "PLAYWRIGHT_TS") {
                      fileInput.accept = '.ts,.spec.ts';
+                  } else if ("${scriptContentType}" === "JS") {
+                     fileInput.accept = '.js';
                   }
                }
                // Set initial value on page load
@@ -94,6 +96,9 @@ export function EditScriptGetWebview(webview: Webview, extensionUri: Uri, script
                } else if ("${scriptContentType}" === "PLAYWRIGHT_TS") {
                   scriptContent = decodeURIComponent("${scriptContentEncoded}");
                   monacoDisplayLanguage = "typescript";
+               } else if ("${scriptContentType}" === "JS") {
+                  scriptContent = decodeURIComponent("${scriptContentEncoded}");
+                  monacoDisplayLanguage = "javascript";
                }
                require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.41.0/min/vs' }});
    

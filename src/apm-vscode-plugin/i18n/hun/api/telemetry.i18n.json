@@ -1,1 +1,1 @@
-{"msg":"Végrehajtási eredmények figyelése <br><h4>Figyelés: {0} <br>Kezdő dátum: {1} <br>Záró dátum: {2}</h4>","monitorExecResultsMsg":"Rendelkezésre állás: {0} \nVégrehajtási idő figyelése (ms): {1} \nIdőbélyeg (UTC): {2} \nIdőbélyeg (referenciaidőpecsét): {3} \nFelügyeleti pont: {4} \nHibakategória: {5}"}
+{"msg":"<p>Figyelés: {0} <br>Kezdő dátum: {1} <br>Záró dátum: {2}</p>","monitorCancelledMessage":"A végrehajtási eredmények beolvasási művelete megszakítva."}

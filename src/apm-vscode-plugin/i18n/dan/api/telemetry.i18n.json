@@ -1,1 +1,1 @@
-{"msg":"Overvåg udførelsesresultater <br><h4>Overvågning: {0} <br>Startdato: {1} <br>Slutdato: {2}</h4>","monitorExecResultsMsg":"Tilgængelighed: {0} \nUdførelsestid for overvågning (ms): {1} \nTidsstempel (UTC): {2} \nTidsstempel (epoke): {3} \nUdsigtspunkt: {4} \nFejlkategori: {5}"}
+{"msg":"<p>Overvågning: {0} <br>Startdato: {1} <br>Slutdato: {2}</p>","monitorCancelledMessage":"Operationen Hent udførelsesresultater blev annulleret."}

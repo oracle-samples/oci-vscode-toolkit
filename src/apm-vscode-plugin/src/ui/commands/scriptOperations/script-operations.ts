@@ -120,7 +120,7 @@ export function writeToFile(contentToWrite: string, fileName: string, encoding: 
             if (err) {
                 vscode.window.showErrorMessage(localize('fileDownloadFailure', 'Error: {0}', err.message));
             } else {
-                vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'File is downloaded successfully.'));
+                vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'File download is starting....'));
             }
         });
     });

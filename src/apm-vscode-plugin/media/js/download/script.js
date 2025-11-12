@@ -11,9 +11,10 @@ $(document).ready(function () {
     var status;
     switch (scriptContentType) {
         case "SIDE":
-            let decodedAndParsedCcontent = JSON.parse(JSON.stringify(JSON.parse(decodedScriptContent), null, '\t'));
-            status = saveAsFile(fileName, scriptContentType, decodedAndParsedCcontent);
+            let decodedAndParsedContent = JSON.parse(JSON.stringify(JSON.parse(decodedScriptContent), null, '\t'));
+            status = saveAsFile(fileName, scriptContentType, decodedAndParsedContent);
             break;
+        case "JS":
         case "PLAYWRIGHT_TS":
             status = saveAsFile(fileName, scriptContentType, decodedScriptContent);
             break;

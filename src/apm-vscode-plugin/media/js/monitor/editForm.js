@@ -6,8 +6,6 @@ $(document).ready(function () {
 
   const vscode = acquireVsCodeApi();
   const errorIds = ['monitor-error', 'script-error', 'vp-error'];
-  const MON_TYPE = 'SCRIPTED_BROWSER';
-  const VP_LIMIT = 100;
   const apmDomainId = document.getElementById('apmdomain-id-input').value;
   const monitorId = document.getElementById('monitor-id-input').value;
 
@@ -16,7 +14,6 @@ $(document).ready(function () {
   let jsonTextInput = document.getElementById('file-text-input').value;
   let editType;
   //let status = 'ENABLED'; | DISABLED | INVALID
-  let monitorType = 'SCRIPTED_BROWSER';
 
   function editFrom(editType) {
     if (editType === 'ui') {
@@ -238,9 +235,41 @@ $(document).ready(function () {
         if (Object.keys(jsonData).length === 0) {
           return ErrorJson.validation.jsonFile.empty;
         }
+        let configType;
         // add monitor type to avoid error case where this edit file can be saved as json and then used in create monitor flow
         if (jsonData['monitorType'] === undefined) {
-          jsonData['monitorType'] = monitorType;
+          configType = jsonData['configuration']['configType'];
+          switch (configType) {
+            case 'BROWSER_CONFIG':
+              jsonData['monitorType'] = "BROWSER";
+              break;
+            case 'SCRIPTED_BROWSER_CONFIG':
+              jsonData['monitorType'] = "SCRIPTED_BROWSER";
+              break;
+            case 'REST_CONFIG':
+              jsonData['monitorType'] = "REST";
+              break;
+            case 'SCRIPTED_REST_CONFIG':
+              jsonData['monitorType'] = "SCRIPTED_REST";
+              break;
+            case 'NETWORK_CONFIG':
+              jsonData['monitorType'] = "NETWORK";
+              break;
+            case 'SQL_CONFIG':
+              jsonData['monitorType'] = "SQL";
+              break;
+            case 'FTP_CONFIG':
+              jsonData['monitorType'] = "FTP";
+              break;
+            case 'DNS_SERVER_CONFIG':
+            case 'DNS_TRACE_CONFIG':
+            case 'DNSSEC_CONFIG':
+              jsonData['monitorType'] = "DNS";
+              break;
+            default:
+              vscode.window.showErrorMessage(localize('incorrectMonitorType', 'Incorrect monitor type'));
+              return newCancellation();
+          }
         }
       } catch (e) {
         return ErrorJson.validation.jsonFile.invalidJson;

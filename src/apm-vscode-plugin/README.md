@@ -42,7 +42,7 @@ Scripts can be created in below 3 ways:
 - Right click on the Scripts option and click on `Create`
   
   ![](./media/images/readme/create_script.png)
-- Choose script type between Selenium SIDE script or Playwright typescript 
+- Choose script type between Selenium SIDE script, Playwright typescript, or Javascript 
 
   ![](./media/images/readme/choose_script_type.png)
 - Add script name, and select script file. Refer **https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/create-script.html** for script inputs.
@@ -60,7 +60,7 @@ Scripts can be created in below 3 ways:
 
 - In the file browser on the left side, right click on the script file for which you want to create Script resource and click on `Create APM Availability Script`.
 - Verify the APM Domain displayed at the top for which Script resource would be created. In case when no APM Domain is selected then you need to select an APM domain from the tree view of APM extension
-- Choose script type between Selenium SIDE script or Playwright typescript 
+- Choose script type between Selenium SIDE script, Playwright typescript, or Javascript
 
   ![](./media/images/readme/choose_script_type.png)
 - Add script name, and select script file. Refer **https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/create-script.html** for script inputs.

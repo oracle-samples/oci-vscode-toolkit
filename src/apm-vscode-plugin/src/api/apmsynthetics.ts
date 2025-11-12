@@ -80,7 +80,7 @@ export async function listMonitors(
     profile: string
 ): Promise<Array<MonitorSummary>> {
     var client = await makeClient(profile);
-    let resp = await client.listMonitors({ "apmDomainId": apmDomainId, "monitorType": MonitorTypes.ScriptedBrowser });
+    let resp = await client.listMonitors({ "apmDomainId": apmDomainId });
     return resp.monitorCollection.items;
 };
 
@@ -133,7 +133,7 @@ export async function listScripts(
     profile: string
 ): Promise<Array<ScriptSummary>> {
     var client = await makeClient(profile);
-    let resp = await client.listScripts({ apmDomainId, "contentType": `${ContentTypes.Side.toString()},${ContentTypes.PlaywrightTs.toString()}` });
+    let resp = await client.listScripts({ apmDomainId });
     return resp.scriptCollection.items;
 };
 

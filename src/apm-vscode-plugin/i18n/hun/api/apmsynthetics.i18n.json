@@ -1,1 +1,1 @@
-{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Hiba: Nem található letölthető adat"}
+{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Hiba: A kért erőforrás nem található vagy érvénytelen"}

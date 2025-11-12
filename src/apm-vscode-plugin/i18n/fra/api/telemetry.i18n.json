@@ -1,1 +1,1 @@
-{"msg":"Résultats de l'exécution du moniteur <br><h4>Moniteur : {0} <br>Date de début : {1} <br>Date de fin : {2}</h4>","monitorExecResultsMsg":"Disponibilité : {0} \nDurée d'exécution du moniteur (ms) : {1} \nHorodatage (UTC) : {2} \nHorodatage (période): {3} \nPoint d'observation : {4} \nCatégorie d'erreur : {5}"}
+{"msg":"<p>Moniteur : {0} <br>Date de début : {1} <br>Date de fin : {2}</p>","monitorCancelledMessage":"L'opération d'obtention des résultats d'exécution a été annulée."}

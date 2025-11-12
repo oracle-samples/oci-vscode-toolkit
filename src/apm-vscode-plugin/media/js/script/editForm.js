@@ -121,6 +121,8 @@ $(document).ready(function () {
           return validateSideFileContent(jsonTextInput);
         case scriptConstants.SCRIPT_CONTENT_TYPE_TS:
           return validatePlaywrightFileContent(jsonTextInput);
+        case scriptConstants.SCRIPT_CONTENT_TYPE_JS:
+          return validateJSFileContent(jsonTextInput);
         default:
           return ErrorJson.validation.script.incorrectScriptContentType;
       }
@@ -301,7 +303,6 @@ $(document).ready(function () {
     //     plugins: ["jsx", "typescript"],
     //   });
     //   const importCount = ast.program.body.filter(node => node.type === 'ImportDeclaration').length;
-    //   console.log(importCount);
     //   // if (importCount > 1) {
     //   //   return 'Only one import statement is allowed.';
     //   // }
@@ -372,6 +373,92 @@ $(document).ready(function () {
     //validating custom operations - END
   }
 
+  const validateJSFileContent = (content) => {
+    let countCustomMarker = 0;
+    let found = false;
+    // validating the JSFile against size (maximum 2 MB)
+    if ((content.toString().length / 1024) > scriptConstants._VALID_FILE_SIZE) {
+      return ErrorJson.validation.jsFile.sizeLarge();
+    }
+
+    // validating modules in JS script
+    const moduleRegex = /require\s*\(\s*["']?(.*?)["']?\s*\)/g;
+    let modulePattern;
+    let error = "";
+    const moduleMatcher = [];
+    const modulesSet = new Set();
+    while ((modulePattern = moduleRegex.exec(content)) !== null) {
+      moduleMatcher.push(modulePattern[1]); // The captured group containing the module name
+    }
+    moduleMatcher.map((item) => {
+      // Check for duplicate modules
+      if (modulesSet.has(item)) {
+        error = ErrorJson.validation.jsFile.duplicateModule;
+      }
+      modulesSet.add(item);
+
+      if (!scriptConstants.modules.has(item)) {
+        error = ErrorJson.validation.jsFile.incorrectModules;
+      }
+    });
+
+    if (error)
+      return error;
+
+    // validating if no modules present
+    if (modulesSet.size === 0) {
+      return ErrorJson.validation.jsFile.noModuleFound;
+    } else if (!Array.from(modulesSet).includes(scriptConstants.POSTMAN_REQUEST_MODULE)) {
+      return ErrorJson.validation.jsFile.postmanRequestModuleNotFound;
+    }
+
+    // validating Resource Principal
+    if (content.toLocaleLowerCase().includes("InstancePrincipalsAuthenticationDetailsProvider".toLocaleLowerCase())) {
+      return ErrorJson.validation.jsFile.invalidAuthProviderInScript;
+    }
+
+    // validating custom operations - START
+    const markerRegex = new RegExp(scriptConstants.SYNTHETIC_CUSTOM_MARKER_COMMAND + "\\s*\\((.*?)\\)", "g");
+    const markerMatches = [];
+    let markermatch;
+
+    while ((markermatch = markerRegex.exec(content)) !== null) {
+      markerMatches.push(markermatch[1]); // The captured group containing the argument
+    }
+    markerMatches.length > 0 && markerMatches.map((item) => {
+      found = false;
+      if (++countCustomMarker > scriptConstants.SYNTHETIC_CUSTOM_MARKER_COUNT) {
+        error = ErrorJson.validation.jsFile.invalidNumOfCustomMetricMarker;
+      }
+
+      const args = item.split(",");
+      if (args.length !== 2) {
+        error = ErrorJson.validation.jsFile.invalidNumOfArgsForCustomMetric;
+      }
+      if (error === "" || error === null || error === undefined) {
+        args[0] = args[0].trim();
+        args[1] = args[1].trim();
+
+        if (!((args[0].startsWith("\"") || args[0].startsWith("\'")) && (args[1].startsWith("\"") || args[1].startsWith("\'")))) {
+          error = ErrorJson.validation.jsFile.invalidTypeCustomMetricArgs;
+        }
+        args[0] = args[0].substring(1, args[0].length - 1).trim();
+        args[1] = args[1].substring(1, args[1].length - 1).trim();
+
+        Array.from(customOperations).map((item) => {
+          if (args[1] === item) {
+            found = true;
+          }
+        });
+        if (!found) {
+          error = ErrorJson.validation.jsFile.invalidCustomOperationForCustomMetric;
+        }
+      }
+    });
+    return error;
+  }
+
+
   function readScriptContent(scriptFile) {
     let isValid = true;
     if (scriptFile) {
@@ -392,14 +479,22 @@ $(document).ready(function () {
 
         // if (!scriptInput.value) { // set name if empty
         scriptFileName = scriptFile.name;
-        if (scriptContentType === scriptConstants.SCRIPT_CONTENT_TYPE_SIDE) {
-          scriptInput.value = scriptFileName.replace(scriptConstants.SCRIPT_CONTENT_EXT_SIDE, '');
-        } else {
-          if (scriptFileName.endsWith(scriptConstants.SCRIPT_CONTENT_EXT_SPEC_TS)) {
-            scriptInput.value = scriptFileName.replace(scriptConstants.SCRIPT_CONTENT_EXT_SPEC_TS, '');
-          } else {
-            scriptInput.value = scriptFileName.replace(scriptConstants.SCRIPT_CONTENT_EXT_TS, '');
-          }
+        switch (scriptContentType) {
+          case scriptConstants.SCRIPT_CONTENT_TYPE_SIDE:
+            scriptInput.value = scriptFileName.replace(scriptConstants.SCRIPT_CONTENT_EXT_SIDE, '');
+            break;
+          case scriptConstants.SCRIPT_CONTENT_TYPE_TS:
+            if (scriptFileName.endsWith(scriptConstants.SCRIPT_CONTENT_EXT_SPEC_TS)) {
+              scriptInput.value = scriptFileName.replace(scriptConstants.SCRIPT_CONTENT_EXT_SPEC_TS, '');
+            } else {
+              scriptInput.value = scriptFileName.replace(scriptConstants.SCRIPT_CONTENT_EXT_TS, '');
+            }
+            break;
+          case scriptConstants.SCRIPT_CONTENT_TYPE_JS:
+            scriptInput.value = scriptFileName.replace(scriptConstants.SCRIPT_CONTENT_EXT_JS, '');
+            break;
+          default:
+            return ErrorJson.validation.script.incorrectScriptContentType;
         }
         scriptName = scriptInput.value;
         var nameError = validateDisplayName(scriptName);
@@ -419,7 +514,6 @@ $(document).ready(function () {
       };
     } else {
       isValid = false;
-      showError(errorIds[1]);
     }
     return isValid;
   }
@@ -445,14 +539,22 @@ $(document).ready(function () {
 
         scriptFileName = scriptFile.name;
         if (updateName) {
-          if (scriptContentType === scriptConstants.SCRIPT_CONTENT_TYPE_SIDE) {
-            scriptInput.value = scriptFileName.replace(scriptConstants.SCRIPT_CONTENT_EXT_SIDE, '');
-          } else {
-            if (scriptFileName.endsWith(scriptConstants.SCRIPT_CONTENT_EXT_SPEC_TS)) {
-              scriptInput.value = scriptFileName.replace(scriptConstants.SCRIPT_CONTENT_EXT_SPEC_TS, '');
-            } else {
-              scriptInput.value = scriptFileName.replace(scriptConstants.SCRIPT_CONTENT_EXT_TS, '');
-            }
+          switch (scriptContentType) {
+            case scriptConstants.SCRIPT_CONTENT_TYPE_SIDE:
+              scriptInput.value = scriptFileName.replace(scriptConstants.SCRIPT_CONTENT_EXT_SIDE, '');
+              break;
+            case scriptConstants.SCRIPT_CONTENT_TYPE_TS:
+              if (scriptFileName.endsWith(scriptConstants.SCRIPT_CONTENT_EXT_SPEC_TS)) {
+                scriptInput.value = scriptFileName.replace(scriptConstants.SCRIPT_CONTENT_EXT_SPEC_TS, '');
+              } else {
+                scriptInput.value = scriptFileName.replace(scriptConstants.SCRIPT_CONTENT_EXT_TS, '');
+              }
+              break;
+            case scriptConstants.SCRIPT_CONTENT_TYPE_JS:
+              scriptInput.value = scriptFileName.replace(scriptConstants.SCRIPT_CONTENT_EXT_JS, '');
+              break;
+            default:
+              return ErrorJson.validation.script.incorrectScriptContentType;
           }
           scriptName = scriptInput.value;
           var nameError = validateDisplayName(scriptInput.value);
@@ -537,6 +639,18 @@ $(document).ready(function () {
         "invalidNumOfCustomScreenshots": "The number of custom screenshot commands oraSynCustomScreenshot in the Playwright TS file cannot exceed 10.",
         "invalidTotpCommandVaue": "The TOTP command oraSynTimeBasedOTP in the Playwright TS file requires a valid value. It cannot be null, empty, or blank.",
         "errorLine": "Error on line:"
+      },
+      "jsFile": {          
+        "sizeLarge": "JS file content is too large, it should not exceed 64 KB.",
+        "duplicateModule": "Modules should be unique in JS file.",
+        "incorrectModules": "Incorrect JS file modules found",
+        "noModuleFound": "At least one module is required in JS file.",
+        "postmanRequestModuleNotFound": "JS file must contain postman-request module.",
+        "invalidAuthProviderInScript": "Invalid authentication provider used in JS file.",
+        "invalidNumOfCustomMetricMarker": "Custom metric markers cannot be more than 500 in JS file.",
+        "invalidNumOfArgsForCustomMetric": "Invalid number of arguments passed in JS file for custom metric marker.",
+        "invalidTypeCustomMetricArgs": "Arguments for custom metric marker should be of string type in JS file.",
+        "invalidCustomOperationForCustomMetric": "Invalid custom operation passed in JS file for custom metric marker."
       }
     }
   }`);

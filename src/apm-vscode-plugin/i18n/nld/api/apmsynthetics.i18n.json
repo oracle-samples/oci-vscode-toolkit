@@ -1,1 +1,1 @@
-{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Fout: geen gegevens gevonden om te downloaden."}
+{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Fout: de aangevraagde resource is niet gevonden of ongeldig."}

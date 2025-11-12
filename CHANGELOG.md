@@ -100,3 +100,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## 1.3.0 - 2025-09-23
 
 - CVE fixes for APM plugin
+
+## 1.4.0 - 2025-11-04
+
+- Support SCRIPTED REST and REST monitor types for APM plugin

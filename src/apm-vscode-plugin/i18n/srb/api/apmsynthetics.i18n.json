@@ -1,1 +1,1 @@
-{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Грешка: Нису пронађени подаци за преузимање"}
+{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Грешка: Захтевани ресурс није пронађен или није важећи"}

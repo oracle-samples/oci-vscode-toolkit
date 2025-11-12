@@ -1,1 +1,1 @@
-{"msg":"Resultater av overvåkerutførelse <br><h4>Overvåker: {0} <br>Startdato: {1} <br>Sluttdato: {2}</h4>","monitorExecResultsMsg":"Tilgjengelighet: {0} \nUtførelsestid for overvåker (ms): {1} \nTidsstempel (UTC): {2} \nTidsstempel (epoke): {3} \nUtsiktspunkt: {4} \nFeilkategori: {5}"}
+{"msg":"<p>Overvåker: {0} <br>Startdato: {1} <br>Sluttdato: {2}</p>","monitorCancelledMessage":"Operasjonen for henting av utførelsesresultater ble avbrutt."}

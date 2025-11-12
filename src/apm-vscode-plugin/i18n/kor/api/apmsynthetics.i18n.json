@@ -1,1 +1,1 @@
-{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"오류: 다운로드할 데이터 없음"}
+{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"오류: 요청된 리소스는 찾을 수 없거나 부적합합니다."}

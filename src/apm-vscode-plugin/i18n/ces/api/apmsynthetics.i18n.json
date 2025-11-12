@@ -1,1 +1,1 @@
-{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Chyba: Nebyla nalezena žádná data ke stažení"}
+{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Chyba: Požadovaný zdroj nebyl nalezen nebo je neplatný"}

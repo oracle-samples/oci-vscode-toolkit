@@ -141,12 +141,7 @@ export function CreateMonitorGetWebview(webview: Webview, extensionUri: Uri, vpL
                   <div class="oui-text-small oui-form-danger oui-margin-small-bottom" id="monitor-error" style="${showInputs}">
                      <img src="${errorSvg}"/><div id="monitor-error-text">Monitor name is required.</div>
                   </div>
-               </div>
-
-               <label class="label-margin" for="monitor-type-input" id="monitor-type-label" >Type</label>
-               <select class="input-margin oui-react-select" readonly=true disabled=true id="monitor-type-input"/>
-                  <option value="SCRIPTED_BROWSER" selected>Scripted Browser</option>
-               </select>
+               </div>           
 
                <label class="label-margin" for="script-id-input" id="script-id-label" >Script</label>
                <select class="input-margin oui-react-select" id="script-id-input"/></select>

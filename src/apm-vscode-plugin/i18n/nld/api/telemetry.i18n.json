@@ -1,1 +1,1 @@
-{"msg":"Controle uitvoeringsresultaten <br><h4>Controle: {0} <br>Begindatum: {1} <br>Einddatum: {2}</h4>","monitorExecResultsMsg":"Beschikbaarheid: {0}\nTijd uitvoering controle (ms): {1}\nTijdstempel (UTC): {2}\nTijdstempel (epoch): {3}\nUitkijkpunt: {4}\nFoutcategorie: {5}"}
+{"msg":"Monitor: {0} <br>begindatum: {1} <br>einddatum: {2}","monitorCancelledMessage":"De bewerking voor het ophalen van uitvoeringsresultaten is geannuleerd."}

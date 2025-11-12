@@ -1,1 +1,1 @@
-{"msg":"Monitorausführungsergebnisse <br><h4>Monitor: {0} <br>Startdatum: {1} <br>Enddatum: {2}</h4>","monitorExecResultsMsg":"Verfügbarkeit: {0} \nMonitorausführungszeit (ms): {1} \nZeitstempel (UTC): {2} \nZeitstempel (Epoch): {3} \nStandort: {4} \nFehlerkategorie: {5}"}
+{"msg":"<p>Monitor: {0} <br>Startdatum: {1} <br>Enddatum: {2}</p>","monitorCancelledMessage":"Vorgang zum Abrufen von Ausführungsergebnissen wurde abgebrochen."}

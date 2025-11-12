@@ -19,3 +19,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [1.3.0]
 
 - CVE fixes
+
+## [1.4.0]
+
+- Support SCRIPTED REST and REST monitor types for APM plugin

@@ -12,6 +12,15 @@ $(document).ready(function () {
     // add event listerner for each Screenshot/HAR button from the execution result 
     for (var i = 1; i <= resultCount; i++) {
         const viewScreenshotButton = document.getElementById('view-screenshot-button-' + i);
+        // enable/disbale button based on value being passed in meta data from button definition
+        if (viewScreenshotButton) {
+            const isEnabled = viewScreenshotButton.dataset.enabled === "true";
+            viewScreenshotButton.disabled = !isEnabled;
+            // make button grey when disabled
+            if (viewScreenshotButton.disabled) {
+                viewScreenshotButton.style = "background-color: gray; color: white;"
+            }
+        }
         viewScreenshotButton.addEventListener('click', () => {
             var vantagePoint = viewScreenshotButton.getAttribute("data-value-vp");
             var executionTime = viewScreenshotButton.getAttribute("data-value-timestamp");

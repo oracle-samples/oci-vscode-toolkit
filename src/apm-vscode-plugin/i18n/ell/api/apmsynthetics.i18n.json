@@ -1,1 +1,1 @@
-{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Σφάλμα: Δεν βρέθηκαν δεδομένα για λήψη"}
+{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Σφάλμα: Ο πόρος που ζητήθηκε δεν βρέθηκε ή δεν είναι έγκυρος"}

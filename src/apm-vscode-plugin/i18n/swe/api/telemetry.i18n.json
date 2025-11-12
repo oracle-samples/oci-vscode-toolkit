@@ -1,1 +1,1 @@
-{"msg":"Körningsresultat för bildskärm <br><h4>Bildskärm: {0} <br>Startdatum: {1} <br>Slutdatum: {2}</h4>","monitorExecResultsMsg":"Tillgänglighet: {0} \nÖvervakningens körningstid (ms): {1} \nTidsstämpel (UTC): {2} \nTidsstämpel (epok): {3} \nTestplats: {4} \nFelkategori: {5}"}
+{"msg":"<p>Övervakning: {0} <br>Startdatum: {1} <br>Slutdatum: : {2}</p>","monitorCancelledMessage":"Åtgärden Hämta körningsresultat avbröts."}

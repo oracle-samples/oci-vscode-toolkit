@@ -1,1 +1,1 @@
-{"msg":"Výsledky spuštění monitoru <br><h4>Monitor: {0} <br>Datum zahájení: {1} <br>Datum ukončení: {2}</h4>","monitorExecResultsMsg":"Dostupnost: {0} \nCelková doba provádění monitoru (ms): {1} \nČasová značka (UTC): {2} \nČasová značka (období): {3} \nPřípojný bod: {4} \nKategorie chyby: {5}"}
+{"msg":"<p>Monitor: {0} <br>Datum zahájení: {1} <br>Datum ukončení: {2}</p>","monitorCancelledMessage":"Operace získání výsledků provedení byla zrušena."}

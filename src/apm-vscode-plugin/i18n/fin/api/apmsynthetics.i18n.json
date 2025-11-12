@@ -1,1 +1,1 @@
-{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Virhe: ei löytynyt noudettavia tietoja"}
+{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Virhe: pyydettyä resurssia ei löydy tai se on virheellinen"}

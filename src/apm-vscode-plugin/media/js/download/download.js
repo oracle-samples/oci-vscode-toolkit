@@ -11,8 +11,9 @@ function saveAsFile(filename, scriptContentType, dataObjToWrite) {
             case "JSON": // monitor template
             case "SIDE": // SIDE script
                 mimeType = "text/json";
-                content = JSON.stringify(dataObjToWrite);
+                content = JSON.stringify(dataObjToWrite, null, '\t');
                 break;
+            case "JS": // JS script
             case "PLAYWRIGHT_TS": // TS script
                 mimeType = "text/plain";
                 content = dataObjToWrite;
@@ -21,7 +22,6 @@ function saveAsFile(filename, scriptContentType, dataObjToWrite) {
                 vscode.window.showErrorMessage(localize('incorrectScriptContentType', 'Incorrect script content type'));
                 return newCancellation();
         }
-
         const blob = new Blob([content], { type: mimeType });
         const link = document.createElement("a");
 

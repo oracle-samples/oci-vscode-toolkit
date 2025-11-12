@@ -1,1 +1,1 @@
-{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Fejl: Der blev ikke fundet nogen data at downloade"}
+{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Fejl: Den anmodede ressource blev ikke fundet eller er ugyldig"}

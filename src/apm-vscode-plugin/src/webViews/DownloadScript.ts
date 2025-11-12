@@ -34,7 +34,7 @@ export function DownloadScript(webview: Webview, extensionUri: Uri, header: stri
         let scriptContent; 
         if ("${scriptContentType}" === "SIDE") {                      
            scriptContent = JSON.parse(atob("${content}"));           
-        } else if ("${scriptContentType}" === "PLAYWRIGHT_TS") {
+        } else {
            scriptContent = decodeURIComponent("${content}");
         }
         document.getElementById('file-text-input').value = scriptContent;

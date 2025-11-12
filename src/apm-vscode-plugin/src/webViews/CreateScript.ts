@@ -41,9 +41,12 @@ export function CreateScriptGetWebview(webview: Webview, extensionUri: Uri,
          <label class="label-margin column">Choose an option to create using :&nbsp;&nbsp;</label>
          <label class="label-margin label-file-width" for="create-script">
             <input class="div-radio" type="radio" id="side-radio" name="create-script" value="SIDE" checked/>&nbsp;SIDE
-         </label>
-         <label class="label-margin label-file-width" for="create-script">
+         </label>    
+         <label class="label-margin label-file-width" for="create-script">   
             <input class="div-radio" type="radio" id="ts-radio" name="create-script" value="PLAYWRIGHT_TS" />&nbsp;&nbsp;TS
+         </label>     
+         <label class="label-margin label-file-width" for="create-script">   
+            <input class="div-radio" type="radio" id="js-radio" name="create-script" value="JS" />&nbsp;&nbsp;JS
          </label>
 
          <div class="row">
@@ -95,6 +98,10 @@ export function CreateScriptGetWebview(webview: Webview, extensionUri: Uri,
                      } else if ("${scriptFileExt}" === ".ts") {
                         monacoDisplayLanguage = "typescript"; 
                         document.getElementById('ts-radio').checked = true;
+                        scriptContent = decodeURIComponent("${fileExplorerScriptContentEncoded}");
+                     } else if ("${scriptFileExt}" === ".js") {
+                        monacoDisplayLanguage = "javascript"; 
+                        document.getElementById('js-radio').checked = true;
                         scriptContent = decodeURIComponent("${fileExplorerScriptContentEncoded}");
                      }
                   } 
@@ -149,7 +156,10 @@ export function CreateScriptGetWebview(webview: Webview, extensionUri: Uri,
                         } else if (selected === 'PLAYWRIGHT_TS') {
                            fileInput.accept = '.ts,.spec.ts';
                            monacoDisplayLanguage = "typescript";
-                        }                     
+                        } else if (selected === 'JS') {
+                           fileInput.accept = '.js';
+                           monacoDisplayLanguage = "javascript";
+                        }                        
                         monaco.editor.setModelLanguage(editor.getModel(), monacoDisplayLanguage);
                      }
 

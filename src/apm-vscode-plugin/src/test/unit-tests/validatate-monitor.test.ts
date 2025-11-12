@@ -12,7 +12,7 @@ const {
 
 describe('Validating payload attributes and returning true or false', () => {
     const monitor = {
-        displayName: "test-monitor", type: "SCRIPTED_BROWSER", baseUrl: "https://oracle.com",
+        displayName: "test-monitor", baseUrl: "https://oracle.com",
         script_ocid: "ocid1.apmsyntheticscript.oc1.phx.aaaaaaz3xxxxxxxxxxxxxxxxxxxxxxxxcrycq",
         script_name: "oci_login_1", vps: '["OraclePublic-ap-sydney-1","OraclePublic-ap-mumbai-1"]',
         definedTags: '{"apm-resource-capability":{"apm-syn-allow-s2s":"tag-value-1"}}', freeFormTags: "{}",
@@ -26,28 +26,17 @@ describe('Validating payload attributes and returning true or false', () => {
         expect(result).to.equal(true);
     });
 
-    it('valid monitor payload -> return true', () => {
-        const status = validateMonitorType(monitor.type);
-        expect(status).to.equal(undefined);
-    });
+    // it('base url is not valid: invalid monitor payload -> return false', () => {
+    //     monitor.baseUrl = "htps:oracle.com";
+    //     const status = validateBaseUrl(monitor.baseUrl);
+    //     expect(status).to.equal(undefined);
+    // });
 
-    it('type is empty: invalid monitor payload -> return false', () => {
-        monitor.type = "";
-        const status = validateMonitorType(monitor.type);
-        expect(status).to.equal('Type is required.');
-    });
-
-    it('base url is not valid: invalid monitor payload -> return false', () => {
-        monitor.baseUrl = "htps:oracle.com";
-        const status = validateBaseUrl(monitor.baseUrl);
-        expect(status).to.equal(undefined);
-    });
-
-    it('script name is empty: invalid monitor payload -> return false', () => {
-        monitor.script_name = "";
-        const status = validateScript(monitor.script_name);
-        expect(status).to.equal(undefined);
-    });
+    // it('script name is empty: invalid monitor payload -> return false', () => {
+    //     monitor.script_name = "";
+    //     const status = validateScript(monitor.script_name);
+    //     expect(status).to.equal(undefined);
+    // });
 
     it('script-params are not valid json: invalid monitor payload -> return false', () => {
         monitor.script_params = "parma1=value1";

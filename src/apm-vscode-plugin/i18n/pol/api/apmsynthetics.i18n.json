@@ -1,1 +1,1 @@
-{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Błąd: nie znaleziono danych do pobrania"}
+{"monitorSummary":"\n {0}","scriptSummary":"\n {0}","getMonitorResultErr":"Błąd: nie znaleziono żądanego zasobu lub jest on niepoprawny"}

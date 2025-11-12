@@ -242,9 +242,8 @@ export function registerCommands(
                             });
                             break;
                         case 'save_as_json':
-                            const saveMessage = message.status ? localize("DownloadJsonMessage", 'Json downloaded successfully.') : localize("JsonDownloadMessage", 'Json download operation is failed.');;
                             if (message.status) {
-                                vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'File is downloaded successfully.'));
+                                vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'File download is starting...'));
                             } else {
                                 vscode.window.showErrorMessage(localize('fileDownloadFailure', 'Error: Unable to download file.'));
                             }
@@ -427,9 +426,8 @@ export function registerCommands(
                             });
                             break;
                         case 'save_as_json':
-                            const saveMessage = message.status ? localize("DownloadJsonMessage", 'Json downloaded successfully.') : localize("JsonDownloadMessage", 'Json download operation is failed.');;
                             if (message.status) {
-                                vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'File is downloaded successfully.'));
+                                vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'File download is starting...'));
                             } else {
                                 vscode.window.showErrorMessage(localize('fileDownloadFailure', 'Error: Unable to download file.'));
                             }
@@ -661,7 +659,7 @@ export function registerCommands(
                             break;
                         case 'download_complete':
                             if (message.status) {
-                                vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'Logs file is downloaded successfully.'));
+                                vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'File download is starting...'));
                             } else {
                                 vscode.window.showErrorMessage(localize('fileDownloadFailure', 'Error: Unable to download logs file.'));
                             }
@@ -753,13 +751,20 @@ export function registerCommands(
                     switch (message.command) {
                         case 'create_script':
                             let contentType: ContentTypes;
-                            if (message.scriptContentType === ContentTypes.PlaywrightTs.toString()) {
-                                contentType = ContentTypes.PlaywrightTs;
-                            } else {
-                                contentType = ContentTypes.Side;
+                            switch (message.scriptContentType) {
+                                case ContentTypes.PlaywrightTs.toString():
+                                    contentType = ContentTypes.PlaywrightTs;
+                                    break;
+                                case ContentTypes.Side.toString():
+                                    contentType = ContentTypes.Side;
+                                    break;
+                                case ContentTypes.Js.toString():
+                                    contentType = ContentTypes.Js;
+                                    break;
                             }
+
                             let r = await runWithStatusBarMessage(
-                                webviewCreateNewScript(apmDomainId!, message.scriptName, message.scriptContent, message.scriptFileName, contentType, panel),
+                                webviewCreateNewScript(apmDomainId!, message.scriptName, message.scriptContent, message.scriptFileName, contentType!, panel),
                                 localize('createScriptMessage', 'Creating new script...'),
                                 () => refreshNode(undefined)
                             );
@@ -860,6 +865,7 @@ export function registerCommands(
                 scriptContentEncoded = btoa(JSON.stringify(fileContent!));
                 break;
             case '.ts':
+            case '.js':
                 scriptContentEncoded = encodeURIComponent(fileContent!);
                 break;
             default:
@@ -874,10 +880,16 @@ export function registerCommands(
             switch (message.command) {
                 case 'create_script':
                     let contentType: ContentTypes;
-                    if (message.scriptContentType === ContentTypes.PlaywrightTs.toString()) {
-                        contentType = ContentTypes.PlaywrightTs;
-                    } else {
-                        contentType = ContentTypes.Side;
+                    switch (message.scriptContentType) {
+                        case ContentTypes.PlaywrightTs.toString():
+                            contentType = ContentTypes.PlaywrightTs;
+                            break;
+                        case ContentTypes.Side.toString():
+                            contentType = ContentTypes.Side;
+                            break;
+                        case ContentTypes.Js.toString():
+                            contentType = ContentTypes.Js;
+                            break;
                     }
                     if (message.currentTreeSelection === undefined) {
                         vscode.window.showErrorMessage(localize('currentTreeSelectionNotFound', 'APM domain is not selected. You need to select an APM domain from the tree view of APM extension.'));
@@ -886,7 +898,7 @@ export function registerCommands(
                     let currentTreeSelectionParsed = JSON.parse(message.currentTreeSelection);
                     let apmDomainId = currentTreeSelectionParsed.id;
                     let r = await runWithStatusBarMessage(
-                        webviewCreateNewScript(apmDomainId!, message.scriptName, message.scriptContent, message.scriptFileName, contentType, fileExplorerScriptPanel!),
+                        webviewCreateNewScript(apmDomainId!, message.scriptName, message.scriptContent, message.scriptFileName, contentType!, fileExplorerScriptPanel!),
                         localize('createScriptMessage', 'Creating new script...'),
                         () => refreshNode(undefined)
                     );
@@ -968,6 +980,10 @@ export function registerCommands(
                         defaultFileName = 'monitor.ts';
                         scriptContentEncoded = encodeURIComponent(scriptContent);
                         break;
+                    case ContentTypes.Js:
+                        defaultFileName = 'monitor.js';
+                        scriptContentEncoded = encodeURIComponent(scriptContent);
+                        break;
                     case ContentTypes.UnknownValue:
                         vscode.window.showErrorMessage(localize('incorrectScriptContentType', 'Incorrect script content type'));
                         return newCancellation();
@@ -978,7 +994,7 @@ export function registerCommands(
                     switch (message.command) {
                         case 'download_complete':
                             if (message.status) {
-                                vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'File is downloaded successfully.'));
+                                vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'File download is starting...'));
                             } else {
                                 vscode.window.showErrorMessage(localize('fileDownloadFailure', 'Error: Unable to download file.'));
                             }
@@ -1029,6 +1045,7 @@ export function registerCommands(
                     case ContentTypes.Side:
                         scriptContentEncoded = btoa(JSON.stringify(scriptContent));
                         break;
+                    case ContentTypes.Js:
                     case ContentTypes.PlaywrightTs:
                         scriptContentEncoded = encodeURIComponent(scriptContent);
                         break;

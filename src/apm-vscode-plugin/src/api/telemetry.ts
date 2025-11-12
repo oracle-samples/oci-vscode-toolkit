@@ -51,6 +51,10 @@ export async function getMetricDataPoints(
 export async function getMonitorExecutionResults(apmDomainId: string, profile: string, monitorId: string, monitorType: string, monitorName: string, compartmentId: string,
     panel: vscode.WebviewPanel, context: vscode.ExtensionContext, startDate: Date, endDate: Date) {
     const localize: nls.LocalizeFunc = nls.loadMessageBundle();
+    var isViewScreenshotEnabled = false;
+    if (monitorType === "BROWSER" || monitorType === "SCRIPTED_BROWSER") {
+        isViewScreenshotEnabled = true;
+    }
     var headerText = localize('msg', '<p>Monitor: {0} <br>Start date: {1} <br>End date: {2}</p>', monitorName, formatDateUiUTC(startDate), formatDateUiUTC(endDate));
     var tableItems = '<table id="monitor-exec-results"><tr><th>Vantage Point</th><th>Availability</th><th>Total Completion Time (sec)</th><th>Time (UTC)</th>' +
         '<th>Timestamp (epoch)</th><th>Error Category</th><th>View HAR</th><th>View Screenshots</th><th>View Error Message</th></tr>';
@@ -80,7 +84,7 @@ export async function getMonitorExecutionResults(apmDomainId: string, profile: s
                             timestamp + ' <button onclick="copyTextFunction(\'' + timestamp + '\')">Copy</button></td><td>' + availabilityMetric.dimensions["ErrorCategory"] +
                             '</td><td><button value="view-har" data-value-vp="' + availabilityMetric.dimensions["VantagePoint"] +
                             '" data-value-timestamp="' + timestamp + '" id="view-har-button-' + resultCount +
-                            '">View</button></td><td><button value="view-screenshot" data-value-vp="' + availabilityMetric.dimensions["VantagePoint"] + '" data-value-timestamp="' + timestamp +
+                            '">View</button></td><td><button value="view-screenshot" data-enabled=\'' + isViewScreenshotEnabled + '\' data-value-vp="' + availabilityMetric.dimensions["VantagePoint"] + '" data-value-timestamp="' + timestamp +
                             '" id="view-screenshot-button-' + resultCount + '">View</button></td><td><button value="view-error-message" data-enabled=\'' + isErrorAvailable + '\' data-value-vp="' + availabilityMetric.dimensions["VantagePoint"] + '" data-value-timestamp="' + timestamp +
                             '" id="view-error-message-button-' + resultCount + '">View</button></td></tr>';
                     }

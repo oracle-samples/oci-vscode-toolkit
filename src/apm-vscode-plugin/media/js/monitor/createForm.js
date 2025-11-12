@@ -6,7 +6,6 @@ $(document).ready(function () {
 
   const vscode = acquireVsCodeApi();
   const errorIds = ['monitor-error', 'script-error', 'vp-error'];
-  const MON_TYPE = 'SCRIPTED_BROWSER';
   const VP_LIMIT = 100;
 
   let jsonData = document.getElementById('file-text-input').value;
@@ -14,15 +13,12 @@ $(document).ready(function () {
 
   let jsonTextInput = document.getElementById('file-text-input').value;
   let createType;
-  let monitorType = MON_TYPE;
+  let monitorType = "";
   let displayName;
   let vantagePoints;
   let target;
   let scriptId;
-  let status = 'ENABLED';
   let repeatIntervalInSeconds = 600;
-  let isRunOnce = true;
-  let isRunNow = false;
   let timeoutInSeconds = 180;
   let scriptParameters;
   let isCertificateValidationEnabled;
@@ -31,9 +27,6 @@ $(document).ready(function () {
   let dnsConfiguration;
   let isOverrideDns;
   let overrideDnsIp;
-  let configType = 'SCRIPTED_BROWSER_CONFIG';
-  let numberOfHops = 30;
-  let transmissionRate = 16;
   let networkConfiguration;
   let isNetwork;
   let probePerHop;
@@ -43,12 +36,8 @@ $(document).ready(function () {
   let isAvailability;
   let maxAllowedFailuresPerInterval;
   let minAllowedRunsPerInterval;
-  let timeStarted;
-  let timeEnded;
-  let maintenanceWindowSchedule;
   let schedulingPolicy;
   let batchIntervalInSeconds;
-  let isIPv6;
   let definedTags;
   let freeformTags;
 
@@ -145,29 +134,6 @@ $(document).ready(function () {
     hideError(errorIds[0]);
   });
 
-  const targetInput = document.getElementById('target-input');
-  targetInput.addEventListener('change', function (event) {
-    var targetError = validateBaseUrl(targetInput.value, 'SCRIPTED_BROWSER');
-    if (targetError) {
-      document.getElementById('target-error-text').innerHTML = targetError;
-      showError('target-error');
-      return;
-    }
-    hideError('target-error');
-    target = targetInput.value;
-    jsonData['target'] = target;
-  });
-
-  targetInput.addEventListener('input', function (event) {
-    var targetError = validateBaseUrl(targetInput.value, 'SCRIPTED_BROWSER');
-    if (targetError) {
-      document.getElementById('target-error-text').innerHTML = targetError;
-      showError('target-error');
-      return;
-    }
-    hideError('target-error');
-  });
-
   // frequency
   function setFrequency(freqValue) {
     if (freqValue === 'interval') {
@@ -231,7 +197,7 @@ $(document).ready(function () {
   scriptInput.addEventListener('change', function (event) {
     const sid = scriptInput.options[scriptInput.selectedIndex].value;
     const selId = (sid === undefined || sid === '-1') ? "" : sid;
-    var scriptError = validateScript(selId, MON_TYPE);
+    var scriptError = validateScript(selId);
     if (scriptError) {
       showError(errorIds[1]);
       return;
@@ -487,7 +453,6 @@ $(document).ready(function () {
     if (isValidateJsonFileForm() === false) {
       return;
     }
-
     let status = saveAsFile(jsonData.displayName + '.json', "JSON", jsonData);
 
     // Post a message to the extension when the save button is clicked
@@ -603,7 +568,6 @@ $(document).ready(function () {
   //       //set apm domain for cli usability
   //       const apmDomainId = document.getElementById('apmdomain-id-input').value;
   //       jsonData['apmDomainId'] = apmDomainId;
-  //       //console.log('load - jsonData : ' + JSON.stringify(jsonData));
 
   //       /** Read JSON data -- START **/
   //       monitorType = jsonData['monitorType'];
@@ -655,7 +619,6 @@ $(document).ready(function () {
   //       }
 
   //       if (networkConfiguration && networkConfiguration !== undefined) {
-  //         //console.log('load if - networkConfiguration : ' + JSON.stringify(networkConfiguration));
   //         numberOfHops = jsonData['numberOfHops'] || 30;
   //         probePerHop = networkConfiguration['probePerHop'] || 3;
   //         transmissionRate = jsonData['transmissionRate'] || 16;
@@ -665,14 +628,11 @@ $(document).ready(function () {
   //         }
   //         networkConfiguration['numberOfHops'] = numberOfHops;
   //         networkConfiguration['transmissionRate'] = transmissionRate;
-  //         //console.log('probePerHop : ' + probePerHop);
   //       }
 
   //       if (availabilityConfiguration && availabilityConfiguration !== undefined) {
-  //         //console.log('load if - availabilityConfiguration : ' + JSON.stringify(availabilityConfiguration));
   //         maxAllowedFailuresPerInterval = availabilityConfiguration['maxAllowedFailuresPerInterval'] || 0;
   //         minAllowedRunsPerInterval = availabilityConfiguration['minAllowedRunsPerInterval'] || 1;
-  //         //console.log('minAllowedRunsPerInterval : ' + minAllowedRunsPerInterval);
   //       }
 
   //       if (maintenanceWindowSchedule && maintenanceWindowSchedule !== undefined) {
@@ -889,24 +849,8 @@ $(document).ready(function () {
     }
   };
 
-  const validateMonitorType = (type) => {
-    if (type === "" || type !== MON_TYPE) {
-      return ErrorJson.validation.type.empty;
-    }
-  };
-
-  const validateBaseUrl = (url, type) => {
-    if (!url && type !== MON_TYPE) {
-      ErrorJson.validation.target.empty;
-    }
-    // Check if target has protocol in correct format. 
-    if (url && (type === MON_TYPE) && !((/^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//).test(url))) {
-      return ErrorJson.validation.target.invalidProtocolFormat;
-    }
-  };
-
-  const validateScript = (script, type) => {
-    if (!script && type === MON_TYPE) {
+  const validateScript = (script) => {
+    if (!script) {
       return ErrorJson.validation.script.empty;
     }
   };
@@ -993,13 +937,6 @@ $(document).ready(function () {
     var vpError = validateVPs(vps);
     if (vpError) {
       showError(errorIds[2]);
-      isValid = false;
-    }
-
-    var targetError = validateBaseUrl(targetInput.value, 'SCRIPTED_BROWSER');
-    if (targetError) {
-      document.getElementById('target-error-text').innerHTML = targetError;
-      showError('target-error');
       isValid = false;
     }
 

@@ -1,1 +1,1 @@
-{"msg":"Rezultati izvršavanja funkcije za nadgledanje <br><h4>Funkcija za nadgledanje: {0} <br>Datum početka: {1} <br>Datum završetka: {2}</h4>","monitorExecResultsMsg":"Dostupnost: {0} \nVreme izvršavanja funkcije nadgledanja (milisekunde): {1} \nVremenska oznaka (UTC): {2} \nVremenska oznaka (epoch): {3} \nTačka posmatranja: {4} \nKategorija greške: {5}"}
+{"msg":"<p>Funkcija za nadgledanje: {0} <br>Datum početka: {1} <br>Datum završetka: {2}</p>","monitorCancelledMessage":"Otkazana je operacija preuzimanja rezultata izvršavanja."}

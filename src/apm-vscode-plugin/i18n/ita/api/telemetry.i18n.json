@@ -1,1 +1,1 @@
-{"msg":"Risultati dell'esecuzione del monitoraggio<br><h4>Monitoraggio: {0} <br>Data di inizio: {1} <br>Data di fine: {2}</h4>","monitorExecResultsMsg":"Disponibilità: {0} \nTempo di esecuzione monitoraggio (ms): {1} \nIndicatore orario (UTC): {2} \nIndicatore orario (epoca): {3} \nPunto di osservazione: {4} \nCategoria di errore: {5}"}
+{"msg":"<p>Monitoraggio: {0} <br>Data di inizio: {1} <br>Data di fine: {2}</p>","monitorCancelledMessage":"Operazione di recupero dei risultati dell'esecuzione annullata."}

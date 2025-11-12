@@ -37,6 +37,7 @@ export async function webviewCreateNewMonitor(apmDomainId: string, monitorJson: 
 
 export async function webviewEditMonitor(apmDomainId: string, monitorId: string,
     monitorJson: any, panel: vscode.WebviewPanel): Promise<IActionResult> {
+
     if (monitorJson && Object.keys(monitorJson).length === 0) {
         const noChangeMessage = localize("monitorNoChangeMessage", 'No change in monitor data.');
         vscode.window.showWarningMessage(
@@ -73,12 +74,6 @@ export async function webviewEditMonitor(apmDomainId: string, monitorId: string,
 
 export async function createNewMonitor(apmDomainId: string, monitorJson: any, panel: vscode.WebviewPanel | undefined): Promise<IActionResult> {
     try {
-        const monitorType = monitorJson['monitorType'];
-        if (monitorType !== 'SCRIPTED_BROWSER') {
-            vscode.window.showErrorMessage(localize("incorrectMonitorTypeMsg", 'Incorrect monitor type found, supported type is SCRIPTED BROWSER'));
-            return newCancellation();;
-        }
-
         const currentProfile = ext.api.getCurrentProfile();
         const r = await createMonitor(
             currentProfile.getProfileName(),
@@ -411,7 +406,7 @@ export async function viewHarWebview(currentPanel: vscode.WebviewPanel | undefin
                 break;
             case 'download_complete':
                 if (message.status) {
-                    vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'Har file is downloaded successfully.'));
+                    vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'Har file download is starting...'));
                 } else {
                     vscode.window.showErrorMessage(localize('fileDownloadFailure', 'Error: Unable to download har file.'));
                 }
@@ -437,6 +432,10 @@ export async function viewHarWebview(currentPanel: vscode.WebviewPanel | undefin
 
 export async function viewScreenshotWebview(currentPanel: vscode.WebviewPanel | undefined, apmDomainId: string,
     monitorId: string, monitorType: string, monitorName: string, vp: string, timestamp: string, context: vscode.ExtensionContext) {
+    if (!(monitorType === "BROWSER" || monitorType === "SCRIPTED_BROWSER")) {
+        vscode.window.showErrorMessage(localize('viewScreenshotNotSupported', 'View Screenshot option not supported for this monitor type'));
+        return newCancellation();
+    }
     let panel = vscode.window.createWebviewPanel("viewOutput", "Screenshots", vscode.ViewColumn.One, {
         enableScripts: true,
         retainContextWhenHidden: true
@@ -482,7 +481,7 @@ export async function viewScreenshotWebview(currentPanel: vscode.WebviewPanel | 
                 break;
             case 'download_complete':
                 if (message.status) {
-                    vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'Screenshot file is downloaded successfully.'));
+                    vscode.window.showInformationMessage(localize('fileDownloadSuccess', 'Screenshot file download is starting...'));
                 } else {
                     vscode.window.showErrorMessage(localize('fileDownloadFailure', 'Error: Unable to download screenshot file.'));
                 }

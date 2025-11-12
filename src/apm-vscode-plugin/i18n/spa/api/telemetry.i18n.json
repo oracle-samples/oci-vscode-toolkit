@@ -1,1 +1,1 @@
-{"msg":"Resultados de ejecución de la supervisión <br><h4>Supervisión: {0} <br>Fecha de inicio: {1} <br>Fecha de finalización: {2}</h4>","monitorExecResultsMsg":"Disponibilidad: {0} \nTiempo de ejecución de supervisión (ms): {1} \nRegistro de hora (UTC): {2} \nRegistro de hora (tiempo UNIX): {3} \nPunto estratégico: {4} \nCategoría de error: {5}"}
+{"msg":"<p>Supervisión: {0} <br>Fecha de inicio: {1} <br>Fecha de finalización: {2}</p>","monitorCancelledMessage":"Se ha cancelado la operación de obtención de resultados de ejecución."}
